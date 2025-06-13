@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultMesh™ - Merged Index</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Base Styles - Reverted to original FAA.zone live index's styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f7; /* Very light gray, almost white */
+            color: #1d1d1f; /* Near black for primary text */
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header - Minimalist and clean (Original FAA.zone styling) */
+        header {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-bottom: 1px solid #e8e8ed; /* Subtle bottom border */
+            padding-top: 1rem; /* Adjust padding */
+            padding-bottom: 1rem;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* Very subtle shadow */
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            color: #1d1d1f; /* Dark text for logo */
+            font-weight: 700; /* Bolder logo */
+            font-size: 1.5rem; /* Slightly smaller logo */
+            letter-spacing: -0.02em; /* Tighter letter spacing */
+        }
+        header nav {
+            display: flex; /* Ensure nav is a flex container */
+            align-items: center; /* Vertically align items */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 0.5rem; /* Reduced gap for smaller screens, adjusted below for larger */
+        }
+        header nav a {
+            color: #424245; /* Muted gray for nav links */
+            font-size: 0.9rem; /* Smaller nav links */
+            font-weight: 500;
+            padding: 0.5rem 0.8rem; /* Adjusted padding */
+            border-radius: 6px; /* Subtle rounding */
+            transition: all 0.2s ease-in-out;
+            text-decoration: none; /* Remove underline */
+            flex-shrink: 0; /* Prevent links from shrinking */
+        }
+        header nav a:hover {
+            color: #0071e3; /* Apple blue on hover */
+            background-color: rgba(0, 0, 0, 0.03); /* Very subtle background on hover */
+        }
+        /* Specific styling for SecureSign and Sign Up buttons from original live index */
+        header nav a.button-style-original {
+            background-color: transparent; /* No background for SecureSign type */
+            color: #424245; /* Muted gray for text */
+            font-weight: 600;
+            border: 1px solid #dcdcdc; /* Fixed for visibility */
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: none;
+            margin-left: 0.5rem; /* Added margin to separate from previous link */
+        }
+        header nav a.button-style-original:hover {
+            background-color: rgba(0, 0, 0, 0.03); /* Subtle hover background */
+            color: #0071e3; /* Apple blue on hover */
+            transform: none; /* No lift */
+            box-shadow: none;
+        }
+
+        header nav a.button-style-main { /* Sign Up button as the primary button */
+            background-color: #0071e3; /* Apple blue */
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-left: 0.5rem; /* Added margin to separate from SecureSign */
+        }
+        header nav a.button-style-main:hover {
+            background-color: #0077ed; /* Slightly lighter blue on hover */
+            transform: translateY(-1px); /* Subtle lift */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* Adjust space-x for header nav only for larger screens */
+        @media (min-width: 768px) {
+            header nav {
+                gap: 0; /* Reset gap for individual margin control */
+            }
+            header nav a:not(.button-style-original):not(.button-style-main) {
+                margin-left: 1rem; /* Standard spacing for regular nav items */
+            }
+            header nav a.button-style-original {
+                margin-left: 1.5rem; /* More space before SecureSign */
+            }
+            header nav a.button-style-main {
+                margin-left: 0.5rem; /* Close spacing between SecureSign and Sign Up */
+            }
+        }
+
+
+        /* Hero Section - Clean, bold, and inviting (Original FAA.zone styling) */
+        .hero-section {
+            background-color: rgb(220, 240, 255); /* Very light pastel blue background */
+            min-height: 70vh; /* Shorter hero */
+            padding: 6rem 1.5rem;
+            border-bottom-left-radius: 0; /* No rounded corners here for Apple look */
+            border-bottom-right-radius: 0;
+            box-shadow: none; /* No shadow */
+            color: #1d1d1f; /* Dark text */
+            position: relative; /* Essential for absolute positioning of canvas */
+            overflow: hidden; /* Hide overflow of canvas */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        /* Canvas for rhythmic background (Original FAA.zone styling) */
+        .hero-section canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 0; /* Place canvas behind content */
+            background-color: transparent; /* Canvas itself is transparent, parent provides color */
+        }
+        .hero-content {
+            max-width: 800px; /* Narrower content for focus */
+            position: relative; /* Ensure content is above the canvas */
+            z-index: 1; /* Place content above canvas */
+        }
+        .hero-section h2 {
+            font-size: 3.5rem; /* Larger, bolder headline */
+            font-weight: 800;
+            letter-spacing: -0.03em; /* Tighter letter spacing */
+            color: #1d1d1f;
+            line-height: 1.1;
+        }
+        .hero-section h2 span {
+            color: #0071e3; /* Apple blue accent */
+        }
+        .hero-section p {
+            font-size: 1.2rem; /* Slightly smaller body text */
+            font-weight: 400;
+            color: #424245; /* Muted text */
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+        /* CTA button styling for primary button (Explore Ecosystem) */
+        .cta-button {
+            background: #0071e3; /* Apple blue */
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex; /* Use flex for centering */
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            height: 50px; /* Fixed height for consistency */
+            box-sizing: border-box;
+            flex-shrink: 0;
+            flex-grow: 0;
+            width: 160px; /* Fixed width */
+        }
+        .cta-button:hover {
+            background-color: #0077ed;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .cta-button span {
+            display: none; /* Hide emoji if any */
+        }
+
+        /* Secondary CTA button style - Fixed size for all */
+        .cta-button-secondary {
+            background-color: #f0f0f0; /* Light gray button */
+            color: #424245;
+            box-shadow: none;
+            border: 1px solid #dcdcdc;
+            padding: 0.8rem 1.8rem; /* Base padding */
+            font-size: 1rem; /* Base font size */
+            border-radius: 20px;
+            height: 50px; /* Fixed height for uniformity */
+            box-sizing: border-box; /* Include padding and border in sizing */
+            display: flex; /* Use flex for centering content */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            text-align: center; /* Ensure text alignment for wrapping */
+            line-height: 1.2; /* Tighter line height for potential two-line text */
+            flex-shrink: 0; /* Prevent shrinking */
+            flex-grow: 0; /* Prevent growing */
+            width: 160px; /* Fixed width for uniformity */
+        }
+        .cta-button-secondary:hover {
+            background-color: #e8e8ed; /* Slightly darker on hover */
+            color: #1d1d1f;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Sections - Clean, defined blocks */
+        section {
+            padding: 8rem 2rem; /* Generous padding */
+            background-color: #ffffff; /* White background for sections */
+            box-shadow: none; /* No shadows */
+            border-bottom: 1px solid #e8e8ed; /* Subtle separator */
+            text-align: center; /* Default text alignment for sections */
+        }
+        section:last-of-type {
+            border-bottom: none; /* No border on the last section */
+        }
+        section h2, section h3 {
+            color: #1d1d1f;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            font-size: 2.2rem; /* Consistent heading size */
+        }
+        section p {
+            color: #424245;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Feature Cards - Minimalist and informative */
+        .feature-card {
+            background-color: #ffffff; /* White background */
+            border-radius: 12px; /* Softer rounded corners */
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); /* Softer, subtle shadow */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e8e8ed; /* Light border */
+            text-align: left; /* Align text within feature cards */
+        }
+        .feature-card:hover {
+            transform: translateY(-3px); /* Subtle lift */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12); /* Slightly more pronounced shadow */
+        }
+        .feature-card div:first-child { /* Icon */
+            font-size: 2.5rem; /* Smaller icons */
+            margin-bottom: 1rem;
+            color: #0071e3; /* Apple blue for icons */
+        }
+        .feature-card h4 {
+            font-size: 1.2rem; /* Smaller feature titles */
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            font-size: 0.95rem; /* Smaller feature description text */
+            color: #6e6e73; /* Even more muted text */
+        }
+
+        /* Share Signal Section - Clean data display */
+        #shareprice {
+            background-color: #f5f5f7; /* Light background */
+            color: #1d1d1f;
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        #shareprice h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        #price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0071e3; /* Apple blue for price */
+            letter-spacing: -0.02em;
+        }
+        #timestamp {
+            color: #6e6e73;
+            font-size: 0.85rem;
+        }
+
+        /* Seedwave Growth - Integrated chart */
+        #seedwave {
+            background-color: #ffffff;
+            padding: 6rem 1.5rem;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        #seedwave h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #1d1d1f;
+        }
+        #seedwave .w-full {
+            background-color: #fcfcfc; /* Very light background for chart container */
+            border: 1px solid #e8e8ed;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Founder's Note - Elegant text block */
+        section.founders-note-section {
+            background-color: #f5f5f7; /* Light background */
+            color: #1d1d1f;
+            padding: 6rem 2rem;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        section.founders-note-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1d1d1f;
+        }
+        section.founders-note-section p {
+            font-size: 1.1rem;
+            color: #424245;
+            max-width: 700px; /* Narrower for readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        section.founders-note-section p.italic {
+            color: #6e6e73;
+            font-style: italic;
+        }
+        section.founders-note-section p.font-semibold {
+            color: #0071e3; /* Apple blue for signature */
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+
+        /* Vault Terminal Access - Clean buttons */
+        #vault-access {
+            background-color: #ffffff;
+            padding: 6rem 2rem;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        #vault-access h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 2.5rem;
+        }
+        #vault-access .w-full.h-\[800px\] { /* Iframe container */
+            background-color: #f0f0f0; /* Light gray background for iframe */
+            border: 1px solid #dcdcdc; /* Light border */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .terminal-btn {
+            background-color: #f0f0f0; /* Light gray button */
+            color: #424245;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #dcdcdc;
+            cursor: pointer; /* Ensure cursor is pointer */
+        }
+        .terminal-btn:hover {
+            background-color: #e8e8ed; /* Slightly darker on hover */
+            color: #1d1d1f;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .terminal-btn.ring { /* Active state */
+            border-color: #0071e3;
+            box-shadow: 0 0 0 2px #0071e3;
+        }
+
+        /* Sector Scrolls - Clean link grid */
+        section.sector-scrolls-section {
+            background-color: #f5f5f7;
+            padding: 6rem 2rem;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        section.sector-scrolls-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 2.5rem;
+        }
+        .glyph {
+            background-color: #ffffff; /* White background */
+            color: #424245;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e8e8ed;
+            text-decoration: none; /* Remove underline for links */
+            display: inline-flex; /* For better padding/sizing */
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .glyph:hover {
+            background-color: #f0f0f0;
+            color: #1d1d1f;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Treaty Section - Elegant quote */
+        #treaty {
+            background-color: #ffffff;
+            padding: 6rem 2rem;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        #treaty h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 1.5rem;
+        }
+        #treaty p {
+            font-size: 1.1rem;
+            color: #424245;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem;
+        }
+        #treaty blockquote {
+            font-size: 1.5rem;
+            color: #1d1d1f;
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #treaty blockquote::before, #treaty blockquote::after {
+            content: '“'; /* Apple-style quotes */
+            font-size: 2.5em;
+            line-height: 0.1;
+            vertical-align: -0.4em;
+            color: #dcdcdc; /* Muted quote color */
+            margin-right: 0.1em;
+        }
+        #treaty blockquote::after {
+            content: '”';
+            margin-left: 0.05em;
+        }
+
+        /* Signal Packet - Developer focused, clean code block */
+        section.signal-packet-section {
+            background-color: #1d1d1f; /* Dark background for code */
+            color: #00e393; /* Greenish text for code */
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid #333;
+        }
+        section.signal-packet-section pre {
+            background-color: #0a0a0a; /* Even darker code block */
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+            white-space: pre-wrap; /* Allow wrapping for long lines */
+            word-break: break-all;
+        }
+
+        /* VaultMesh Executive Summary - Structured and readable */
+        #vaultmesh {
+            background-color: #f5f5f7;
+            padding: 6rem 2rem;
+            color: #1d1d1f;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        #vaultmesh h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 1.5rem;
+        }
+        #vaultmesh h2.text-purple-400 { /* Adjusted to use primary color from Apple theme */
+            color: #0071e3; /* Apple blue for main heading */
+        }
+        #vaultmesh h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        #vaultmesh p {
+            font-size: 1.05rem;
+            color: #424245;
+            line-height: 1.5;
+        }
+        #vaultmesh ul {
+            list-style-type: disc; /* Default disc */
+            margin-left: 1.5rem;
+            color: #424245;
+        }
+        #vaultmesh ul li {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+        #vaultmesh ul.list-decimal {
+            list-style-type: decimal;
+        }
+        #vaultmesh code {
+            background-color: #e8e8ed;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            color: #1d1d1f;
+        }
+
+        /* About Section - Simple and clear */
+        #about {
+            background-color: #ffffff;
+            padding: 6rem 2rem;
+            color: #1d1d1f;
+            border-bottom: 1px solid #e8e8ed;
+        }
+        #about h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 1.5rem;
+        }
+        #about p {
+            font-size: 1.1rem;
+            color: #424245;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Call to Action Section - Prominent and inviting */
+        #cta {
+            background: #f5f5f7; /* Light background */
+            padding: 6rem 2rem;
+            color: #1d1d1f;
+            text-align: center;
+        }
+        #cta h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 1.5rem;
+        }
+        #cta p {
+            font-size: 1.2rem;
+            color: #424245;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Footer - Minimalist */
+        footer {
+            background-color: #f5f5f7; /* Matching body background */
+            color: #6e6e73;
+            padding: 2rem;
+            font-size: 0.85rem;
+            border-top: 1px solid #e8e8ed;
+            text-align: center;
+        }
+        footer a {
+            color: #6e6e73;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        footer a:hover {
+            color: #1d1d1f;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section h2 {
+                font-size: 2.8rem;
+            }
+            .hero-section p {
+                font-size: 1rem;
+            }
+            /* Adjust fixed width for smaller screens, let height be auto for wrapping, but ensure centering */
+            .cta-button, .cta-button-secondary {
+                width: 140px; /* Smaller fixed width for mobile */
+                height: auto; /* Allow height to adjust based on content wrapping */
+                padding: 0.7rem 1rem; /* Adjust padding for smaller width */
+                font-size: 0.9rem; /* Smaller font size for mobile */
+            }
+            header nav {
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            header nav a {
+                margin: 0.25rem 0.5rem;
+            }
+            section {
+                padding: 4rem 1.5rem;
+            }
+            section h2, section h3 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            section p {
+                font-size: 1rem;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            #shareprice h2 {
+                font-size: 1.5rem;
+            }
+            #price {
+                font-size: 2.5rem;
+            }
+            #vault-access .w-full.h-\[800px\] {
+                height: 500px; /* Adjust iframe height for mobile */
+            }
+            .terminal-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            #treaty blockquote {
+                font-size: 1.2rem;
+            }
+            #vaultmesh h2, #vaultmesh h3 {
+                font-size: 1.8rem;
+            }
+            #vaultmesh p, #vaultmesh ul li {
+                font-size: 0.95rem;
+            }
+            #cta h3 {
+                font-size: 2rem;
+            }
+            #cta p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="py-4 px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center">
+        <h1 class="text-2xl font-extrabold tracking-tight mb-4 sm:mb-0">🌐 VaultMesh™</h1>
+        <nav class="flex flex-wrap justify-center sm:justify-end items-center">
+            <a href="vaultmesh.faa.zone/index.html" class="transition-colors duration-200">Home</a>
+            <a href="#features" class="transition-colors duration-200">Features</a>
+            <a href="#shareprice" class="transition-colors duration-200">Signal</a>
+            <a href="#vault-access" class="transition-colors duration-200">Vault</a>
+            <a href="#treaty" class="transition-colors duration-200">Treaty</a>
+            <a href="#vaultmesh" class="transition-colors duration-200">VaultMesh</a>
+            <a href="#about" class="transition-colors duration-200">About</a>
+            <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200">Careers</a>
+            <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original">SecureSign</a>
+            <a href="signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main">Sign Up</a>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <canvas id="rhythmicCanvas"></canvas>
+
+        <div class="hero-content">
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+                Welcome to <span class="text-blue-600">VaultMesh™</span>
+            </h2>
+            <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">
+                Your secure and scalable platform for data integrity and distributed solutions.
+                Explore our cutting-edge technologies designed to empower your digital infrastructure.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="omnigrid.html" class="cta-button">
+                    Explore Ecosystem
+                </a>
+                <a href="https://baobab.faa.zone" target="_blank" class="cta-button cta-button-secondary">
+                    Baobab Network
+                </a>
+                <a href="https://fruitfulcratedance.com/" target="_blank" class="cta-button cta-button-secondary">
+                    Fruitful Crate Dance
+                </a>
+                <a href="admin-login.html" target="_blank" class="cta-button cta-button-secondary">
+                    Admin Login
+                </a>
+                <a href="contact-us.html" target="_blank" class="cta-button cta-button-secondary">
+                    Contact Us
+                </a>
+                <a href="sector_index_page.html" target="_blank" class="cta-button cta-button-secondary">
+                    Enter Index
+                </a>
+                <a href="#" target="_blank" class="cta-button cta-button-secondary">
+                    Takealot Seller
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-16 md:py-24 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-4xl font-bold text-center mb-16">
+                Unlock Your Potential with Our Core Features
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div>💡</div>
+                    <h4>AI-Powered Insights</h4>
+                    <p>
+                        Leverage advanced AI to gain deep insights, optimize operations, and make smarter decisions.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🤝</div>
+                    <h4>Global Collaboration</h4>
+                    <p>
+                        Connect with thousands of independent brands and partners worldwide, fostering a network of mutual growth.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🌱</div>
+                    <h4>Sustainable Solutions</h4>
+                    <p>
+                        Champion eco-friendly practices and contribute to a healthier planet through our curated marketplace.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🔒</div>
+                    <h4>Secure VaultMesh™</h4>
+                    <p>
+                        Protect your data and transactions with our state-of-the-art blockchain-inspired security protocols.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>📈</div>
+                    <h4>Real-time Analytics</h4>
+                    <p>
+                        Monitor your progress and impact with intuitive dashboards and real-time performance metrics.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🌐</div>
+                    <h4>OmniScroll Integration</h4>
+                    <p>
+                        Seamlessly integrate with our OmniScroll ledger for transparent and efficient record-keeping.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shareprice" class="py-12 text-center">
+        <h2 class="text-3xl font-semibold mb-2">FAA™ Share Signal</h2>
+        <div id="price" class="text-5xl font-bold">$88.88</div>
+        <div class="text-sm text-gray-400 mt-1">Last updated: <span id="timestamp">Live</span></div>
+    </section>
+
+    <section id="seedwave" class="py-16 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-8">🌱 Seedwave Brand Growth 🌱</h2>
+        <div class="w-full max-w-4xl mx-auto p-6 rounded-xl shadow-lg">
+            <canvas id="brandChart"></canvas>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 text-center founders-note-section">
+        <h2 class="text-4xl font-bold mb-8">🧬 Founder's Glyph™</h2>
+        <p class="max-w-3xl mx-auto text-xl leading-relaxed">
+            FAA™ wasn’t built like a typical startup. It emerged — out of silence, out of signal, out of glyphs and patterns that refused to be ignored.
+            What you're seeing isn't a site. It’s a vault interface. A codebase of culture. A trust-machine powered by real human intelligence.
+        </p>
+        <p class="mt-6 max-w-2xl mx-auto italic">
+            Where others scale with speed, we scale with meaning. Every brand here agreed to something deeper than growth — they signed a Treaty.
+            That’s why this isn’t eCommerce. It’s TreatyCommerce™.
+        </p>
+        <p class="mt-6 font-semibold">— Written from the edge of code & culture 🌍 FAA.Zone Founder Glyph Activated™</p>
+    </section>
+
+    <section id="vault-access" class="py-16 px-6">
+        <h3 class="text-4xl font-bold text-center mb-10">🔐 Sector Terminals</h3>
+
+        <div class="w-full max-w-6xl mx-auto mb-10">
+            <div class="w-full h-[800px] border-4 rounded-xl shadow-2xl overflow-hidden">
+                <iframe
+                    id="vault-frame"
+                    src=""
+                    class="w-full h-full rounded-xl"
+                    frameborder="0"
+                    title="VaultMaster Terminal"
+                    sandbox="allow-scripts allow-same-origin allow-forms"
+                ></iframe>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <button onclick="loadTerminal('vault-master.html')" class="terminal-btn p-6">🦍 VaultMaster Terminal</button>
+            <button onclick="loadTerminal('cube-lattice.html')" class="terminal-btn p-6">🧱 Cube Lattice GPT</button>
+            <button onclick="loadTerminal('global-view.html')" class="terminal-btn p-6">🌍 Global View GPT</button>
+            <button onclick="loadTerminal('freight-ops.html')" class="terminal-btn p-6">🚚 Freight Ops GPT</button>
+            <button onclick="loadTerminal('loop-watch.html')" class="terminal-btn p-6">♻️ Loop Watch GPT</button>
+            <button onclick="loadTerminal('seedwave.html')" class="terminal-btn p-6">🌱 Seedwave GPT</button>
+            <button onclick="loadTerminal('distribution.html')" class="terminal-btn p-6">📦 Distribution GPT</button>
+            <button onclick="loadTerminal('signal.html')" class="terminal-btn p-6">🔐 Signal GPT</button>
+            <button onclick="loadTerminal('faa-brands.html')" class="terminal-btn p-6">📦 7038 FAA Brands</button>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 text-center sector-scrolls-section">
+        <h2 class="text-4xl font-bold mb-8">🧬 Sector Scrolls</h2>
+        <div id="sector-glyphs-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            </div>
+        <div id="sector-content-container" class="mt-10 px-6 max-w-6xl mx-auto"></div>
+    </section>
+
+    <section id="treaty" class="py-16 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">📜 Treaty System™</h2>
+        <p class="max-w-2xl mx-auto text-lg mb-8">The FAA™ Treaty Layer binds interface to intention. This is not UI. This is glyph-encoded law.</p>
+        <blockquote class="text-2xl italic font-semibold">"FAA™ isn't a site. It's the shape of alignment — and 🦍 holds the flame."</blockquote>
+    </section>
+
+    <section class="py-10 text-xs text-center signal-packet-section">
+        <pre class="max-w-2xl mx-auto p-4 rounded-lg overflow-auto"><code>{
+    "signal": "omnidrop",
+    "origin": "If you dont like the fruits you are growing, change the seed™ / FAA Vault Layer",
+    "payload": {
+        "type": "scroll",
+        "value": "homepage + VaultRouter + all terminal iframe buttons live + Treaty Grid"
+    }
+}</code></pre>
+    </section>
+
+    <section id="vaultmesh" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto text-left space-y-6">
+
+            <h2 class="text-4xl font-bold text-purple-400">🧠 VaultMesh™: Executive Summary</h2>
+
+            <p>VaultMesh™ is an intelligent data orchestration framework designed for the segmentation, synchronization, and secure deployment of high-value digital assets—referred to as scrolls—across decentralized and permissioned networks such as FAA.Zone™.</p>
+
+            <ul class="list-disc ml-6 space-y-2">
+                <li>Captures metadata-rich content streams (chats, code, brands, assets)</li>
+                <li>Assigns them to programmable claim structures (ScrollClaims™)</li>
+                <li>Secures their lineage using OmniSignal™, PulseGrid™, and GhostTrace™ layers</li>
+                <li>Enforces royalty logic, scroll integrity, and traceability on-chain and off-grid</li>
+            </ul>
+
+            <p>VaultMesh™ powers high-tier operations like HSOMNI9000™, enabling Diamond-tier deployments, cross-sector scroll claims, and enterprise-scale content monetization with full compliance and provenance.</p>
+
+            <p>The framework is deeply integrated with platforms such as <code>vault.faa.zone™</code>, where scrolls tied to brands like Fruitful Global Planet™ are securely hosted, organized into structured sectors, and deployed through FAA.Zone™-compliant channels.</p>
+
+            <p>A critical operator in this ecosystem is HSOMNI9000™, the certified scroll class which governs Diamond-tier logic, enforces 10–11% royalty triggers, and auto-deploys ScrollClaims™ with real-time ClaimRoot™ verification.</p>
+
+            <h3 class="text-2xl font-semibold mt-10">📖 VaultMesh™ Index</h3>
+            <ul class="list-decimal ml-6 space-y-2">
+                <li>Introduction to VaultMesh™</li>
+                <li>Core System Components</li>
+                <li>ScrollClaim™ Infrastructure</li>
+                <li>Data Flow and Claim Lifecycle</li>
+                <li>Tiering, Royalties, and Compliance</li>
+                <li>Integration with FAA.Zone™</li>
+                <li>Market Segments & Use Cases</li>
+                <li>Revenue Streams & Monetization</li>
+                <li>Technology Roadmap</li>
+                <li>Team & Governance</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">☑️ 1. Introduction to VaultMesh™</h3>
+            <p>VaultMesh™ transforms disorganized digital content into claimable, trackable assets. It bridges enterprise content systems, decentralized data vaults, and monetization layers through FAA-compliant infrastructure.</p>
+
+            <h3 class="text-xl font-bold mt-10">⚒️ 2. Core System Components</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>VaultDNA™: Immutable identifiers for scroll content</li>
+                <li>ClaimRoot™: Origin anchor & timestamp</li>
+                <li>ScrollClaim™ Contracts: Programmable wrappers</li>
+                <li>PulseGrid™ Sync: Real-time scroll presence & sync</li>
+                <li>OmniSignal™: Global scroll verification</li>
+                <li>GhostTrace™ Gen2: Scroll interaction backtrace</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">🛠️ 3. ScrollClaim™ Infrastructure</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Set tier access (e.g., Diamond)</li>
+                <li>Define royalty logic (10–11%)</li>
+                <li>Lock scrolls with PulseGrid™ sync and OmniSignal™</li>
+                <li>Deploy via FAA.Zone™ with compliant ZIP bundles</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">📀 4. Data Flow and Claim Lifecycle</h3>
+            <ul class="list-decimal ml-6 space-y-1">
+                <li>Ingest — content enters VaultMesh™</li>
+                <li>Encode — metadata & VaultDNA™ attached</li>
+                <li>Wrap — ScrollClaim™ smart-wrapped</li>
+                <li>Deploy — FAA.Zone™ push (ZIP, manifest, HTML)</li>
+                <li>Sync — PulseGrid™ status & OmniSignal™ locked</li>
+                <li>Enforce — Royalties, access & scroll activity logged via GhostTrace™</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">💸 5. Tiering, Royalties, and Compliance</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Diamond Tier: 10–11% royalty enforced</li>
+                <li>SmartWallet Integration: ScrollClaim™ payments and transfers</li>
+                <li>VaultPay™ Tier III: Required for commercial deployments</li>
+                <li>Compliance: FAA scroll ID, ClaimRoot™ hash, and royalty schema</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">📡 6. Integration with FAA.Zone™</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Native support for /public/diamond/ structure</li>
+                <li>ZIP, HTML, Manifest deployment bundles</li>
+                <li>ClaimRoot™ timestamp validation</li>
+                <li>Seamless PulseGrid™ auto-sync for live claim state</li>
+                <li>Brand hosting via vault.faa.zone™</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">🏢 7. Market Segments & Use Cases</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>GPT Conversations & Expert Threads</li>
+                <li>Knowledge/Training Archives</li>
+                <li>Creative IP Scrolls (music, literature, visuals)</li>
+                <li>GeoSector Deployment Archives</li>
+                <li>Enterprise Scroll Logs & Audit Trails</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">💰 8. Revenue Streams & Monetization</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Diamond Royalties (10–11%)</li>
+                <li>Scroll Packaging Fees</li>
+                <li>VaultMesh™ API Subscriptions</li>
+                <li>PulseGrid™ and OmniSignal™ Licensing</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">⚖️ 9. Technology Roadmap</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Q2 2025: ScrollClaim™ v2.2 with multi-claim staking</li>
+                <li>Q3 2025: GhostTrace™ Gen3 with forensic backtrace tooling</li>
+                <li>Q4 2025: Autonomous AI Sector Agents</li>
+                <li>Q1 2026: Inter-vault Federation</li>
+            </ul>
+
+            <h3 class="text-xl font-bold mt-10">🔧 10. Team & Governance</h3>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>FAA-certified engineers (scroll claimers)</li>
+                <li>Scroll Ministers: Compliance + tiering</li>
+                <li>Vault Admins: Metadata + ClaimRoot™ enforcement</li>
+                <li>HSOMNI9000™ Operators: Diamond-tier execution agents</li>
+            </ul>
+
+            <p class="text-sm mt-10">📎 This plan can now be exported as HTML, PDF, or ZIP.</p>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 md:py-24 px-6 md:px-12 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-4xl font-bold mb-8">About Fruitful Innovations</h3>
+            <p class="text-lg leading-relaxed mb-6">
+                At Fruitful, we believe in a future where technology empowers positive change. Our platform is designed to break down traditional barriers, fostering a collaborative ecosystem where businesses and individuals can thrive while making a meaningful impact on the world.
+            </p>
+            <p class="text-lg leading-relaxed">
+                We are committed to transparency, sustainability, and innovation, driven by a powerful AI that ensures fairness, efficiency, and personalized experiences for every user. Join us in building a more fruitful planet.
+            </p>
+        </div>
+    </section>
+
+    <section id="cta" class="py-16 md:py-24 px-6 md:px-12 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h3 class="text-4xl font-extrabold mb-8 leading-tight">
+                Ready to Transform Your Future?
+            </h3>
+            <p class="text-xl mb-10">
+                Join the Fruitful community today and start your journey towards innovation, connection, and a sustainable tomorrow.
+            </p>
+            <a href="signup.html" class="cta-button">
+                Sign Up Now
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-8 px-6 md:px-12 text-center">
+        © 2025 FAA™ Treaty System™. All Rights Reserved. Powered by 🦍 glyphs + Vault API. Synced with Seedwave™.
+    </footer>
+
+    <script>
+        // Function to load terminal content into the iframe
+        function loadTerminal(url) {
+            const vaultFrame = document.getElementById('vault-frame');
+            vaultFrame.src = url;
+            // Remove ring from all buttons and add to the clicked one
+            document.querySelectorAll('.terminal-btn').forEach(btn => btn.classList.remove('ring', 'ring-blue-500'));
+            // Use event.currentTarget to ensure the clicked button is targeted
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('ring', 'ring-blue-500');
+            }
+            console.log("🧬 Terminal loaded:", url);
+        }
+
+        // Script for Share Signal (mock price update)
+        function updateSharePrice() {
+            const mockPrice = (80 + Math.random() * 10).toFixed(2);
+            document.getElementById('price').innerText = `$${mockPrice}`;
+            document.getElementById('timestamp').innerText = new Date().toLocaleTimeString();
+        }
+        // Update every 9 seconds
+        setInterval(updateSharePrice, 9000);
+        // Initial call to display price immediately
+        updateSharePrice();
+
+        // Chart.js for Seedwave Growth
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('brandChart')?.getContext('2d');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                        datasets: [{
+                            label: 'Treaty Brands Activated',
+                            data: [3, 7, 13, 21],
+                            borderWidth: 2,
+                            borderColor: '#0071e3',
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                            pointRadius: 4,
+                            pointBackgroundColor: '#0071e3',
+                            pointBorderColor: '#fff',
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: '#e8e8ed',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#6e6e73'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: '#e8e8ed',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#6e6e73'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                                labels: {
+                                    color: '#424245'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        // Define the comprehensive sectorList from admin-portal for consistent slugs and display names
+        const sectorList = {
+            "agriculture": "🌱 Agriculture & Biotech",
+            "fsf": "🥦 Food, Soil & Farming",
+            "banking": "🏦 Banking & Finance",
+            "creative": "🖋️ Creative Tech",
+            "logistics": "📦 Logistics & Packaging",
+            "education": "📚 Education & IP",
+            "fashion": "✂ Fashion & Identity",
+            "gaming": "🎮 Gaming & Simulation",
+            "health-hygiene": "🧴 Health & Hygiene",
+            "housing": "🏛️ Housing & Infrastructure",
+            "justice": "⚖ Justice & Ethics",
+            "knowledge": "🧠 Knowledge & Archives",
+            "micromesh": "☰ Micro-Mesh Logistics",
+            "media": "🎬 Motion, Media & Sonic",
+            "nutrition": "✿ Nutrition & Food Chain",
+            "packaging": "📦 Packaging & Materials",
+            "quantum": "✴️ Quantum Protocols",
+            "ritual": "☯ Ritual & Culture",
+            "saas": "🔑 SaaS & Licensing",
+            "trade": "🧺 Trade Systems",
+            "utilities": "🔋 Utilities & Energy",
+            "voice": "🎙️️ Voice & Audio",
+            "webless": "📡 Webless Tech & Nodes",
+            "nft": "🔁 NFT & Ownership",
+            "zerowaste": "♻️ Zero Waste",
+            "professional": "🧾 Professional Services",
+            "ai-logic": "🧠 AI, Logic & Grid Systems",
+            "mining": "⛏️ Mining & Resources",
+            "payroll": "💰 Payroll Core Systems",
+            "wildlife": "🚁 Wildlife Sector",
+            "admin": "⚙️ Admin & Manual Sync Panel",
+            "global-index": "🌐 Global Brand Index"
+        };
+
+
+        // Dynamically generate the sectorMap based on the comprehensive sectorList
+        const sectorMap = {};
+        for (const slug in sectorList) {
+            // Exclude admin and global-index as they are not public sectors in this context
+            if (slug !== 'admin' && slug !== 'global-index') {
+                // Special handling for wildlife dashboard, otherwise default to index.html
+                const fileName = (slug === 'wildlife') ? 'dashboard.html' : 'index.html';
+                sectorMap[slug] = `/public/sectors/${slug}/${fileName}`;
+            }
+        }
+
+        // Get the container for sector glyphs
+        const sectorGlyphsContainer = document.getElementById('sector-glyphs-container');
+        if (sectorGlyphsContainer) {
+            // Clear existing hardcoded glyphs
+            sectorGlyphsContainer.innerHTML = '';
+
+            // Sort sectors alphabetically by their display name for consistent order
+            const sortedSectorSlugs = Object.keys(sectorList).filter(slug =>
+                slug !== 'admin' && slug !== 'global-index'
+            ).sort((a, b) => {
+                const nameA = sectorList[a];
+                const nameB = sectorList[b];
+                // Exclude admin and global-index from sorting and rendering in this section
+                if (a === 'admin' || a === 'global-index') return 1;
+                if (b === 'admin' || b === 'global-index') return -1;
+                return nameA.localeCompare(nameB);
+            });
+
+            sortedSectorSlugs.forEach(slug => {
+                // Only render public sectors (not admin or global-index)
+                if (slug !== 'admin' && slug !== 'global-index') {
+                    const display = sectorList[slug];
+                    const url = sectorMap[slug];
+
+                    const glyphLink = document.createElement('a');
+                    glyphLink.href = url;
+                    glyphLink.className = "glyph";
+                    glyphLink.setAttribute('data-vault', slug);
+                    glyphLink.innerHTML = display; // display includes the emoji and text
+
+                    glyphLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const clickedSectorSlug = e.currentTarget.getAttribute('data-vault');
+                        const iframeUrl = sectorMap[clickedSectorSlug];
+                        const sectorContentContainer = document.getElementById('sector-content-container');
+
+                        if (iframeUrl) {
+                            // Extract display name from sectorList for the loading message
+                            const loadingMessageText = sectorList[clickedSectorSlug] || clickedSectorSlug.charAt(0).toUpperCase() + clickedSectorSlug.slice(1).replace('-', ' ');
+                            sectorContentContainer.innerHTML =
+                                `<div class="text-gray-600 text-sm mb-2">🔄 Loading sector: ${loadingMessageText}...</div>
+                                <iframe src="${iframeUrl}" class="w-full h-[900px] border-none rounded-xl bg-gray-100"></iframe>`;
+                        } else {
+                            sectorContentContainer.innerHTML =
+                                `<div class="text-red-500 text-sm mb-2">Error: Sector URL not found for ${clickedSectorSlug}.</div>`;
+                        }
+                    });
+                    sectorGlyphsContainer.appendChild(glyphLink);
+                }
+            });
+        }
+
+        // Rhythmic Canvas Logic (from original VaultMesh index)
+        const rhythmicCanvas = document.getElementById('rhythmicCanvas');
+        if (rhythmicCanvas) {
+            const ctx = rhythmicCanvas.getContext('2d');
+            let animationFrameId;
+            let lineAmplitude;
+
+            const resizeCanvas = () => {
+                rhythmicCanvas.width = rhythmicCanvas.offsetWidth;
+                rhythmicCanvas.height = rhythmicCanvas.offsetHeight;
+                lineAmplitude = rhythmicCanvas.height / 4;
+            };
+            window.addEventListener('resize', resizeCanvas, false);
+            resizeCanvas();
+
+            let time = 0;
+            const numLines = 30;
+            const lineFrequency = 0.02;
+            const lineSpeed = 0.003;
+            const colorSpeed = 50;
+
+            function drawGlyph() {
+                ctx.clearRect(0, 0, rhythmicCanvas.width, rhythmicCanvas.height);
+                time += lineSpeed;
+
+                for (let i = 0; i < numLines; i++) {
+                    ctx.beginPath();
+                    const offset = i * (Math.PI * 2 / numLines);
+                    const colorHue = (time * colorSpeed + i * 10) % 360;
+                    ctx.strokeStyle = `hsla(${colorHue}, 70%, 50%, 0.2)`;
+                    ctx.lineWidth = 1.5;
+
+                    for (let x = 0; x <= rhythmicCanvas.width; x += 10) {
+                        const y = Math.sin(x * lineFrequency + time + offset) * lineAmplitude + rhythmicCanvas.height / 2;
+                        if (x === 0) {
+                            ctx.moveTo(x, y);
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+                    }
+                    ctx.stroke();
+                }
+                animationFrameId = requestAnimationFrame(drawGlyph);
+            }
+            drawGlyph();
+        }
+    </script>
+
+</body>
+</html>
