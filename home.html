@@ -49,7 +49,7 @@
             display: flex; /* Ensure nav is a flex container */
             align-items: center; /* Vertically align items */
             flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            gap: 0.5rem; /* Reduced gap for smaller screens, adjusted below for larger */
+            gap: 0.5rem; /* Default small gap between all items */
         }
         header nav a {
             color: #424245; /* Muted gray for nav links */
@@ -74,7 +74,6 @@
             padding: 0.6rem 1.2rem;
             border-radius: 20px;
             box-shadow: none;
-            margin-left: 0.5rem; /* Added margin to separate from previous link */
         }
         header nav a.button-style-original:hover {
             background-color: rgba(0, 0, 0, 0.03); /* Subtle hover background */
@@ -91,7 +90,6 @@
             font-weight: 600;
             font-size: 0.9rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-left: 0.5rem; /* Added margin to separate from SecureSign */
         }
         header nav a.button-style-main:hover {
             background-color: #0077ed; /* Slightly lighter blue on hover */
@@ -99,19 +97,20 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
-        /* Adjust space-x for header nav only for larger screens */
+        /* Adjust spacing for header nav links for larger screens */
         @media (min-width: 768px) {
             header nav {
-                gap: 0; /* Reset gap for individual margin control */
+                gap: 0; /* Reset gap for individual margin control on larger screens */
             }
             header nav a:not(.button-style-original):not(.button-style-main) {
-                margin-left: 1rem; /* Standard spacing for regular nav items */
+                margin-right: 1.5rem; /* Standard spacing for regular nav items */
             }
             header nav a.button-style-original {
-                margin-left: 1.5rem; /* More space before SecureSign */
+                margin-left: auto; /* Pushes Careers, SecureSign, Sign Up to the right */
+                margin-right: 0.5rem; /* Space between SecureSign and Sign Up */
             }
             header nav a.button-style-main {
-                margin-left: 0.5rem; /* Close spacing between SecureSign and Sign Up */
+                margin-left: 0; /* No left margin, follows SecureSign directly */
             }
         }
 
@@ -597,13 +596,20 @@
             .hero-section p {
                 font-size: 1rem;
             }
-            /* Adjust fixed width for smaller screens, let height be auto for wrapping, but ensure centering */
+            /* Adjust buttons for smaller screens to ensure visibility and wrapping */
             .cta-button, .cta-button-secondary {
-                width: 140px; /* Smaller fixed width for mobile */
+                width: calc(50% - 0.5rem); /* Two buttons per row, with gap */
                 height: auto; /* Allow height to adjust based on content wrapping */
-                padding: 0.7rem 1rem; /* Adjust padding for smaller width */
+                padding: 0.7rem 0.5rem; /* Adjust padding for smaller width */
                 font-size: 0.9rem; /* Smaller font size for mobile */
+                margin: 0.25rem; /* Smaller margin for wrapping */
             }
+            .hero-content > div { /* Target the flex container for hero buttons */
+                flex-wrap: wrap; /* Ensure buttons wrap to next line */
+                justify-content: center; /* Center wrapped buttons */
+                gap: 0.5rem; /* Gap between buttons */
+            }
+
             header nav {
                 flex-wrap: wrap; /* Allow nav items to wrap */
                 justify-content: center;
@@ -661,15 +667,15 @@
     <header class="py-4 px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center">
         <h1 class="text-2xl font-extrabold tracking-tight mb-4 sm:mb-0">🌐 VaultMesh™</h1>
         <nav class="flex flex-wrap justify-center sm:justify-end items-center">
-            <a href="vaultmesh.faa.zone/index.html" class="transition-colors duration-200">Home</a>
-            <a href="#features" class="transition-colors duration-200">Features</a>
-            <a href="#shareprice" class="transition-colors duration-200">Signal</a>
-            <a href="#vault-access" class="transition-colors duration-200">Vault</a>
-            <a href="#treaty" class="transition-colors duration-200">Treaty</a>
-            <a href="#vaultmesh" class="transition-colors duration-200">VaultMesh</a>
-            <a href="#about" class="transition-colors duration-200">About</a>
-            <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200">Careers</a>
-            <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original">SecureSign</a>
+            <a href="vaultmesh.faa.zone/index.html" class="transition-colors duration-200 mr-2 sm:mr-4">Home</a>
+            <a href="#features" class="transition-colors duration-200 mr-2 sm:mr-4">Features</a>
+            <a href="#shareprice" class="transition-colors duration-200 mr-2 sm:mr-4">Signal</a>
+            <a href="#vault-access" class="transition-colors duration-200 mr-2 sm:mr-4">Vault</a>
+            <a href="#treaty" class="transition-colors duration-200 mr-2 sm:mr-4">Treaty</a>
+            <a href="#vaultmesh" class="transition-colors duration-200 mr-2 sm:mr-4">VaultMesh</a>
+            <a href="#about" class="transition-colors duration-200 ml-auto mr-2 sm:mr-4">About</a>
+            <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200 mr-2 sm:mr-4">Careers</a>
+            <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original mr-2 sm:mr-4">SecureSign</a>
             <a href="signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main">Sign Up</a>
         </nav>
     </header>
@@ -704,7 +710,7 @@
                 <a href="sector_index_page.html" target="_blank" class="cta-button cta-button-secondary">
                     Enter Index
                 </a>
-                <a href="#" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://sellers.takealot.com/" target="_blank" class="cta-button cta-button-secondary">
                     Takealot Seller
                 </a>
             </div>
