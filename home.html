@@ -9,27 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Base Styles - Unified with Apple-inspired theme */
-        :root {
-            --text-color-light: #1d1d1f;
-            --text-color-dark: #f5f5f7; /* Not used in this light theme */
-            --bg-color-light: #ffffff; /* Main background is now white */
-            --bg-color-dark: #000000; /* Not used in this light theme */
-            --card-bg-light: #f5f5f7; /* Cards are light gray */
-            --card-bg-dark: #1d1d1f; /* Not used in this light theme */
-            --border-color-light: #e8e8ed;
-            --border-color-dark: #3a3a3e; /* Not used in this light theme */
-            --primary-color: #0071e3; /* Apple Blue */
-            --secondary-color: #30d158; /* Apple Green */
-            --tertiary-color: #ff3b30; /* Vibrant Red for specific accents */
-            --muted-text-light: #6e6e73;
-            --muted-text-dark: #a0a0a5; /* Not used in this light theme */
-        }
-
+        /* Base Styles - Reverted to original FAA.zone live index's styling */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color-light); /* Very light gray, almost white */
-            color: var(--text-color-light); /* Near black for primary text */
+            background-color: #f5f5f7; /* Very light gray, almost white */
+            color: #1d1d1f; /* Near black for primary text */
             line-height: 1.4;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -40,14 +24,14 @@
             flex-direction: column;
         }
 
-        /* Header - Minimalist and clean */
+        /* Header - Minimalist and clean (Original FAA.zone styling) */
         header {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color-light);
-            padding-top: 1rem;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-bottom: 1px solid #e8e8ed; /* Subtle bottom border */
+            padding-top: 1rem; /* Adjust padding */
             padding-bottom: 1rem;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* Very subtle shadow */
             position: sticky;
             top: 0;
             z-index: 50;
@@ -56,51 +40,50 @@
             align-items: center;
         }
         header h1 {
-            color: var(--text-color-light);
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.02em;
+            color: #1d1d1f; /* Dark text for logo */
+            font-weight: 700; /* Bolder logo */
+            font-size: 1.5rem; /* Slightly smaller logo */
+            letter-spacing: -0.02em; /* Tighter letter spacing */
         }
         header nav {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem; /* Default small gap */
+            display: flex; /* Ensure nav is a flex container */
+            align-items: center; /* Vertically align items */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 0.5rem; /* Default small gap between all items */
         }
         header nav a {
-            color: #424245;
-            font-size: 0.9rem;
+            color: #424245; /* Muted gray for nav links */
+            font-size: 0.9rem; /* Smaller nav links */
             font-weight: 500;
-            padding: 0.5rem 0.8rem;
-            border-radius: 6px;
+            padding: 0.5rem 0.8rem; /* Adjusted padding */
+            border-radius: 6px; /* Subtle rounding */
             transition: all 0.2s ease-in-out;
-            text-decoration: none;
-            flex-shrink: 0;
+            text-decoration: none; /* Remove underline */
+            flex-shrink: 0; /* Prevent links from shrinking */
         }
         header nav a:hover {
-            color: var(--primary-color);
-            background-color: rgba(0, 0, 0, 0.03);
+            color: #0071e3; /* Apple blue on hover */
+            background-color: rgba(0, 0, 0, 0.03); /* Very subtle background on hover */
         }
-        
-        /* Specific styling for SecureSign and Sign Up buttons */
-        header nav a.button-style-original { /* SecureSign */
-            background-color: transparent;
-            color: #424245;
+        /* Specific styling for SecureSign and Sign Up buttons from original live index */
+        header nav a.button-style-original {
+            background-color: transparent; /* No background for SecureSign type */
+            color: #424245; /* Muted gray for text */
             font-weight: 600;
-            border: 1px solid #dcdcdc;
+            border: 1px solid #dcdcdc; /* Fixed for visibility */
             padding: 0.6rem 1.2rem;
             border-radius: 20px;
             box-shadow: none;
         }
         header nav a.button-style-original:hover {
-            background-color: rgba(0, 0, 0, 0.03);
-            color: var(--primary-color);
-            transform: none;
+            background-color: rgba(0, 0, 0, 0.03); /* Subtle hover background */
+            color: #0071e3; /* Apple blue on hover */
+            transform: none; /* No lift */
             box-shadow: none;
         }
 
-        header nav a.button-style-main { /* Sign Up */
-            background-color: var(--primary-color);
+        header nav a.button-style-main { /* Sign Up button as the primary button */
+            background-color: #0071e3; /* Apple blue */
             color: white;
             padding: 0.6rem 1.2rem;
             border-radius: 20px;
@@ -109,8 +92,8 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         header nav a.button-style-main:hover {
-            background-color: #0077ed;
-            transform: translateY(-1px);
+            background-color: #0077ed; /* Slightly lighter blue on hover */
+            transform: translateY(-1px); /* Subtle lift */
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
@@ -119,11 +102,8 @@
             header nav {
                 gap: 0; /* Reset gap for individual margin control on larger screens */
             }
-            header nav a {
-                margin-right: 1rem; /* Standard spacing for all links */
-            }
-            header nav a:last-child { /* Remove right margin from the last link in nav */
-                margin-right: 0;
+            header nav a:not(.button-style-original):not(.button-style-main) {
+                margin-right: 1.5rem; /* Standard spacing for regular nav items */
             }
             header nav a.login-button { /* Specific margin for Login button on larger screens */
                 margin-left: auto; /* Pushes Login, SecureSign, Sign Up to the right */
@@ -138,7 +118,7 @@
         }
 
 
-        /* Hero Section - Clean, bold, and inviting */
+        /* Hero Section - Clean, bold, and inviting (Original FAA.zone styling) */
         .hero-section {
             background-color: white; /* Changed to white */
             min-height: 70vh;
@@ -146,7 +126,7 @@
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
             box-shadow: none;
-            color: var(--text-color-light);
+            color: #1d1d1f;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -154,7 +134,7 @@
             align-items: center;
             text-align: center;
         }
-        /* Canvas for rhythmic background */
+        /* Canvas for rhythmic background (Original FAA.zone styling) */
         .hero-section canvas {
             position: absolute;
             top: 0;
@@ -174,11 +154,11 @@
             font-size: 3.5rem;
             font-weight: 800;
             letter-spacing: -0.03em;
-            color: var(--text-color-light);
+            color: #1d1d1f;
             line-height: 1.1;
         }
         .hero-section h2 span {
-            color: var(--primary-color);
+            color: #0071e3;
         }
         .hero-section p {
             font-size: 1.2rem;
@@ -190,7 +170,7 @@
         }
         /* CTA button styling for primary button (Explore Ecosystem) */
         .cta-button {
-            background: var(--primary-color);
+            background: #0071e3;
             color: white;
             padding: 0.8rem 1.8rem;
             border-radius: 20px;
@@ -705,9 +685,9 @@
             <a href="#vaultmesh" class="transition-colors duration-200">VaultMesh</a>
             <a href="#about" class="transition-colors duration-200">About</a>
             <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200">Careers</a>
-            <a href="login.html" class="transition-colors duration-200 button-style-original login-button ml-auto">Login</a>
+            <a href="https://seedwave.faa.zone/login.html" class="transition-colors duration-200 button-style-original login-button">Login</a>
             <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original">SecureSign</a>
-            <a href="signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main">Sign Up</a>
+            <a href="https://seedwave.faa.zone/signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main">Sign Up</a>
         </nav>
     </header>
 
@@ -1018,7 +998,7 @@
             <p class="text-xl mb-10">
                 Join the Fruitful community today and start your journey towards innovation, connection, and a sustainable tomorrow.
             </p>
-            <a href="signup.html" class="cta-button">
+            <a href="https://seedwave.faa.zone/signup.html" class="cta-button">
                 Sign Up Now
             </a>
         </div>
