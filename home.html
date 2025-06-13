@@ -119,25 +119,28 @@
             header nav {
                 gap: 0; /* Reset gap for individual margin control on larger screens */
             }
-            header nav a:not(.button-style-original):not(.button-style-main) {
-                margin-right: 1.5rem; /* Standard spacing for regular nav items */
+            header nav a {
+                margin-right: 1rem; /* Standard spacing for all links */
             }
-            header nav a.button-style-original {
-                margin-left: auto; /* Pushes Careers, SecureSign, Sign Up to the right */
-                margin-right: 0.5rem; /* Space between SecureSign and Sign Up */
-            }
-            header nav a.button-style-main {
-                margin-left: 0; /* No left margin, follows SecureSign directly */
+            header nav a:last-child { /* Remove right margin from the last link in nav */
+                margin-right: 0;
             }
             header nav a.login-button { /* Specific margin for Login button on larger screens */
-                margin-right: 1.5rem; /* Space before careers/secured sign group */
+                margin-left: auto; /* Pushes Login, SecureSign, Sign Up to the right */
+            }
+            header nav a.button-style-original { /* SecureSign button next to Login */
+                margin-left: 1rem; /* Space between Login and SecureSign */
+                margin-right: 0.5rem; /* Space between SecureSign and Sign Up */
+            }
+            header nav a.button-style-main { /* Sign Up button */
+                margin-left: 0; /* No left margin, follows SecureSign directly */
             }
         }
 
 
         /* Hero Section - Clean, bold, and inviting */
         .hero-section {
-            background-color: rgb(220, 240, 255);
+            background-color: white; /* Changed to white */
             min-height: 70vh;
             padding: 6rem 1.5rem;
             border-bottom-left-radius: 0;
@@ -702,7 +705,7 @@
             <a href="#vaultmesh" class="transition-colors duration-200">VaultMesh</a>
             <a href="#about" class="transition-colors duration-200">About</a>
             <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200">Careers</a>
-            <a href="login.html" class="transition-colors duration-200 button-style-original login-button">Login</a>
+            <a href="login.html" class="transition-colors duration-200 button-style-original login-button ml-auto">Login</a>
             <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original">SecureSign</a>
             <a href="signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main">Sign Up</a>
         </nav>
@@ -1259,4 +1262,3 @@
 
 </body>
 </html>
-
