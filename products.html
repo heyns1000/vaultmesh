@@ -1,0 +1,1931 @@
+import React, { useState, useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto'; // Import Chart.js
+
+// Main App Component
+const App = () => {
+  // State to manage the current page view and selected plan
+  const [currentPage, setCurrentPage] = useState('vaultmesh'); // Start on the main VaultMesh page
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [productType, setProductType] = useState(null); // 'taxnova' or 'designhub'
+
+  // Function to navigate between pages
+  const navigateTo = (page, plan = null, type = null) => {
+    setCurrentPage(page);
+    setSelectedPlan(plan);
+    setProductType(type);
+    window.scrollTo(0, 0); // Scroll to top when navigating
+  };
+
+  // Render the current page based on state
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'vaultmesh':
+        return <VaultMeshHomePage navigateTo={navigateTo} />;
+      case 'taxnova':
+        return <TaxNovaProductPage navigateTo={navigateTo} />;
+      case 'designhub':
+        return <DesignHubPage navigateTo={navigateTo} />;
+      case 'purchase':
+        return <PurchasePage navigateTo={navigateTo} selectedPlan={selectedPlan} productType={productType} />;
+      case 'payment':
+        return <PaymentPage navigateTo={navigateTo} selectedPlan={selectedPlan} />;
+      case 'download':
+        return <DownloadPage navigateTo={navigateTo} />;
+      default:
+        return <VaultMeshHomePage navigateTo={navigateTo} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-inter text-gray-800 flex flex-col items-center">
+      {/* Global CSS variables for consistent styling */}
+      <style>{`
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f7; /* Very light gray, almost white */
+            color: #1d1d1f; /* Near black for primary text */
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        :root {
+            --bg-color-light: #fdfdfd; /* A slightly lighter background for sections */
+            --card-bg-light: #ffffff;
+            --text-color-light: #1d1d1f;
+            --muted-text-light: #6e6e73;
+            --border-color-light: #e8e8ed;
+            --primary-color: #0071e3; /* Apple blue */
+
+            /* Design Hub Specific Colors */
+            --design-hub-bg: #1a1a2e; /* Dark blue-purple */
+            --design-hub-card-bg: #22223b; /* Slightly lighter dark blue */
+            --design-hub-text-primary: #e0e0e8; /* Light text for dark background */
+            --design-hub-text-secondary: #908cba; /* Muted text */
+            --design-hub-accent: #8e44ad; /* Purple accent */
+            --design-hub-border: #3b3b5c; /* Darker border */
+            --design-hub-success: #00e393; /* Green for success/compliance */
+            --design-hub-error: #e74c3c; /* Red for error */
+        }
+
+        /* Header - Minimalist and clean */
+        .header-style {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-bottom: 1px solid #e8e8ed; /* Subtle bottom border */
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* Very subtle shadow */
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .header-style h1 {
+            color: var(--text-color-light); /* Dark text for logo */
+            font-weight: 700; /* Bolder logo */
+            font-size: 1.5rem; /* Slightly smaller logo */
+            letter-spacing: -0.02em; /* Tighter letter spacing */
+        }
+        .nav-link-style {
+            color: #424245; /* Muted gray for nav links */
+            font-size: 0.9rem; /* Smaller nav links */
+            font-weight: 500;
+            padding: 0.5rem 0.8rem; /* Adjusted padding */
+            border-radius: 6px; /* Subtle rounding */
+            transition: all 0.2s ease-in-out;
+            text-decoration: none; /* Remove underline */
+            flex-shrink: 0; /* Prevent links from shrinking */
+        }
+        .nav-link-style:hover {
+            color: var(--primary-color); /* Apple blue on hover */
+            background-color: rgba(0, 0, 0, 0.03); /* Very subtle background on hover */
+        }
+        .button-style-original {
+            background-color: transparent; /* No background for SecureSign type */
+            color: #424245; /* Muted gray for text */
+            font-weight: 600;
+            border: 1px solid #dcdcdc; /* Fixed for visibility */
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: none;
+        }
+        .button-style-original:hover {
+            background-color: rgba(0, 0, 0, 0.03); /* Subtle hover background */
+            color: var(--primary-color); /* Apple blue on hover */
+            transform: none; /* No lift */
+            box-shadow: none;
+        }
+
+        .button-style-main { /* Sign Up button as the primary button */
+            background-color: var(--primary-color); /* Apple blue */
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .button-style-main:hover {
+            background-color: #0077ed; /* Slightly lighter blue on hover */
+            transform: translateY(-1px); /* Subtle lift */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        @media (min-width: 768px) {
+            .header-nav {
+                gap: 0; /* Reset gap for individual margin control on larger screens */
+            }
+            .header-nav a:not(.button-style-original):not(.button-style-main) {
+                margin-right: 1.5rem; /* Standard spacing for regular nav items */
+            }
+            .header-nav .login-button { /* Specific margin for Login button on larger screens */
+                margin-left: auto; /* Pushes Login, SecureSign, Sign Up to the right */
+            }
+            .header-nav .button-style-original { /* SecureSign button next to Login */
+                margin-left: 1rem; /* Space between Login and SecureSign */
+                margin-right: 0.5rem; /* Space between SecureSign and Sign Up */
+            }
+            .header-nav .button-style-main { /* Sign Up button */
+                margin-left: 0; /* No left margin, follows SecureSign directly */
+            }
+        }
+
+        /* Hero Section - Clean, bold, and inviting */
+        .hero-section {
+            background-color: white;
+            min-height: 70vh;
+            padding: 6rem 1.5rem;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow: none;
+            color: var(--text-color-light);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .hero-section canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 0;
+            background-color: transparent;
+        }
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-section h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-color-light);
+            line-height: 1.1;
+        }
+        .hero-section h2 span {
+            color: var(--primary-color);
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #424245;
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+        /* CTA button styling for primary button (Explore Ecosystem) */
+        .cta-button-base {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            height: 50px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            flex-grow: 0;
+            min-width: 160px; /* Adjusted to fit content better */
+        }
+        .cta-button-base:hover {
+            background-color: #0077ed;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .cta-button-base span {
+            display: none; /* Hidden for icon-only buttons if any */
+        }
+
+        /* Secondary CTA button style */
+        .cta-button-secondary-style {
+            background-color: #f0f0f0;
+            color: #424245;
+            box-shadow: none;
+            border: 1px solid #dcdcdc;
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            border-radius: 20px;
+            height: 50px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+            flex-shrink: 0;
+            flex-grow: 0;
+            min-width: 160px; /* Adjusted to fit content better */
+        }
+        .cta-button-secondary-style:hover {
+            background-color: #e8e8ed;
+            color: var(--text-color-light);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Sections - Clean, defined blocks */
+        .section-style {
+            padding: 8rem 2rem;
+            background-color: var(--bg-color-light);
+            box-shadow: none;
+            border-bottom: 1px solid var(--border-color-light);
+            text-align: center;
+        }
+        .section-style:last-of-type {
+            border-bottom: none;
+        }
+        .section-style h2, .section-style h3 {
+            color: var(--text-color-light);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+        }
+        .section-style p {
+            color: #424245;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Feature Cards - Minimalist and informative */
+        .feature-card-style {
+            background-color: var(--bg-color-light);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid var(--border-color-light);
+            text-align: left;
+        }
+        .feature-card-style:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+        .feature-card-style div:first-child {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        .feature-card-style h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color-light);
+            margin-bottom: 0.5rem;
+        }
+        .feature-card-style p {
+            font-size: 0.95rem;
+            color: var(--muted-text-light);
+        }
+
+        /* Share Signal Section - Clean data display */
+        .shareprice-section {
+            background-color: var(--card-bg-light);
+            color: var(--text-color-light);
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .shareprice-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .shareprice-section .price-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.02em;
+        }
+        .shareprice-section .timestamp-display {
+            color: var(--muted-text-light);
+            font-size: 0.85rem;
+        }
+
+        /* Seedwave Growth - Integrated chart */
+        .seedwave-section {
+            background-color: var(--bg-color-light);
+            padding: 6rem 1.5rem;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .seedwave-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-color-light);
+        }
+        .seedwave-chart-container {
+            background-color: #fcfcfc;
+            border: 1px solid var(--border-color-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Founder's Note - Elegant text block */
+        .founders-note-section {
+            background-color: var(--card-bg-light);
+            color: var(--text-color-light);
+            padding: 6rem 2rem;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .founders-note-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+        }
+        .founders-note-section p {
+            font-size: 1.1rem;
+            color: #424245;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .founders-note-section p.italic-style {
+            color: var(--muted-text-light);
+            font-style: italic;
+        }
+        .founders-note-section p.font-semibold-style {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+
+        /* Vault Terminal Access - Clean buttons */
+        .vault-access-section {
+            background-color: var(--bg-color-light);
+            padding: 6rem 2rem;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .vault-access-section h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            margin-bottom: 2.5rem;
+        }
+        .vault-frame-container {
+            background-color: #f0f0f0;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .terminal-btn {
+            background-color: #f0f0f0;
+            color: #424245;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #dcdcdc;
+            cursor: pointer;
+        }
+        .terminal-btn:hover {
+            background-color: #e8e8ed;
+            color: var(--text-color-light);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .terminal-btn.ring-active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        /* Sector Scrolls - Clean link grid */
+        .sector-scrolls-section {
+            background-color: var(--card-bg-light);
+            padding: 6rem 2rem;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .sector-scrolls-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            margin-bottom: 2.5rem;
+        }
+        .glyph-button {
+            background-color: var(--bg-color-light);
+            color: #424245;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color-light);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .glyph-button:hover {
+            background-color: #f0f0f0;
+            color: var(--text-color-light);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Treaty Section - Elegant quote */
+        .treaty-section {
+            background-color: var(--bg-color-light);
+            padding: 6rem 2rem;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .treaty-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            margin-bottom: 1.5rem;
+        }
+        .treaty-section p {
+            color: #424245;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .treaty-section blockquote {
+            font-size: 1.5rem;
+            color: var(--text-color-light);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .treaty-section blockquote::before, .treaty-section blockquote::after {
+            content: '“';
+            font-size: 2.5em;
+            line-height: 0.1;
+            vertical-align: -0.4em;
+            color: #dcdcdc;
+            margin-right: 0.1em;
+        }
+        .treaty-section blockquote::after {
+            content: '”';
+            margin-left: 0.05em;
+        }
+
+        /* Signal Packet - Developer focused, clean code block */
+        .signal-packet-section {
+            background-color: #1d1d1f;
+            color: #00e393;
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid #333;
+        }
+        .signal-packet-section pre {
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* VaultMesh Executive Summary - Structured and readable */
+        .vaultmesh-summary-section {
+            background-color: var(--card-bg-light);
+            padding: 6rem 2rem;
+            color: var(--text-color-light);
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .vaultmesh-summary-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            margin-bottom: 1.5rem;
+        }
+        .vaultmesh-summary-section h2.text-purple-400-style { /* Specific override for purple */
+            color: var(--primary-color); /* Overwriting to primary for consistency with theme */
+        }
+        .vaultmesh-summary-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color-light);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .vaultmesh-summary-section p {
+            font-size: 1.05rem;
+            color: #424245;
+            line-height: 1.5;
+        }
+        .vaultmesh-summary-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            color: #424245;
+        }
+        .vaultmesh-summary-section ul li {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+        .vaultmesh-summary-section ul.list-decimal {
+            list-style-type: decimal;
+        }
+        .vaultmesh-summary-section code {
+            background-color: #e8e8ed;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            color: var(--text-color-light);
+        }
+
+        /* About Section - Simple and clear */
+        .about-section {
+            background-color: var(--bg-color-light);
+            padding: 6rem 2rem;
+            color: var(--text-color-light);
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .about-section h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            margin-bottom: 1.5rem;
+        }
+        .about-section p {
+            font-size: 1.1rem;
+            color: #424245;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Call to Action Section - Prominent and inviting */
+        .cta-section-footer {
+            background: var(--card-bg-light);
+            padding: 6rem 2rem;
+            color: var(--text-color-light);
+            text-align: center;
+        }
+        .cta-section-footer h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            margin-bottom: 1.5rem;
+        }
+        .cta-section-footer p {
+            font-size: 1.2rem;
+            color: #424245;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Footer - Minimalist */
+        .footer-style {
+            background-color: var(--card-bg-light);
+            color: var(--muted-text-light);
+            padding: 2rem;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color-light);
+            text-align: center;
+        }
+        .footer-style a {
+            color: var(--muted-text-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer-style a:hover {
+            color: var(--text-color-light);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section h2 {
+                font-size: 2.8rem;
+            }
+            .hero-section p {
+                font-size: 1rem;
+            }
+            .cta-button-base, .cta-button-secondary-style {
+                width: calc(50% - 0.5rem); /* Two buttons per row, with gap */
+                height: auto; /* Allow height to adjust based on content wrapping */
+                padding: 0.7rem 0.5rem; /* Adjust padding for smaller width */
+                font-size: 0.9rem; /* Smaller font size for mobile */
+                margin: 0.25rem; /* Smaller margin for wrapping */
+            }
+            .hero-content > div { /* Target the flex container for hero buttons */
+                flex-wrap: wrap; /* Ensure buttons wrap to next line */
+                justify-content: center; /* Center wrapped buttons */
+                gap: 0.5rem; /* Gap between buttons */
+            }
+
+            .header-nav {
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            .header-nav .nav-link-style {
+                margin: 0.25rem 0.5rem;
+            }
+            .header-nav .nav-link-style:not(.button-style-original):not(.button-style-main),
+            .header-nav .button-style-original,
+            .header-nav .button-style-main,
+            .header-nav .login-button {
+                margin-left: 0.25rem; /* Closer spacing for mobile */
+                margin-right: 0.25rem;
+            }
+            .header-nav .login-button.ml-auto-override { /* Override ml-auto for mobile so it doesn't push to right */
+                margin-left: 0.25rem; /* Reset to match other links */
+            }
+
+            .section-style {
+                padding: 4rem 1.5rem;
+            }
+            .section-style h2, .section-style h3 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            .section-style p {
+                font-size: 1rem;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .shareprice-section h2 {
+                font-size: 1.5rem;
+            }
+            .shareprice-section .price-display {
+                font-size: 2.5rem;
+            }
+            .vault-frame-container {
+                height: 500px;
+            }
+            .terminal-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            .treaty-section blockquote {
+                font-size: 1.2rem;
+            }
+            .vaultmesh-summary-section h2, .vaultmesh-summary-section h3 {
+                font-size: 1.8rem;
+            }
+            .vaultmesh-summary-section p, .vaultmesh-summary-section ul li {
+                font-size: 0.95rem;
+            }
+            .cta-section-footer h3 {
+                font-size: 2rem;
+            }
+            .cta-section-footer p {
+                font-size: 1.rem;
+            }
+        }
+      `}</style>
+      {renderPage()}
+    </div>
+  );
+};
+
+// Header Component (Accessible to all pages)
+const Header = ({ navigateTo }) => (
+  <header className="header-style py-4 px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center w-full">
+    <h1 className="text-2xl font-extrabold tracking-tight mb-4 sm:mb-0">🌐 VaultMesh™</h1>
+    <nav className="header-nav flex flex-wrap justify-center sm:justify-end items-center gap-x-1 sm:gap-x-0">
+      <button onClick={() => navigateTo('vaultmesh')} className="nav-link-style">Home</button>
+      <button onClick={() => navigateTo('taxnova')} className="nav-link-style">TaxNova™</button>
+      <button onClick={() => navigateTo('designhub')} className="nav-link-style">Design Hub</button>
+      <a href="#features" className="nav-link-style">Features</a>
+      <a href="#shareprice" className="nav-link-style">Signal</a>
+      <a href="#vault-access" className="nav-link-style">Vault</a>
+      <a href="#treaty" className="nav-link-style">Treaty</a>
+      <a href="#vaultmesh" className="nav-link-style">VaultMesh</a>
+      <a href="#about" className="nav-link-style">About</a>
+      <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" rel="noopener noreferrer" className="nav-link-style">Careers</a>
+      <a href="https://seedwave.faa.zone/login.html" target="_blank" rel="noopener noreferrer" className="nav-link-style button-style-original login-button ml-auto-override sm:ml-auto">Login</a>
+      <a href="https://faa.zone/legal/securesign.html" target="_blank" rel="noopener noreferrer" className="nav-link-style font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original">SecureSign</a>
+      {/* This button will trigger the purchase flow for TaxNova by default */}
+      <button onClick={() => navigateTo('purchase', null, 'taxnova')} className="button-style-main nav-link-style">Sign Up</button>
+    </nav>
+  </header>
+);
+
+// VaultMesh Home Page Component
+const VaultMeshHomePage = ({ navigateTo }) => {
+  const rhythmicCanvasRef = useRef(null);
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
+
+  const [sharePrice, setSharePrice] = useState('$88.88');
+  const [shareTimestamp, setShareTimestamp] = useState('Live');
+  const [vaultFrameSrc, setVaultFrameSrc] = useState('');
+  const [activeTerminalButton, setActiveTerminalButton] = useState('');
+  const [sectorContent, setSectorContent] = useState(null);
+
+  const sectorList = { /* ... (sectorList as defined in App) ... */
+    "agriculture": "🌱 Agriculture & Biotech",
+    "fsf": "🥦 Food, Soil & Farming",
+    "banking": "🏦 Banking & Finance",
+    "creative": "🖋️ Creative Tech",
+    "logistics": "📦 Logistics & Packaging",
+    "education": "📚 Education & IP",
+    "fashion": "✂ Fashion & Identity",
+    "gaming": "🎮 Gaming & Simulation",
+    "health-hygiene": "🧴 Health & Hygiene",
+    "housing": "🏛️ Housing & Infrastructure",
+    "justice": "⚖ Justice & Ethics",
+    "knowledge": "🧠 Knowledge & Archives",
+    "micromesh": "☰ Micro-Mesh Logistics",
+    "media": "🎬 Motion, Media & Sonic",
+    "nutrition": "✿ Nutrition & Food Chain",
+    "packaging": "📦 Packaging & Materials",
+    "quantum": "✴️ Quantum Protocols",
+    "ritual": "☯ Ritual & Culture",
+    "saas": "🔑 SaaS & Licensing",
+    "trade": "🧺 Trade Systems",
+    "utilities": "🔋 Utilities & Energy",
+    "voice": "🎙️️ Voice & Audio",
+    "webless": "📡 Webless Tech & Nodes",
+    "nft": "🔁 NFT & Ownership",
+    "zerowaste": "♻️ Zero Waste",
+    "professional": "🧾 Professional Services",
+    "ai-logic": "🧠 AI, Logic & Grid Systems",
+    "mining": "⛏️ Mining & Resources",
+    "payroll": "💰 Payroll Core Systems",
+    "wildlife": "🚁 Wildlife Sector",
+    "admin": "⚙️ Admin & Manual Sync Panel",
+    "global-index": "🌐 Global Brand Index"
+  };
+
+  const sectorMap = {};
+  for (const slug in sectorList) {
+    if (slug !== 'admin' && slug !== 'global-index') {
+      const fileName = (slug === 'wildlife') ? 'dashboard.html' : 'index.html';
+      sectorMap[slug] = `/public/sectors/${slug}/${fileName}`;
+    }
+  }
+
+  // Rhythmic Canvas Animation Logic
+  useEffect(() => {
+    const canvas = rhythmicCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let lineAmplitude;
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      lineAmplitude = canvas.height / 4;
+    };
+    window.addEventListener('resize', resizeCanvas, false);
+    resizeCanvas();
+    let time = 0;
+    const numLines = 30;
+    const lineFrequency = 0.02;
+    const lineSpeed = 0.003;
+    const colorSpeed = 50;
+    function drawGlyph() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      time += lineSpeed;
+      for (let i = 0; i < numLines; i++) {
+        ctx.beginPath();
+        const offset = i * (Math.PI * 2 / numLines);
+        const colorHue = (time * colorSpeed + i * 10) % 360;
+        ctx.strokeStyle = `hsla(${colorHue}, 70%, 50%, 0.2)`;
+        ctx.lineWidth = 1.5;
+        for (let x = 0; x <= canvas.width; x += 10) {
+          const y = Math.sin(x * lineFrequency + time + offset) * lineAmplitude + canvas.height / 2;
+          if (x === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.stroke();
+      }
+      animationFrameId = requestAnimationFrame(drawGlyph);
+    }
+    drawGlyph();
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  // Share Price Update Logic
+  useEffect(() => {
+    const updatePrice = () => {
+      const mockPrice = (80 + Math.random() * 10).toFixed(2);
+      setSharePrice(`$${mockPrice}`);
+      setShareTimestamp(new Date().toLocaleTimeString());
+    };
+    const intervalId = setInterval(updatePrice, 9000);
+    updatePrice(); // Initial call
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Chart.js Initialization for Seedwave Growth
+  useEffect(() => {
+    if (chartRef.current) {
+      if (chartInstance.current) {
+        chartInstance.current.destroy(); // Destroy existing chart if it exists
+      }
+      chartInstance.current = new Chart(chartRef.current, {
+        type: 'line',
+        data: {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+          datasets: [{
+            label: 'Treaty Brands Activated',
+            data: [3, 7, 13, 21],
+            borderWidth: 2,
+            borderColor: 'var(--primary-color)',
+            tension: 0.4,
+            fill: true,
+            backgroundColor: 'rgba(0, 113, 227, 0.1)',
+            pointRadius: 4,
+            pointBackgroundColor: 'var(--primary-color)',
+            pointBorderColor: '#fff',
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#e8e8ed',
+                drawBorder: false
+              },
+              ticks: {
+                color: '#6e6e73'
+              }
+            },
+            x: {
+              grid: {
+                color: '#e8e8ed',
+                drawBorder: false
+              },
+              ticks: {
+                color: '#6e6e73'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false,
+              labels: {
+                color: '#424245'
+              }
+            }
+          }
+        }
+      });
+    }
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy(); // Cleanup on unmount
+      }
+    };
+  }, []);
+
+  // Function to load terminal content into the iframe
+  const loadTerminal = (url, slug) => {
+    setVaultFrameSrc(url);
+    setActiveTerminalButton(slug);
+    console.log("🧬 Terminal loaded:", url);
+  };
+
+  // Handler for sector glyph clicks
+  const handleSectorGlyphClick = (slug) => {
+    const iframeUrl = sectorMap[slug];
+    const loadingMessageText = sectorList[slug] || slug.charAt(0).toUpperCase() + slug.slice(1).replace('-', ' ');
+
+    if (iframeUrl) {
+      setSectorContent(
+        <>
+          <div className="text-gray-600 text-sm mb-2">🔄 Loading sector: {loadingMessageText}...</div>
+          <iframe src={iframeUrl} className="w-full h-[900px] border-none rounded-xl bg-gray-100" title={`Sector: ${loadingMessageText}`}></iframe>
+        </>
+      );
+    } else {
+      setSectorContent(
+        <div className="text-red-500 text-sm mb-2">Error: Sector URL not found for {slug}.</div>
+      );
+    }
+  };
+
+  return (
+    <>
+      <Header navigateTo={navigateTo} />
+
+      {/* Hero Section */}
+      <section className="hero-section w-full">
+        <canvas id="rhythmicCanvas" ref={rhythmicCanvasRef}></canvas>
+        <div className="hero-content">
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+            Welcome to <span className="text-blue-600">VaultMesh™</span>
+          </h2>
+          <p className="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">
+            Your secure and scalable platform for data integrity and distributed solutions.
+            Explore our cutting-edge technologies designed to empower your digital infrastructure.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="omnigrid.html" className="cta-button-base">
+              Explore Ecosystem
+            </a>
+            <a href="https://baobab.faa.zone" target="_blank" rel="noopener noreferrer" className="cta-button-base cta-button-secondary-style">
+              Baobab Network
+            </a>
+            <a href="https://fruitfulcratedance.com/" target="_blank" rel="noopener noreferrer" className="cta-button-base cta-button-secondary-style">
+              Fruitful Crate Dance
+            </a>
+            <a href="https://seedwave.faa.zone/login.html" target="_blank" rel="noopener noreferrer" className="cta-button-base cta-button-secondary-style">
+              Admin Login
+            </a>
+            <a href="contact-us.html" target="_blank" rel="noopener noreferrer" className="cta-button-base cta-button-secondary-style">
+              Contact Us
+            </a>
+            <a href="sector_index_page.html" target="_blank" rel="noopener noreferrer" className="cta-button-base cta-button-secondary-style">
+              Enter Index
+            </a>
+            <a href="https://sellers.takealot.com/" target="_blank" rel="noopener noreferrer" className="cta-button-base cta-button-secondary-style">
+              Takealot Seller
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="section-style py-16 md:py-24 px-6 md:px-12 w-full">
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-4xl font-bold text-center mb-16">
+            Unlock Your Potential with Our Core Features
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="feature-card-style">
+              <div>💡</div>
+              <h4>AI-Powered Insights</h4>
+              <p>
+                Leverage advanced AI to gain deep insights, optimize operations, and make smarter decisions.
+              </p>
+            </div>
+            <div className="feature-card-style">
+              <div>🤝</div>
+              <h4>Global Collaboration</h4>
+              <p>
+                Connect with thousands of independent brands and partners worldwide, fostering a network of mutual growth.
+              </p>
+            </div>
+            <div className="feature-card-style">
+              <div>🌱</div>
+              <h4>Sustainable Solutions</h4>
+              <p>
+                Champion eco-friendly practices and contribute to a healthier planet through our curated marketplace.
+              </p>
+            </div>
+            <div className="feature-card-style">
+              <div>🔒</div>
+              <h4>Secure VaultMesh™</h4>
+              <p>
+                Protect your data and transactions with our state-of-the-art blockchain-inspired security protocols.
+              </p>
+            </div>
+            <div className="feature-card-style">
+              <div>📈</div>
+              <h4>Real-time Analytics</h4>
+              <p>
+                Monitor your progress and impact with intuitive dashboards and real-time performance metrics.
+              </p>
+            </div>
+            <div className="feature-card-style">
+              <div>🌐</div>
+              <h4>OmniScroll Integration</h4>
+              <p>
+                Seamlessly integrate with our OmniScroll ledger for transparent and efficient record-keeping.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAA™ Share Signal Section */}
+      <section id="shareprice" className="shareprice-section py-12 text-center w-full">
+        <h2 className="text-3xl font-semibold mb-2">FAA™ Share Signal</h2>
+        <div className="price-display text-5xl font-bold">{sharePrice}</div>
+        <div className="timestamp-display text-sm text-gray-400 mt-1">Last updated: <span id="timestamp">{shareTimestamp}</span></div>
+      </section>
+
+      {/* Seedwave Brand Growth Section */}
+      <section id="seedwave" className="seedwave-section py-16 px-6 text-center w-full">
+        <h2 className="text-4xl font-bold mb-8">🌱 Seedwave Brand Growth 🌱</h2>
+        <div className="seedwave-chart-container w-full max-w-4xl mx-auto">
+          <canvas id="brandChart" ref={chartRef}></canvas>
+        </div>
+      </section>
+
+      {/* Founder's Glyph™ Section */}
+      <section className="founders-note-section py-16 px-6 text-center w-full">
+        <h2 className="text-4xl font-bold mb-8">🧬 Founder's Glyph™</h2>
+        <p className="max-w-3xl mx-auto text-xl leading-relaxed">
+          FAA™ wasn’t built like a typical startup. It emerged — out of silence, out of signal, out of glyphs and patterns that refused to be ignored.
+          What you're seeing isn't a site. It’s a vault interface. A codebase of culture. A trust-machine powered by real human intelligence.
+        </p>
+        <p className="mt-6 max-w-2xl mx-auto italic-style">
+          Where others scale with speed, we scale with meaning. Every brand here agreed to something deeper than growth — they signed a Treaty.
+          That’s why this isn’t eCommerce. It’s TreatyCommerce™.
+        </p>
+        <p className="mt-6 font-semibold-style">— Written from the edge of code & culture 🌍 FAA.Zone Founder Glyph Activated™</p>
+      </section>
+
+      {/* Vault Terminal Access Section */}
+      <section id="vault-access" className="vault-access-section py-16 px-6 w-full">
+        <h3 className="text-4xl font-bold text-center mb-10">🔐 Sector Terminals</h3>
+        <div className="w-full max-w-6xl mx-auto mb-10">
+          <div className="vault-frame-container w-full h-[800px] border-4 rounded-xl shadow-2xl overflow-hidden">
+            <iframe
+              id="vault-frame"
+              src={vaultFrameSrc}
+              className="w-full h-full rounded-xl"
+              frameBorder="0"
+              title="VaultMaster Terminal"
+              sandbox="allow-scripts allow-same-origin allow-forms"
+            ></iframe>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {[
+            { name: '🦍 VaultMaster Terminal', url: 'vault-master.html', slug: 'vault-master' },
+            { name: '🧱 Cube Lattice GPT', url: 'cube-lattice.html', slug: 'cube-lattice' },
+            { name: '🌍 Global View GPT', url: 'global-view.html', slug: 'global-view' },
+            { name: '🚚 Freight Ops GPT', url: 'freight-ops.html', slug: 'freight-ops' },
+            { name: '♻️ Loop Watch GPT', url: 'loop-watch.html', slug: 'loop-watch' },
+            { name: '🌱 Seedwave GPT', url: 'seedwave.html', slug: 'seedwave' },
+            { name: '📦 Distribution GPT', url: 'distribution.html', slug: 'distribution' },
+            { name: '🔐 Signal GPT', url: 'signal.html', slug: 'signal' },
+            { name: '📦 7038 FAA Brands', url: 'faa-brands.html', slug: 'faa-brands' },
+          ].map((terminal) => (
+            <button
+              key={terminal.slug}
+              onClick={() => loadTerminal(terminal.url, terminal.slug)}
+              className={`terminal-btn p-6 ${activeTerminalButton === terminal.slug ? 'ring-active' : ''}`}
+            >
+              {terminal.name}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Sector Scrolls Section */}
+      <section className="sector-scrolls-section py-16 px-6 text-center w-full">
+        <h2 className="text-4xl font-bold mb-8">🧬 Sector Scrolls</h2>
+        <div id="sector-glyphs-container" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          {Object.keys(sectorList)
+            .filter(slug => slug !== 'admin' && slug !== 'global-index')
+            .sort((a, b) => sectorList[a].localeCompare(sectorList[b]))
+            .map(slug => (
+              <button
+                key={slug}
+                onClick={() => handleSectorGlyphClick(slug)}
+                className="glyph-button"
+              >
+                {sectorList[slug]}
+              </button>
+            ))}
+        </div>
+        <div id="sector-content-container" className="mt-10 px-6 max-w-6xl mx-auto">
+          {sectorContent}
+        </div>
+      </section>
+
+      {/* Treaty System™ Section */}
+      <section id="treaty" className="treaty-section py-16 px-6 text-center w-full">
+        <h2 className="text-4xl font-bold mb-6">📜 Treaty System™</h2>
+        <p className="max-w-2xl mx-auto text-lg mb-8">The FAA™ Treaty Layer binds interface to intention. This is not UI. This is glyph-encoded law.</p>
+        <blockquote className="text-2xl italic font-semibold">"FAA™ isn't a site. It's the shape of alignment — and 🦍 holds the flame."</blockquote>
+      </section>
+
+      {/* Signal Packet Section */}
+      <section className="signal-packet-section py-10 text-xs text-center w-full">
+        <pre className="max-w-2xl mx-auto p-4 rounded-lg overflow-auto"><code>{`{
+    "signal": "omnidrop",
+    "origin": "If you dont like the fruits you are growing, change the seed™ / FAA Vault Layer",
+    "payload": {
+        "type": "scroll",
+        "value": "homepage + VaultRouter + all terminal iframe buttons live + Treaty Grid"
+    }
+}`}</code></pre>
+      </section>
+
+      {/* VaultMesh™ Executive Summary Section */}
+      <section id="vaultmesh" className="vaultmesh-summary-section py-20 px-6 w-full">
+        <div className="max-w-4xl mx-auto text-left space-y-6">
+          <h2 className="text-4xl font-bold text-purple-400-style">🧠 VaultMesh™: Executive Summary</h2>
+          <p>VaultMesh™ is an intelligent data orchestration framework designed for the segmentation, synchronization, and secure deployment of high-value digital assets—referred to as scrolls—across decentralized and permissioned networks such as FAA.Zone™.</p>
+          <ul className="list-disc ml-6 space-y-2">
+            <li>Captures metadata-rich content streams (chats, code, brands, assets)</li>
+            <li>Assigns them to programmable claim structures (ScrollClaims™)</li>
+            <li>Secures their lineage using OmniSignal™, PulseGrid™, and GhostTrace™ layers</li>
+            <li>Enforces royalty logic, scroll integrity, and traceability on-chain and off-grid</li>
+          </ul>
+          <p>VaultMesh™ powers high-tier operations like HSOMNI9000™, enabling Diamond-tier deployments, cross-sector scroll claims, and enterprise-scale content monetization with full compliance and provenance.</p>
+          <p>The framework is deeply integrated with platforms such as <code>vault.faa.zone™</code>, where scrolls tied to brands like Fruitful Global Planet™ are securely hosted, organized into structured sectors, and deployed through FAA.Zone™-compliant channels.</p>
+          <p>A critical operator in this ecosystem is HSOMNI9000™, the certified scroll class which governs Diamond-tier logic, enforces 10–11% royalty triggers, and auto-deploys ScrollClaims™ with real-time ClaimRoot™ verification.</p>
+          <h3 className="text-2xl font-semibold mt-10">📖 VaultMesh™ Index</h3>
+          <ul className="list-decimal ml-6 space-y-2">
+            <li>Introduction to VaultMesh™</li>
+            <li>Core System Components</li>
+            <li>ScrollClaim™ Infrastructure</li>
+            <li>Data Flow and Claim Lifecycle</li>
+            <li>Tiering, Royalties, and Compliance</li>
+            <li>Integration with FAA.Zone™</li>
+            <li>Market Segments & Use Cases</li>
+            <li>Revenue Streams & Monetization</li>
+            <li>Technology Roadmap</li>
+            <li>Team & Governance</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">☑️ 1. Introduction to VaultMesh™</h3>
+          <p>VaultMesh™ transforms disorganized digital content into claimable, trackable assets. It bridges enterprise content systems, decentralized data vaults, and monetization layers through FAA-compliant infrastructure.</p>
+          <h3 className="text-xl font-bold mt-10">⚒️ 2. Core System Components</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>VaultDNA™: Immutable identifiers for scroll content</li>
+            <li>ClaimRoot™: Origin anchor & timestamp</li>
+            <li>ScrollClaim™ Contracts: Programmable wrappers</li>
+            <li>PulseGrid™ Sync: Real-time scroll presence & sync</li>
+            <li>OmniSignal™: Global scroll verification</li>
+            <li>GhostTrace™ Gen2: Scroll interaction backtrace</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">🛠️ 3. ScrollClaim™ Infrastructure</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>Set tier access (e.g., Diamond)</li>
+            <li>Define royalty logic (10–11%)</li>
+            <li>Lock scrolls with PulseGrid™ sync and OmniSignal™</li>
+            <li>Deploy via FAA.Zone™ with compliant ZIP bundles</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">📀 4. Data Flow and Claim Lifecycle</h3>
+          <ul className="list-decimal ml-6 space-y-1">
+            <li>Ingest — content enters VaultMesh™</li>
+            <li>Encode — metadata & VaultDNA™ attached</li>
+            <li>Wrap — ScrollClaim™ smart-wrapped</li>
+            <li>Deploy — FAA.Zone™ push (ZIP, manifest, HTML)</li>
+            <li>Sync — PulseGrid™ status & OmniSignal™ locked</li>
+            <li>Enforce — Royalties, access & scroll activity logged via GhostTrace™</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">💸 5. Tiering, Royalties, and Compliance</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>Diamond Tier: 10–11% royalty enforced</li>
+            <li>SmartWallet Integration: ScrollClaim™ payments and transfers</li>
+            <li>VaultPay™ Tier III: Required for commercial deployments</li>
+            <li>Compliance: FAA scroll ID, ClaimRoot™ hash, and royalty schema</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">📡 6. Integration with FAA.Zone™</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>Native support for /public/diamond/ structure</li>
+            <li>ZIP, HTML, Manifest deployment bundles</li>
+            <li>ClaimRoot™ timestamp validation</li>
+            <li>Seamless PulseGrid™ auto-sync for live claim state</li>
+            <li>Brand hosting via vault.faa.zone™</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">🏢 7. Market Segments & Use Cases</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>GPT Conversations & Expert Threads</li>
+            <li>Knowledge/Training Archives</li>
+            <li>Creative IP Scrolls (music, literature, visuals)</li>
+            <li>GeoSector Deployment Archives</li>
+            <li>Enterprise Scroll Logs & Audit Trails</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">💰 8. Revenue Streams & Monetization</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>Diamond Royalties (10–11%)</li>
+            <li>Scroll Packaging Fees</li>
+            <li>VaultMesh™ API Subscriptions</li>
+            <li>PulseGrid™ and OmniSignal™ Licensing</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">⚖️ 9. Technology Roadmap</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>Q2 2025: ScrollClaim™ v2.2 with multi-claim staking</li>
+            <li>Q3 2025: GhostTrace™ Gen3 with forensic backtrace tooling</li>
+            <li>Q4 2025: Autonomous AI Sector Agents</li>
+            <li>Q1 2026: Inter-vault Federation</li>
+          </ul>
+          <h3 className="text-xl font-bold mt-10">🔧 10. Team & Governance</h3>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>FAA-certified engineers (scroll claimers)</li>
+            <li>Scroll Ministers: Compliance + tiering</li>
+            <li>Vault Admins: Metadata + ClaimRoot™ enforcement</li>
+            <li>HSOMNI9000™ Operators: Diamond-tier execution agents</li>
+          </ul>
+          <p className="text-sm mt-10">📎 This plan can now be exported as HTML, PDF, or ZIP.</p>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="about-section py-16 md:py-24 px-6 md:px-12 text-center w-full">
+        <div className="max-w-4xl mx-auto">
+          <h3 className="text-4xl font-bold mb-8">About Fruitful Innovations</h3>
+          <p className="text-lg leading-relaxed mb-6">
+            At Fruitful, we believe in a future where technology empowers positive change. Our platform is designed to break down traditional barriers, fostering a collaborative ecosystem where businesses and individuals can thrive while making a meaningful impact on the world.
+          </p>
+          <p className="text-lg leading-relaxed">
+            We are committed to transparency, sustainability, and innovation, driven by a powerful AI that ensures fairness, efficiency, and personalized experiences for every user. Join us in building a more fruitful planet.
+          </p>
+        </div>
+      </section>
+
+      {/* Call to Action Section (Footer CTA) */}
+      <section id="cta" className="cta-section-footer py-16 md:py-24 px-6 md:px-12 text-center w-full">
+        <div className="max-w-3xl mx-auto">
+          <h3 className="text-4xl font-extrabold mb-8 leading-tight">
+            Ready to Transform Your Future?
+          </h3>
+          <p className="text-xl mb-10">
+            Join the Fruitful community today and start your journey towards innovation, connection, and a sustainable tomorrow.
+          </p>
+          {/* This button will trigger the purchase flow for TaxNova by default */}
+          <button onClick={() => navigateTo('purchase', null, 'taxnova')} className="cta-button-base">
+            Sign Up Now
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer-style py-8 px-6 md:px-12 text-center w-full">
+        © 2025 FAA™ Treaty System™. All Rights Reserved. Powered by 🦍 glyphs + Vault API. Synced with Seedwave™.
+      </footer>
+    </>
+  );
+};
+
+// TaxNova™ Product Page Component
+const TaxNovaProductPage = ({ navigateTo }) => {
+  return (
+    <>
+      <Header navigateTo={navigateTo} />
+      <section id="taxnova-protocol" className="section-style bg-white py-16 px-6 w-full">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-800 mb-6 text-center">TaxNova™ Core Protocol: Your Financial Compliance Solution</h2>
+          <p className="text-lg sm:text-xl text-gray-600 text-center mb-12">
+            TaxNova™ is an innovative FAA ZONE protocol, specifically engineered for the demands of the Banking & Finance industry. Its deep
+            integration with the PulseGrid ensures secure, real-time data flows and enhanced decision-making.
+          </p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Key Features */}
+            <div className="bg-blue-50 p-6 rounded-lg shadow-inner">
+              <h3 className="text-2xl font-bold text-blue-700 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Key Features
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>Direct integration with FAA™ Professional Services Mesh.</li>
+                <li>Advanced data sync with Ark Model.</li>
+                <li>Real-time compliance validation via VaultLink™ (banking specific).</li>
+                <li>Scalable architecture for x33 node expansion.</li>
+                <li>Predictive analytics module for TaxNova performance.</li>
+                <li>API access for seamless interoperability.</li>
+                <li>AI-driven anomaly detection and fraud prevention.</li>
+                <li>Blockchain-secured data provenance.</li>
+                <li>Secure multi-party computation support.</li>
+                <li>Dynamic resource allocation for fluctuating demands.</li>
+                <li>Subnode: Ark Model</li>
+                <li>Subnode: Node Gate</li>
+                <li>Subnode: Veritas Sync</li>
+                <li>Subnode: Cage Mapper</li>
+                <li>Subnode: Core Trace</li>
+                <li>Subnode: Sky Sweep</li>
+                <li>Subnode: Mint Grid</li>
+                <li>Subnode: Orbit Channel</li>
+                <li>Subnode: Hash Clear</li>
+                <li>Subnode: Micro Chain</li>
+                <li className="text-sm italic">(* Added subnode features here *)</li>
+              </ul>
+            </div>
+
+            {/* FAA Metadata & Compliance */}
+            <div className="bg-green-50 p-6 rounded-lg shadow-inner">
+              <h3 className="text-2xl font-bold text-green-700 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                FAA Metadata & Compliance
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>Product ID: TAX-BAN-3841</li>
+                <li>VaultID: VAULT-R2EA</li>
+                <li>Signal Echo Layer: Beta v2.4</li>
+                <li>Deployment Zone: Zone A 5</li>
+                <li>Security Rating: <span className="font-semibold text-red-600">FAA-SEC A</span></li>
+                <li>Active Nodes: 3,616</li>
+                <li>Last Audit: 2025-05-16</li>
+                <li>Compliance Status: <span className="font-semibold text-green-600">Active & Certified</span></li>
+              </ul>
+
+              <h4 className="text-xl font-bold text-green-700 mt-6 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Real-Time Metrics Overview:
+              </h4>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>Current Pulse Authority: 22,802 pulses/sec</li>
+                <li>Data Volume Processed (24H): 44.56 TB</li>
+                <li>Latency Average: 101 ms</li>
+              </ul>
+
+              <h4 className="text-xl font-bold text-green-700 mt-6 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                VaultTrace™ Ledger Entries:
+              </h4>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>#9878 - TAXNO Pulse Tx - Confirmed</li>
+                <li>#4875 - Basel Data Sync - Error</li>
+                <li>#3444 - Node Federation Commit - Active</li>
+                <li>#698 - VaultTrace Audit - Passed</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Pricing Structure Section */}
+          <div className="mb-12">
+            <h3 className="text-3xl font-bold text-center text-blue-800 mb-6">TaxNova™ Pricing Structure</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Starter Node Plan */}
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-8 rounded-lg shadow-xl flex flex-col items-center text-center transform hover:scale-105 transition duration-300 ease-in-out">
+                <h4 className="text-3xl font-bold mb-4">Starter Node</h4>
+                <p className="text-4xl font-extrabold mb-6">FCU 82/mo</p>
+                <p className="mb-6 text-blue-100">Ideal for small teams and pilot projects. Focuses on core features and secure blockchain synchronization.</p>
+                <ul className="text-left w-full space-y-2 mb-8">
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Essential features
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Basic data sync
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Community support
+                  </li>
+                </ul>
+                <button
+                  onClick={() => navigateTo('purchase', { name: 'Starter Node', price: 'FCU 82/mo', description: 'Basic features for small teams.', key: 'starter', productType: 'taxnova' }, 'taxnova')}
+                  className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-100 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300"
+                >
+                  Get Starter Node
+                </button>
+              </div>
+
+              {/* Pro Grid Plan */}
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-8 rounded-lg shadow-xl flex flex-col items-center text-center transform hover:scale-105 transition duration-300 ease-in-out">
+                <h4 className="text-3xl font-bold mb-4">Pro Grid</h4>
+                <p className="text-4xl font-extrabold mb-6">FCU 211/mo</p>
+                <p className="mb-6 text-purple-100">Designed for growing firms needing enhanced capabilities. Includes 8 core features and enhanced performance.</p>
+                <ul className="text-left w-full space-y-2 mb-8">
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Advanced features
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    High-volume data processing
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority support
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Expanded analytics
+                  </li>
+                </ul>
+                <button
+                  onClick={() => navigateTo('purchase', { name: 'Pro Grid', price: 'FCU 211/mo', description: 'Enhanced capabilities for growing firms.', key: 'pro', productType: 'taxnova' }, 'taxnova')}
+                  className="bg-white text-purple-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-purple-100 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-purple-300"
+                >
+                  Upgrade to Pro Grid
+                </button>
+              </div>
+
+              {/* Enterprise Omni-Sync Plan */}
+              <div className="bg-gradient-to-br from-green-500 to-green-600 text-white p-8 rounded-lg shadow-xl flex flex-col items-center text-center transform hover:scale-105 transition duration-300 ease-in-out">
+                <h4 className="text-3xl font-bold mb-4">Enterprise Omni-Sync</h4>
+                <p className="text-4xl font-extrabold mb-6">Custom pricing</p>
+                <p className="mb-6 text-green-100">For large organizations requiring full customisation, access, custom integrations, and dedicated resources.</p>
+                <ul className="text-left w-full space-y-2 mb-8">
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Full VaultMesh access
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Dedicated account management
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Custom integrations
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    24/7 Premium support
+                  </li>
+                </ul>
+                <button
+                  onClick={() => navigateTo('purchase', { name: 'Enterprise Omni-Sync', price: 'Custom pricing', description: 'Full customization and dedicated resources for large organizations.', key: 'enterprise', productType: 'taxnova' }, 'taxnova')}
+                  className="bg-white text-green-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-100 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-green-300"
+                >
+                  Contact Sales
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <button
+              onClick={() => navigateTo('purchase', null, 'taxnova')}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full shadow-lg text-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              Secure Your TaxNova™ Protocol Now
+            </button>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+
+// Design Hub Page Component (NEW)
+const DesignHubPage = ({ navigateTo }) => {
+  return (
+    <>
+      <Header navigateTo={navigateTo} />
+      <div className="min-h-screen w-full bg-[var(--design-hub-bg)] text-[var(--design-hub-text-primary)] font-inter py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto rounded-xl shadow-lg p-6 sm:p-8 lg:p-10">
+          {/* Header */}
+          <header className="mb-8 text-center sm:text-left">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--design-hub-accent)] mb-2">
+              / FAA / Creative Tech Dashboard
+            </h1>
+          </header>
+
+          {/* DesignHub Core Protocol Overview & FAA Data Compliance */}
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* DesignHub Core Protocol Overview */}
+            <div className="bg-[var(--design-hub-card-bg)] p-6 rounded-lg shadow-inner border border-[var(--design-hub-border)]">
+              <h2 className="text-2xl font-bold text-[var(--design-hub-text-primary)] mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[var(--design-hub-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.515-1.373 2.062-1.373 2.576 0l2.158 5.766a2 2 0 001.555 1.555l5.766 2.158c1.373.515 1.373 2.062 0 2.576l-5.766 2.158a2 2 0 00-1.555 1.555l-2.158 5.766c-.515 1.373-2.062 1.373-2.576 0l-2.158-5.766a2 2 0 00-1.555-1.555L.527 12.441c-1.373-.515-1.373-2.062 0-2.576l5.766-2.158a2 2 0 001.555-1.555L10.325 4.317z" />
+                </svg>
+                DesignHub Core Protocol Overview
+              </h2>
+              <p className="text-[var(--design-hub-text-secondary)] mb-4">
+                DesignHub™ is an FAA ZONE-aligned design protocol engineered for the Creative Tech sector. It seamlessly integrates with the Global PulseGrid to deliver unparalleled performance with data integrity.
+              </p>
+              <h3 className="text-xl font-bold text-[var(--design-hub-text-primary)] mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Key Features
+              </h3>
+              <ul className="list-disc list-inside text-[var(--design-hub-text-secondary)] space-y-2">
+                <li>Direct integration with FAA Professional Services Mesh.</li>
+                <li>Advanced data sync with Seedwave.</li>
+                <li>Real-time compliance validation via VAULT-MESH (Creative-specific).</li>
+                <li>Scalable architecture for x18 node expansion.</li>
+                <li>Predictive analytics module for DesignGrid performance.</li>
+                <li>API access for seamless interoperability.</li>
+                <li>One-click regulatory reporting and audit trails.</li>
+                <li>Dynamic resource allocation for fluctuating demands.</li>
+                <li>Self-optimizing node distribution for peak efficiency.</li>
+              </ul>
+              <h3 className="text-xl font-bold text-[var(--design-hub-text-primary)] mt-6 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 011-1V4z" />
+                </svg>
+                Subnodes
+              </h3>
+              <ul className="list-disc list-inside text-[var(--design-hub-text-secondary)] space-y-2">
+                <li>DesignGrid</li>
+                <li>CanvasFlow</li>
+                <li>AssetForge</li>
+                <li>BrandSynth</li>
+                <li>GlyphTrace</li>
+                <li>VectorCore</li>
+                <li>ShadeMesh</li>
+                <li>RenderLoop</li>
+                <li>PaletteShift</li>
+                <li>AnimPulse</li>
+                <li>TextureFlow</li>
+                <li>QuantumCanvas</li>
+              </ul>
+            </div>
+
+            {/* FAA Data & Compliance */}
+            <div className="bg-[var(--design-hub-card-bg)] p-6 rounded-lg shadow-inner border border-[var(--design-hub-border)]">
+              <h2 className="text-2xl font-bold text-[var(--design-hub-text-primary)] mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                FAA Data & Compliance
+              </h2>
+              <ul className="list-disc list-inside text-[var(--design-hub-text-secondary)] space-y-2">
+                <li>Product ID: DHSG-1996</li>
+                <li>VaultID: VAULT-BHES</li>
+                <li>Signal Echo Layer: Laser Alpha v9.4</li>
+                <li>Deployment Zone: Zone B 9</li>
+                <li>Security Rating: <span className="font-semibold text-[var(--design-hub-success)]">FAA-SEC C</span></li>
+                <li>Active Nodes: 872</li>
+                <li>Last Audit: 2025-11-04</li>
+                <li>Compliance Status: <span className="font-semibold text-[var(--design-hub-error)]">Pending Review</span></li>
+              </ul>
+
+              <h3 className="text-xl font-bold text-[var(--design-hub-text-primary)] mt-6 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Real-Time Metrics
+              </h3>
+              <ul className="list-disc list-inside text-[var(--design-hub-text-secondary)] space-y-2">
+                <li>Current Pulse Activity: 9,733 pulses/sec</li>
+                <li>Data Volume Processed (24H): 120.37 TB</li>
+                <li>Latency Average: 85.22 ms</li>
+              </ul>
+
+              <h3 className="text-xl font-bold text-[var(--design-hub-text-primary)] mt-6 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                VaultTrace™ Ledger Entries
+              </h3>
+              <ul className="list-disc list-inside text-[var(--design-hub-text-secondary)] space-y-2">
+                <li>+2289 - DESIGN Pulse Tx - Confirmed</li>
+                <li>+7890 - CANVAS Sync - Completed</li>
+                <li>+9876 - Node Activation Confirm - Offline</li>
+                <li>+3456 - VaultTrace Audit - Passed</li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Pricing Structure Section */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-center text-[var(--design-hub-text-primary)] mb-6">Pricing Structure <span className="text-[var(--design-hub-text-secondary)]">(Derived from Sector Tier Pricing)</span></h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Design Node Plan */}
+              <div className="bg-[var(--design-hub-card-bg)] text-[var(--design-hub-text-primary)] p-8 rounded-lg shadow-xl flex flex-col items-center text-center transform hover:scale-105 transition duration-300 ease-in-out border border-[var(--design-hub-border)]">
+                <h3 className="text-3xl font-bold mb-4">Design Node</h3>
+                <p className="text-4xl font-extrabold mb-6">€500.00 /month</p>
+                <p className="mb-6 text-[var(--design-hub-text-secondary)]">Ideal for individual designers and small studios focusing on creative asset generation.</p>
+                <ul className="text-left w-full space-y-2 mb-8 text-[var(--design-hub-text-secondary)]">
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Basic AssetForge Access
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Community Support
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Standard Glyph Library
+                  </li>
+                </ul>
+                <button
+                  onClick={() => navigateTo('purchase', { name: 'Design Node', price: '€500.00 /month', description: 'Basic Design Hub access.', key: 'designnode', productType: 'designhub' }, 'designhub')}
+                  className="bg-[var(--design-hub-accent)] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-80 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[var(--design-hub-accent)]"
+                >
+                  Get Started
+                </button>
+              </div>
+
+              {/* Pro Grid Plan */}
+              <div className="bg-[var(--design-hub-card-bg)] text-[var(--design-hub-text-primary)] p-8 rounded-lg shadow-xl flex flex-col items-center text-center transform hover:scale-105 transition duration-300 ease-in-out border border-[var(--design-hub-border)]">
+                <h3 className="text-3xl font-bold mb-4">Pro Grid</h3>
+                <p className="text-4xl font-extrabold mb-6">€1,400.00 /month</p>
+                <p className="mb-6 text-[var(--design-hub-text-secondary)]">For growing teams requiring enhanced tools and collaborative features.</p>
+                <ul className="text-left w-full space-y-2 mb-8 text-[var(--design-hub-text-secondary)]">
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Advanced AssetForge
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority Support
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Expanded Glyph Library
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Collaborative Workflows
+                  </li>
+                </ul>
+                <button
+                  onClick={() => navigateTo('purchase', { name: 'Pro Grid', price: '€1,400.00 /month', description: 'Enhanced Design Hub features.', key: 'progrid', productType: 'designhub' }, 'designhub')}
+                  className="bg-[var(--design-hub-accent)] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-80 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[var(--design-hub-accent)]"
+                >
+                  Upgrade Now
+                </button>
+              </div>
+
+              {/* Enterprise Omni-Sync Plan */}
+              <div className="bg-[var(--design-hub-card-bg)] text-[var(--design-hub-text-primary)] p-8 rounded-lg shadow-xl flex flex-col items-center text-center transform hover:scale-105 transition duration-300 ease-in-out border border-[var(--design-hub-border)]">
+                <h3 className="text-3xl font-bold mb-4">Enterprise Omni-Sync</h3>
+                <p className="text-4xl font-extrabold mb-6">€3,500.00 /month</p>
+                <p className="mb-6 text-[var(--design-hub-text-secondary)]">Comprehensive solution for large enterprises with custom integration needs.</p>
+                <ul className="text-left w-full space-y-2 mb-8 text-[var(--design-hub-text-secondary)]">
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Full CanvasFlow Integration
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Dedicated Account Manager
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Custom API Integrations
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    24/7 Premium Technical Support
+                  </li>
+                  <li className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[var(--design-hub-success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    On-Premise Deployment Option
+                  </li>
+                </ul>
+                <button
+                  onClick={() => navigateTo('purchase', { name: 'Enterprise Omni-Sync', price: '€3,500.00 /month', description: 'Enterprise-level Design Hub solution.', key: 'enterprise', productType: 'designhub' }, 'designhub')}
+                  className="bg-[var(--design-hub-accent)] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-80 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[var(--design-hub-accent)]"
+                >
+                  Contact Sales
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </>
+  );
+};
+
+
+// Purchase Page Component (Updated to handle product types)
+const PurchasePage = ({ navigateTo, selectedPlan, productType }) => {
+  const taxNovaPlans = [
+    { name: 'Starter Node', price: 'FCU 82/mo', description: 'Basic features for small teams.', key: 'taxnova-starter' },
+    { name: 'Pro Grid', price: 'FCU 211/mo', description: 'Enhanced capabilities for growing firms.', key: 'taxnova-pro' },
+    { name: 'Enterprise Omni-Sync', price: 'Custom pricing', description: 'Full customization and dedicated resources for large organizations.', key: 'taxnova-enterprise' },
+  ];
+
+  const designHubPlans = [
+    { name: 'Design Node', price: '€500.00 /month', description: 'Basic Design Hub access.', key: 'designhub-designnode' },
+    { name: 'Pro Grid', price: '€1,400.00 /month', description: 'Enhanced Design Hub features.', key: 'designhub-progrid' },
+    { name: 'Enterprise Omni-Sync', price: '€3,500.00 /month', description: 'Enterprise-level Design Hub solution.', key: 'designhub-enterprise' },
+  ];
+
+  const plansToDisplay = productType === 'designhub' ? designHubPlans : taxNovaPlans;
+  const pageTitle = productType === 'designhub' ? 'Choose Your Design Hub Plan' : 'Choose Your TaxNova™ Plan';
+
+  const [paymentStatus, setPaymentStatus] = useState('pending'); // 'pending', 'processing', 'completed', 'failed'
+
+  const handlePayment = () => {
+    setPaymentStatus('processing');
+    // Simulate API call for payment processing
+    setTimeout(() => {
+      const success = Math.random() > 0.1; // 90% success rate
+      if (success) {
+        setPaymentStatus('completed');
+        navigateTo('download');
+      } else {
+        setPaymentStatus('failed');
+      }
+    }, 2000); // Simulate 2-second processing time
+  };
+
+  return (
+    <>
+      <Header navigateTo={navigateTo} />
+      <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10 max-w-4xl w-full text-center my-8">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-blue-800 mb-6">{pageTitle}</h2>
+        <p className="text-lg text-gray-600 mb-8">Select the plan that best fits your organization's needs.</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {plansToDisplay.map((plan) => (
+            <div
+              key={plan.key}
+              className="bg-blue-50 p-6 rounded-lg shadow-md flex flex-col items-center text-center border-2 border-transparent hover:border-blue-500 transition duration-300 ease-in-out"
+            >
+              <h3 className="text-2xl font-bold text-blue-700 mb-2">{plan.name}</h3>
+              <p className="text-3xl font-extrabold text-blue-900 mb-4">{plan.price}</p>
+              <p className="text-gray-700 mb-6 flex-grow">{plan.description}</p>
+              <button
+                onClick={() => navigateTo('payment', plan)}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300"
+              >
+                Select Plan
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={() => navigateTo('vaultmesh')}
+          className="text-blue-600 hover:text-blue-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+        >
+          &larr; Back to Home
+        </button>
+      </div>
+    </>
+  );
+};
+
+// Payment Page Component
+const PaymentPage = ({ navigateTo, selectedPlan }) => {
+  const [paymentStatus, setPaymentStatus] = useState('pending'); // 'pending', 'processing', 'completed', 'failed'
+
+  const handlePayment = () => {
+    setPaymentStatus('processing');
+    // Simulate API call for payment processing
+    setTimeout(() => {
+      const success = Math.random() > 0.1; // 90% success rate
+      if (success) {
+        setPaymentStatus('completed');
+        navigateTo('download');
+      } else {
+        setPaymentStatus('failed');
+      }
+    }, 2000); // Simulate 2-second processing time
+  };
+
+  return (
+    <>
+      <Header navigateTo={navigateTo} />
+      <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center my-8">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-blue-800 mb-6">Complete Your Purchase</h2>
+
+        {selectedPlan && (
+          <div className="bg-blue-50 p-4 rounded-lg mb-6 shadow-inner">
+            <p className="text-xl font-semibold text-blue-700">You selected: {selectedPlan.name}</p>
+            <p className="text-2xl font-bold text-blue-900">{selectedPlan.price}</p>
+          </div>
+        )}
+
+        {paymentStatus === 'pending' && (
+          <>
+            <p className="text-lg text-gray-600 mb-8">
+              Please click the button below to simulate the payment process for your selected plan.
+            </p>
+            <button
+              onClick={handlePayment}
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-green-300"
+            >
+              Process Payment
+            </button>
+          </>
+        )}
+
+        {paymentStatus === 'processing' && (
+          <div className="flex items-center justify-center space-x-3 text-blue-600 text-xl font-semibold">
+            <svg className="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Processing Payment...</span>
+          </div>
+        )}
+
+        {paymentStatus === 'failed' && (
+          <div className="text-red-600 text-xl font-semibold">
+            <p className="mb-4">Payment Failed! Please try again.</p>
+            <button
+              onClick={() => setPaymentStatus('pending')}
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-red-300"
+            >
+              Retry Payment
+            </button>
+          </div>
+        )}
+
+        <button
+          onClick={() => navigateTo('purchase', selectedPlan, selectedPlan?.productType)}
+          className="mt-8 text-blue-600 hover:text-blue-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+        >
+          &larr; Back to Plan Selection
+        </button>
+      </div>
+    </>
+  );
+};
+
+// Download Page Component
+const DownloadPage = ({ navigateTo }) => {
+  return (
+    <>
+      <Header navigateTo={navigateTo} />
+      <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center my-8">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-green-700 mb-6">Purchase Complete!</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          Thank you for your purchase of Protocol. Your transaction was successful.
+        </p>
+
+        <div className="flex justify-center mb-8">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-green-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+
+        <a
+          href="#" // In a real application, this would be a secure download link
+          download="Protocol_Installer.zip"
+          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full shadow-lg text-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l3-3m-3 3l-3-3m2.842-8.204a24.024 24.024 0 00-4.004-2.863 8.974 8.974 0 00-2.316-.762C5.46 3 3 5.46 3 8.528V14.5a3 3 0 003 3h12a3 3 0 003-3V8.528C21 5.46 18.54 3 15.178 3a8.974 8.974 0 00-2.316.762z" />
+          </svg>
+          Download Protocol
+        </a>
+
+        <button
+          onClick={() => navigateTo('vaultmesh')}
+          className="mt-8 text-blue-600 hover:text-blue-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+        >
+          Return to Home
+        </button>
+      </div>
+    </>
+  );
+};
+
+export default App;
