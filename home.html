@@ -36,6 +36,7 @@
             top: 0;
             z-index: 50;
             display: flex;
+            flex-direction: column; /* Changed to column for mobile first */
             justify-content: space-between;
             align-items: center;
         }
@@ -50,6 +51,7 @@
             align-items: center; /* Vertically align items */
             flex-wrap: wrap; /* Allow wrapping on smaller screens */
             gap: 0.5rem; /* Default small gap between all items */
+            justify-content: center; /* Center items when wrapped */
         }
         header nav a {
             color: #424245; /* Muted gray for nav links */
@@ -99,6 +101,9 @@
 
         /* Adjust spacing for header nav links for larger screens */
         @media (min-width: 768px) {
+            header {
+                flex-direction: row; /* Back to row for desktop */
+            }
             header nav {
                 gap: 0; /* Reset gap for individual margin control on larger screens */
             }
@@ -595,15 +600,17 @@
             }
             /* Adjust buttons for smaller screens to ensure visibility and wrapping */
             .cta-button, .cta-button-secondary {
-                width: calc(50% - 0.5rem); /* Two buttons per row, with gap */
+                /* Removed fixed width to allow flex-wrap to distribute them more naturally */
+                width: 100%; /* Take full width on very small screens */
+                max-width: 200px; /* Max width to prevent them from becoming too wide on slightly larger small screens */
                 height: auto; /* Allow height to adjust based on content wrapping */
                 padding: 0.7rem 0.5rem; /* Adjust padding for smaller width */
                 font-size: 0.9rem; /* Smaller font size for mobile */
-                margin: 0.25rem; /* Smaller margin for wrapping */
+                margin: 0.25rem 0; /* Adjust vertical margin for stacking */
             }
             .hero-content > div { /* Target the flex container for hero buttons */
-                flex-wrap: wrap; /* Ensure buttons wrap to next line */
-                justify-content: center; /* Center wrapped buttons */
+                flex-direction: column; /* Stack buttons vertically on small screens */
+                align-items: center; /* Center stacked buttons */
                 gap: 0.5rem; /* Gap between buttons */
             }
 
@@ -626,7 +633,6 @@
             header nav a.login-button.ml-auto { /* Override ml-auto for mobile so it doesn't push to right */
                 margin-left: 0.25rem; /* Reset to match other links */
             }
-
 
             section {
                 padding: 4rem 1.5rem;
@@ -670,6 +676,30 @@
                 font-size: 1rem;
             }
         }
+
+        /* Specific adjustment for very small screens if buttons still overflow */
+        @media (max-width: 480px) {
+            .hero-content > div {
+                flex-direction: column; /* Force stack on very small screens */
+                align-items: center;
+            }
+            .cta-button, .cta-button-secondary {
+                width: 90%; /* Adjust width to fit narrower screens */
+                margin: 0.25rem auto; /* Center buttons */
+            }
+            header nav {
+                flex-direction: column; /* Stack header nav links vertically on very small screens */
+                align-items: center;
+            }
+            header nav a {
+                margin: 0.2rem 0; /* Reduce vertical margin */
+            }
+            header nav a.login-button,
+            header nav a.button-style-original,
+            header nav a.button-style-main {
+                margin: 0.2rem auto; /* Center specific buttons as well */
+            }
+        }
     </style>
 </head>
 <body>
@@ -702,7 +732,7 @@
                 Your secure and scalable platform for data integrity and distributed solutions.
                 Explore our cutting-edge technologies designed to empower your digital infrastructure.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div class="flex flex-wrap justify-center items-center gap-2">
                 <a href="https://faa.zone/omnigrid.html" class="cta-button">
                     Explore Ecosystem
                 </a>
@@ -727,13 +757,13 @@
                 <a href="https://www.zoho.com/" target="_blank" class="cta-button cta-button-secondary">
                     Vault Email 
                 </a>
-                 <a href="https://www.paypal.com/signin/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://www.paypal.com/signin/" target="_blank" class="cta-button cta-button-secondary">
                     Paypal Access
                 </a>
                 <a href="https://vercel.com/faa-systems-projects/" target="_blank" class="cta-button cta-button-secondary">
                     Vecel Access
                 </a>
-                 <a href="https://github.com/heyns1000/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://github.com/heyns1000/" target="_blank" class="cta-button cta-button-secondary">
                     Github Access
                 </a>
             </div>
