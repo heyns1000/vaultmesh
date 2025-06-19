@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Base Styles - Reverted to original FAA.zone live index's styling */
+        /* Base Styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f5f5f7; /* Very light gray, almost white */
@@ -24,68 +24,67 @@
             flex-direction: column;
         }
 
-        /* Header - Minimalist and clean (Original FAA.zone styling) */
+        /* Header */
         header {
             background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
             backdrop-filter: blur(10px); /* Frosted glass effect */
             border-bottom: 1px solid #e8e8ed; /* Subtle bottom border */
-            padding-top: 1rem; /* Adjust padding */
+            padding-top: 1rem;
             padding-bottom: 1rem;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* Very subtle shadow */
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 50;
             display: flex;
-            flex-direction: column; /* Changed to column for mobile first */
+            flex-direction: column;
             justify-content: space-between;
             align-items: center;
         }
         header h1 {
-            color: #1d1d1f; /* Dark text for logo */
-            font-weight: 700; /* Bolder logo */
-            font-size: 1.5rem; /* Slightly smaller logo */
-            letter-spacing: -0.02em; /* Tighter letter spacing */
+            color: #1d1d1f;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
         }
         header nav {
-            display: flex; /* Ensure nav is a flex container */
-            align-items: center; /* Vertically align items */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            gap: 0.5rem; /* Default small gap between all items */
-            justify-content: center; /* Center items when wrapped */
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
         }
         header nav a {
-            color: #424245; /* Muted gray for nav links */
-            font-size: 0.9rem; /* Smaller nav links */
+            color: #424245;
+            font-size: 0.9rem;
             font-weight: 500;
-            padding: 0.5rem 0.8rem; /* Adjusted padding */
-            border-radius: 6px; /* Subtle rounding */
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
             transition: all 0.2s ease-in-out;
-            text-decoration: none; /* Remove underline */
-            flex-shrink: 0; /* Prevent links from shrinking */
+            text-decoration: none;
+            flex-shrink: 0;
         }
         header nav a:hover {
-            color: #0071e3; /* Apple blue on hover */
-            background-color: rgba(0, 0, 0, 0.03); /* Very subtle background on hover */
+            color: #0071e3;
+            background-color: rgba(0, 0, 0, 0.03);
         }
-        /* Specific styling for SecureSign and Sign Up buttons from original live index */
         header nav a.button-style-original {
-            background-color: transparent; /* No background for SecureSign type */
-            color: #424245; /* Muted gray for text */
+            background-color: transparent;
+            color: #424245;
             font-weight: 600;
-            border: 1px solid #dcdcdc; /* Fixed for visibility */
+            border: 1px solid #dcdcdc;
             padding: 0.6rem 1.2rem;
             border-radius: 20px;
             box-shadow: none;
         }
         header nav a.button-style-original:hover {
-            background-color: rgba(0, 0, 0, 0.03); /* Subtle hover background */
-            color: #0071e3; /* Apple blue on hover */
-            transform: none; /* No lift */
+            background-color: rgba(0, 0, 0, 0.03);
+            color: #0071e3;
+            transform: none;
             box-shadow: none;
         }
 
-        header nav a.button-style-main { /* Sign Up button as the primary button */
-            background-color: #0071e3; /* Apple blue */
+        header nav a.button-style-main {
+            background-color: #0071e3;
             color: white;
             padding: 0.6rem 1.2rem;
             border-radius: 20px;
@@ -94,38 +93,37 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         header nav a.button-style-main:hover {
-            background-color: #0077ed; /* Slightly lighter blue on hover */
-            transform: translateY(-1px); /* Subtle lift */
+            background-color: #0077ed;
+            transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
-        /* Adjust spacing for header nav links for larger screens */
         @media (min-width: 768px) {
             header {
-                flex-direction: row; /* Back to row for desktop */
+                flex-direction: row;
             }
             header nav {
-                gap: 0; /* Reset gap for individual margin control on larger screens */
+                gap: 0;
             }
             header nav a:not(.button-style-original):not(.button-style-main) {
-                margin-right: 1.5rem; /* Standard spacing for regular nav items */
+                margin-right: 1.5rem;
             }
-            header nav a.login-button { /* Specific margin for Login button on larger screens */
-                margin-left: auto; /* Pushes Login, SecureSign, Sign Up to the right */
+            header nav a.login-button {
+                margin-left: auto;
             }
-            header nav a.button-style-original { /* SecureSign button next to Login */
-                margin-left: 1rem; /* Space between Login and SecureSign */
-                margin-right: 0.5rem; /* Space between SecureSign and Sign Up */
+            header nav a.button-style-original {
+                margin-left: 1rem;
+                margin-right: 0.5rem;
             }
-            header nav a.button-style-main { /* Sign Up button */
-                margin-left: 0; /* No left margin, follows SecureSign directly */
+            header nav a.button-style-main {
+                margin-left: 0;
             }
         }
 
 
-        /* Hero Section - Clean, bold, and inviting (Original FAA.zone styling) */
+        /* Hero Section */
         .hero-section {
-            background-color: white; /* Changed to white */
+            background-color: white;
             min-height: 70vh;
             padding: 6rem 1.5rem;
             border-bottom-left-radius: 0;
@@ -135,11 +133,11 @@
             position: relative;
             overflow: hidden;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically within the hero section */
             align-items: center;
             text-align: center;
         }
-        /* Canvas for rhythmic background (Original FAA.zone styling) */
         .hero-section canvas {
             position: absolute;
             top: 0;
@@ -154,6 +152,13 @@
             max-width: 800px;
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Adjusted margin-top to bring title to absolute center of the pulse area */
+            margin-top: 50px; /* Changed to a positive value to push content down from the center */
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
         .hero-section h2 {
             font-size: 3.5rem;
@@ -161,22 +166,16 @@
             letter-spacing: -0.03em;
             color: #1d1d1f;
             line-height: 1.1;
+            /* Space between title and buttons remains constant as before */
+            margin-bottom: 15rem; 
         }
         .hero-section h2 span {
             color: #0071e3;
         }
-        .hero-section p {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: #424245;
-            margin-top: 1.5rem;
-            margin-bottom: 2.5rem;
-            line-height: 1.5;
-        }
-        /* CTA button styling for primary button (Explore Ecosystem) */
-        .cta-button {
-            background: #0071e3;
-            color: white;
+        /* No p tag styling as it's removed from HTML */
+        
+        /* CTA button styling */
+        .cta-button, .cta-button-secondary {
             padding: 0.8rem 1.8rem;
             border-radius: 20px;
             font-weight: 600;
@@ -189,38 +188,22 @@
             text-decoration: none;
             height: 50px;
             box-sizing: border-box;
-            flex-shrink: 0;
-            flex-grow: 0;
-            width: 160px;
+            width: 100%; /* Ensure buttons fill their grid cells */
+        }
+        .cta-button {
+            background: #0071e3;
+            color: white;
         }
         .cta-button:hover {
             background-color: #0077ed;
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
-        .cta-button span {
-            display: none;
-        }
-
-        /* Secondary CTA button style - Fixed size for all */
         .cta-button-secondary {
             background-color: #f0f0f0;
             color: #424245;
-            box-shadow: none;
             border: 1px solid #dcdcdc;
-            padding: 0.8rem 1.8rem;
-            font-size: 1rem;
-            border-radius: 20px;
-            height: 50px;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.2;
-            flex-shrink: 0;
-            flex-grow: 0;
-            width: 160px;
+            box-shadow: none;
         }
         .cta-button-secondary:hover {
             background-color: #e8e8ed;
@@ -252,7 +235,7 @@
             line-height: 1.5;
         }
 
-        /* Feature Cards - Minimalist and informative */
+        /* Feature Cards */
         .feature-card {
             background-color: var(--bg-color-light);
             border-radius: 12px;
@@ -282,7 +265,7 @@
             color: var(--muted-text-light);
         }
 
-        /* Share Signal Section - Clean data display */
+        /* Share Signal Section */
         #shareprice {
             background-color: var(--card-bg-light);
             color: var(--text-color-light);
@@ -305,7 +288,7 @@
             font-size: 0.85rem;
         }
 
-        /* Seedwave Growth - Integrated chart */
+        /* Seedwave Growth */
         #seedwave {
             background-color: var(--bg-color-light);
             padding: 6rem 1.5rem;
@@ -325,7 +308,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        /* Founder's Note - Elegant text block */
+        /* Founder's Note */
         section.founders-note-section {
             background-color: var(--card-bg-light);
             color: var(--text-color-light);
@@ -481,7 +464,7 @@
             word-break: break-all;
         }
 
-        /* VaultMesh Executive Summary - Structured and readable */
+        /* VaultMesh Executive Summary */
         #vaultmesh {
             background-color: var(--card-bg-light);
             padding: 6rem 2rem;
@@ -529,7 +512,7 @@
             color: var(--text-color-light);
         }
 
-        /* About Section - Simple and clear */
+        /* About Section */
         #about {
             background-color: var(--bg-color-light);
             padding: 6rem 2rem;
@@ -550,7 +533,7 @@
             margin-right: auto;
         }
 
-        /* Call to Action Section - Prominent and inviting */
+        /* Call to Action Section */
         #cta {
             background: var(--card-bg-light);
             padding: 6rem 2rem;
@@ -572,7 +555,7 @@
             margin-bottom: 2.5rem;
         }
 
-        /* Footer - Minimalist */
+        /* Footer */
         footer {
             background-color: var(--card-bg-light);
             color: var(--muted-text-light);
@@ -600,18 +583,12 @@
             }
             /* Adjust buttons for smaller screens to ensure visibility and wrapping */
             .cta-button, .cta-button-secondary {
-                /* Removed fixed width to allow flex-wrap to distribute them more naturally */
                 width: 100%; /* Take full width on very small screens */
                 max-width: 200px; /* Max width to prevent them from becoming too wide on slightly larger small screens */
                 height: auto; /* Allow height to adjust based on content wrapping */
                 padding: 0.7rem 0.5rem; /* Adjust padding for smaller width */
                 font-size: 0.9rem; /* Smaller font size for mobile */
-                margin: 0.25rem 0; /* Adjust vertical margin for stacking */
-            }
-            .hero-content > div { /* Target the flex container for hero buttons */
-                flex-direction: column; /* Stack buttons vertically on small screens */
-                align-items: center; /* Center stacked buttons */
-                gap: 0.5rem; /* Gap between buttons */
+                margin: 0.25rem auto; /* Center individual buttons when stacked */
             }
 
             header nav {
@@ -680,8 +657,7 @@
         /* Specific adjustment for very small screens if buttons still overflow */
         @media (max-width: 480px) {
             .hero-content > div {
-                flex-direction: column; /* Force stack on very small screens */
-                align-items: center;
+                /* Handled by grid-cols-1 now, ensuring full width and auto margins */
             }
             .cta-button, .cta-button-secondary {
                 width: 90%; /* Adjust width to fit narrower screens */
@@ -726,62 +702,62 @@
         <canvas id="rhythmicCanvas"></canvas>
 
         <div class="hero-content">
-            <h2 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+            <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
                 Welcome to <span class="text-blue-600">VaultMesh™</span>
             </h2>
-            <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">
-                Your secure and scalable platform for data integrity and distributed solutions.
-                Explore our cutting-edge technologies designed to empower your digital infrastructure.
-            </p>
-            <div class="flex flex-wrap justify-center items-center gap-2">
-                <a href="https://faa.zone/omnigrid.html" class="cta-button">
+            <!-- Removed the descriptive paragraph as requested -->
+
+            <!-- Buttons now explicitly moved down by increased margin-top on their grid container -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mx-auto w-full max-w-6xl mt-40"> 
+                <a href="https://faa.zone/omnigrid.html" class="cta-button w-full">
                     Explore Ecosystem
                 </a>
-                <a href="https://fruitful.faa.zone" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://fruitful.faa.zone" target="_blank" class="cta-button cta-button-secondary w-full">
                     Fruitful™
                 </a>
-                <a href="https://baobab.faa.zone" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://baobab.faa.zone" target="_blank" class="cta-button cta-button-secondary w-full">
                     Baobab Network
                 </a>
-                <a href="https://fruitfulcratedance.com/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://fruitfulcratedance.com/" target="_blank" class="cta-button cta-button-secondary w-full">
                     Fruitful Crate Dance
                 </a>
-                <a href="https://vaultmesh.faa.zone/fruitful-brand-packages.html" target="_blank" class="cta-button cta-button-secondary">
+                   <a href="https://vaultmesh.faa.zone/fruitful-brand-packages.html" target="_blank" class="cta-button cta-button-secondary">
                     Global 💰 Packages
                 </a>
-                <a href="products.html" target="_blank" class="cta-button cta-button-secondary">
+                <a href="products.html" target="_blank" class="cta-button cta-button-secondary w-full">
                     Enter Index
                 </a>
-                <a href="https://sellers.takealot.com/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://sellers.takealot.com/" target="_blank" class="cta-button cta-button-secondary w-full">
                     Takealot Seller
                 </a>
-                <a href="https://www.zoho.com/" target="_blank" class="cta-button cta-button-secondary">
-                    Vault Email 
+                <a href="https://www.zoho.com/" target="_blank" class="cta-button cta-button-secondary w-full">
+                    Vault Email
                 </a>
-                <a href="https://www.paypal.com/signin/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://www.paypal.com/signin/" target="_blank" class="cta-button cta-button-secondary w-full">
                     Paypal Access
                 </a>
-                <a href="https://vercel.com/faa-systems-projects/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://vercel.com/faa-systems-projects/" target="_blank" class="cta-button cta-button-secondary w-full">
                     Vecel Access
                 </a>
-                <a href="https://github.com/heyns1000/" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://github.com/heyns1000/" target="_blank" class="cta-button cta-button-secondary w-full">
                     Github Access
                      </a>
-                <a href="https://dash.cloudflare.com/login" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://dash.cloudflare.com/login" target="_blank" class="cta-button cta-button-secondary w-full">
                     Cloudfare Access
                     </a>
-                <a href="https://accounts.hetzner.com/account/masterdata" target="_blank" class="cta-button cta-button-secondary">
+                <a href="https://accounts.hetzner.com/account/masterdata" target="_blank" class="cta-button cta-button-secondary w-full">
                     Hetzner Cloud
-                    <a href="about.html" target="_blank" class="cta-button cta-button-secondary">
+                </a>
+                <a href="about.html" target="_blank" class="cta-button cta-button-secondary w-full">
                     About us
                 </a>
-                 <a href="https://faa.zone/legal/" target="_blank" class="cta-button cta-button-secondary">
-                    Legal Access   
+                 <a href="https://faa.zone/legal/" target="_blank" class="cta-button cta-button-secondary w-full">
+                    Legal Access
                 </a>
-                <a href="https://accounting.sageone.co.za/Maintenance/OpenAndManageCompanyMaintenance.aspx" target="_blank" class="cta-button cta-button-secondary">
-                    Sage Access   
+                <a href="https://accounting.sageone.co.za/Maintenance/OpenAndManageCompanyMaintenance.aspx" target="_blank" class="cta-button cta-button-secondary w-full">
+                    Sage Access
                 </a>
-                
+
             </div>
         </div>
     </section>
@@ -933,7 +909,7 @@
 
             <p>VaultMesh™ powers high-tier operations like HSOMNI9000™, enabling Diamond-tier deployments, cross-sector scroll claims, and enterprise-scale content monetization with full compliance and provenance.</p>
 
-            <p>The framework is deeply integrated with platforms such as <code>vault.faa.zone™</code>, where scrolls tied to brands like Fruitful Global Planet™ are securely hosted, organized into structured sectors, and deployed through FAA.Zone™-compliant channels.</p>
+            <p>The framework is deeply integrated with platforms such as `vault.faa.zone™`, where scrolls tied to brands like Fruitful Global Planet™ are securely hosted, organized into structured sectors, and deployed through FAA.Zone™-compliant channels.</p>
 
             <p>A critical operator in this ecosystem is HSOMNI9000™, the certified scroll class which governs Diamond-tier logic, enforces 10–11% royalty triggers, and auto-deploys ScrollClaims™ with real-time ClaimRoot™ verification.</p>
 
@@ -1283,7 +1259,8 @@
                     ctx.lineWidth = 1.5;
 
                     for (let x = 0; x <= rhythmicCanvas.width; x += 10) {
-                        const y = Math.sin(x * lineFrequency + time + offset) * lineAmplitude + rhythmicCanvas.height / 2;
+                        // The 'y' calculation for the pulse remains unchanged from the last confirmed good version
+                        const y = Math.sin(x * lineFrequency + time + offset) * lineAmplitude + rhythmicCanvas.height * 0.25;
                         if (x === 0) {
                             ctx.moveTo(x, y);
                         } else {
