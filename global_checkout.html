@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌐 VaultMesh™ | AgroChain™ Core Protocol Overview - MindLift™ Theme</title>
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=BAAGdPecRsf6dw_nIrWqUen0GdW0UsBZapp1Gn62xkPdD-Vqc-4lqWAidKK8LOObXux8pHJGjXknZoar6Q&components=hosted-buttons&disable-funding=venmo&currency=USD">
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -267,7 +270,7 @@
             border-color: var(--pro-border-light);
         }
         .dark-mode .pricing-card.pro-card {
-            background-color: var(--pro-card-bg-dark);
+            background-color: var(--pro-card-dark);
             border-color: var(--pro-border-dark);
         }
         .pricing-card.pro-card .price-button {
@@ -289,7 +292,7 @@
             border-color: var(--enterprise-border-light);
         }
         .dark-mode .pricing-card.enterprise-card {
-            background-color: var(--enterprise-card-bg-dark);
+            background-color: var(--enterprise-card-dark);
             border-color: var(--enterprise-border-dark);
         }
         .pricing-card.enterprise-card .price-button {
@@ -368,56 +371,16 @@
             color: var(--enterprise-button-color);
         }
 
-        .pricing-card .price-button {
-            display: inline-block;
-            padding: 12px 30px;
-            /* background-color: var(--mindlift-color); -- This is now overridden by specific card styles */
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            width: 100%; /* Make buttons full width */
-            margin-top: auto; /* Push button to the bottom */
-        }
-        .pricing-card .price-button:hover {
-            /* background-color: var(--mindlift-accent-color); -- This is now overridden by specific card styles */
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        /* Styles for the quantity selector */
-        .pricing-card .quantity-selector {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center quantity selector components */
-            gap: 5px;
-            margin-bottom: 15px;
-            width: 100%;
-        }
-        .pricing-card .quantity-selector label {
-            font-size: 0.9rem;
-            color: var(--text-color-light);
-            margin-bottom: 0;
-        }
-        .dark-mode .pricing-card .quantity-selector label {
-            color: var(--text-color-dark);
-        }
-        .pricing-card .quantity-selector select {
-            width: 80px;
-            padding: 8px 10px;
-            border: 1px solid var(--border-color-light);
-            border-radius: 6px;
-            background-color: var(--bg-color-light);
-            color: var(--text-color-light);
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        .dark-mode .pricing-card .quantity-selector select {
-            background-color: var(--bg-color-dark);
-            border-color: var(--border-color-dark);
-            color: var(--text-color-dark);
+        /* Style for the direct URL link, made to look like a button */
+        /* Note: This styling is applied to the raw URL text,
+           not a distinct button element or div. */
+        .direct-url-text {
+            display: block; /* To make it take its own line */
+            text-align: center; /* To center the text */
+            color: blue; /* Default link color, can be styled */
+            text-decoration: underline; /* Default link underline, can be styled */
+            margin-top: 15px; /* Spacing below content */
+            word-break: break-all; /* Break long URLs */
         }
 
 
@@ -471,9 +434,6 @@
         .metadata-card h3 {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: var(--text-color-light);
         }
         .dark-mode .metadata-card h3 {
             color: var(--text-color-dark);
@@ -657,8 +617,7 @@
         }
     </style>
 </head>
-<body class="light-mode antialiased leading-normal">
-
+<body>
     <main>
         <section id="overview" class="mindlift-hero">
             <div class="container">
@@ -675,52 +634,52 @@
                     <div class="feature-card">
                         <i class="fas fa-link icon"></i>
                         <h3>Direct Integration</h3>
-                        <p>Direct integration with FAA 🧾 Professional Services Mesh™.</p>
+                        <p>Direct integration with FAA 🧾 Professional Services Mes</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-sync-alt icon"></i>
                         <h3>Advanced Data Sync</h3>
-                        <p>Real-time data synchronization with YieldNode™ for up-to-the-minute insights into your agricultural operations.</p>
+                        <p>Real-time data synchronization with YieldNode™ for up-to-t</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-shield-alt icon"></i>
                         <h3>Real-time Compliance</h3>
-                        <p>Ensure robust regulatory adherence with VaultLink™ (agriculture specific) for continuous monitoring and effortless reporting.</p>
+                        <p>Ensure robust regulatory adherence with VaultLink™ (agric</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-expand-arrows-alt icon"></i>
                         <h3>Scalable Architecture</h3>
-                        <p>Unleash massive scalability for x21 power expansion, ensuring your system grows seamlessly with your agricultural demands.</p>
+                        <p>Unleash massive scalability for x21 power expansion, ens</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-chart-line icon"></i>
                         <h3>Predictive Analytics</h3>
-                        <p>Leverage our advanced predictive analytics module for AgroChain™ performance, anticipating harvest trends and optimizing resource allocation.</p>
+                        <p>Leverage our advanced predictive analytics module for Agro</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-puzzle-piece icon"></i>
                         <h3>Open API Access</h3>
-                        <p>Gain full API access for seamless interoperability, allowing custom integrations and extending functionality to fit your unique needs.</p>
+                        <p>Gain full API access for seamless interoperability, allowin</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-lock icon"></i>
                         <h3>Blockchain Security</h3>
-                        <p>Benefit from immutable, blockchain-secured data provenance, ensuring transparency and trust across your entire supply chain from farm to market.</p>
+                        <p>Benefit from immutable, blockchain-secured data provenanc</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-file-invoice icon"></i>
                         <h3>One-click Reporting</h3>
-                        <p>Generate comprehensive regulatory reports and detailed audit trails effortlessly, ensuring compliance with local and international agricultural standards.</p>
+                        <p>Generate comprehensive regulatory reports and detailed au</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-network-wired icon"></i>
                         <h3>Self-optimizing Nodes</h3>
-                        <p>Achieve peak operational efficiency with intelligent, self-optimizing node distribution that dynamically adapts to demand across your agricultural network.</p>
+                        <p>Achieve peak operational efficiency with intelligent, self</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-brain icon"></i>
                         <h3>Secure Multi-party Computation</h3>
-                        <p>Enable secure, collaborative data analysis with multiple stakeholders while preserving privacy and protecting sensitive agricultural data assets.</p>
+                        <p>Enable secure, collaborative data analysis with multiple st</p>
                     </div>
                 </div>
             </div>
@@ -812,7 +771,7 @@
             <div class="container">
                 <h2 class="section-title">Flexible Pricing for Every Operation</h2>
                 <div class="pricing-grid">
-                    <div class="pricing-card" style="grid-column: 1 / -1;">
+                    <div class="pricing-card">
                         <h3>🌱 Agriculture & Biotech Starter Package</h3>
                         <p class="price">$30.52</p>
                         <p class="price-description">
@@ -835,7 +794,12 @@
                                 <option value="5">5</option>
                             </select>
                         </div>
-                        <div id="paypal-container-STARTER"></div>
+                        <div id="paypal-container-EMWGPGHNN8Y8E"></div>
+                        <script>
+                          paypal.HostedButtons({
+                            hostedButtonId: "EMWGPGHNN8Y8E",
+                          }).render("#paypal-container-EMWGPGHNN8Y8E")
+                        </script>
                     </div>
 
                     <div class="pricing-card highlight pro-card">
@@ -861,7 +825,12 @@
                                 <option value="5">5</option>
                             </select>
                         </div>
-                        <div id="paypal-container-PRO"></div>
+                        <div id="paypal-container-QGU3ZUQCMD49Q"></div>
+                        <script>
+                          paypal.HostedButtons({
+                            hostedButtonId: "QGU3ZUQCMD49Q",
+                          }).render("#paypal-container-QGU3ZUQCMD49Q")
+                        </script>
                     </div>
 
                     <div class="pricing-card enterprise-card">
@@ -887,7 +856,12 @@
                                 <option value="5">5</option>
                             </select>
                         </div>
-                        <div id="paypal-container-ENTERPRISE"></div>
+                        <div id="paypal-container-9C88S44F93M5J"></div>
+                        <script>
+                          paypal.HostedButtons({
+                            hostedButtonId: "9C88S44F93M5J",
+                          }).render("#paypal-container-9C88S44F93M5J")
+                        </script>
                     </div>
                 </div>
             </div>
@@ -905,7 +879,7 @@
             <div class="logo">
                 <span class="logo-faa">FAA.zone™</span> / <span class="logo-buildnest">VaultMesh™</span>
             </div>
-            <p class="copyright">&copy; 2025 FAA.zone™. All systems, symbols, and brand echoes protected by the Omni Present Copyright™.</p>
+            <p class="copyright">&copy; 2025 Fruitful Holdings (Pty) Ltd. All systems, symbols, and brand echoes protected by the Omni Present Copyright™.</p>
         </div>
         <div class="footer-links">
             <div class="footer-column">
@@ -938,48 +912,9 @@
         </div>
     </footer>
 
-    <script 
-      src="https://www.paypal.com/sdk/js?client-id=BAAGdPecRsf6dw_nIrWqUen0GdW0UsBZapp1Gn62xkPdD-Vqc-4lqWAidKK8LOObXux8pHJGjXknZoar6Q&components=hosted-buttons&disable-funding=venmo&currency=USD">
-    </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // PayPal Button Render Logic
-
-            // Starter Package
-            // This button will display the price associated with EMWGPGHNN8Y8E in your PayPal account.
-            paypal.HostedButtons({
-                hostedButtonId: "EMWGPGHNN8Y8E", 
-            }).render("#paypal-container-STARTER");
-
-            // Pro Package
-            // This now renders a PayPal-branded button.
-            // IMPORTANT: This button will display the price associated with EMWGPGHNN8Y8E.
-            // For LIVE CHECKOUT to show $76.30, you MUST replace "EMWGPGHNN8Y8E" below
-            // with the actual, UNIQUE Hosted Button ID that corresponds to your $76.30 product/subscription in your PayPal account.
-            paypal.HostedButtons({
-                hostedButtonId: "EMWGPGHNN8Y8E", // Using this ID to ensure PayPal button renders visually
-            }).render("#paypal-container-PRO");
-
-            // Enterprise Package
-            // This now renders a PayPal-branded button.
-            // IMPORTANT: This button will display the price associated with EMWGPGHNN8Y8E.
-            // For LIVE CHECKOUT to show $152.60, you MUST replace "EMWGPGHNN8Y8E" below
-            // with the actual, UNIQUE Hosted Button ID that corresponds to your $152.60 product/subscription in your PayPal account.
-            paypal.HostedButtons({
-                hostedButtonId: "EMWGPGHNN8Y8E", // Using this ID to ensure PayPal button renders visually
-            }).render("#paypal-container-ENTERPRISE");
-
-
-            // General theme and quantity selector logic (remains as is)
-            const body = document.body;
-            const savedMode = localStorage.getItem('themeMode');
-            if (savedMode) {
-                body.classList.add(savedMode);
-            } else {
-                body.classList.add('light-mode');
-            }
-
+            // Quantity selector logic (remains as is)
             const quantitySelects = document.querySelectorAll('.quantity-selector select');
             quantitySelects.forEach(select => {
                 select.addEventListener('change', (event) => {
