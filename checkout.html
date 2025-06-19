@@ -953,30 +953,23 @@
             }).render("#paypal-container-STARTER");
 
             // Pro Package
-            // Using the direct payment link you provided for the Pro package.
-            const proContainer = document.getElementById('paypal-container-PRO');
-            if (proContainer) {
-                proContainer.innerHTML = `
-                    <a href="https://www.paypal.com/ncp/payment/QGU3ZUQCMD49Q" 
-                       class="price-button" 
-                       target="_blank" rel="noopener noreferrer">
-                       Subscribe Now
-                    </a>
-                `;
-            }
+            // This now renders a PayPal-branded button.
+            // IMPORTANT: This button will display the price associated with EMWGPGHNN8Y8E.
+            // For LIVE CHECKOUT to show $76.30, you MUST replace "EMWGPGHNN8Y8E" below
+            // with the actual, UNIQUE Hosted Button ID that corresponds to your $76.30 product/subscription in your PayPal account.
+            paypal.HostedButtons({
+                hostedButtonId: "EMWGPGHNN8Y8E", // Using this ID to ensure PayPal button renders visually
+            }).render("#paypal-container-PRO");
 
             // Enterprise Package
-            // Using the direct payment link you provided for the Enterprise package.
-            const enterpriseContainer = document.getElementById('paypal-container-ENTERPRISE');
-            if (enterpriseContainer) {
-                enterpriseContainer.innerHTML = `
-                    <a href="https://www.paypal.com/ncp/payment/9C88S44F93M5J" 
-                       class="price-button" 
-                       target="_blank" rel="noopener noreferrer">
-                       Subscribe Now
-                    </a>
-                `;
-            }
+            // This now renders a PayPal-branded button.
+            // IMPORTANT: This button will display the price associated with EMWGPGHNN8Y8E.
+            // For LIVE CHECKOUT to show $152.60, you MUST replace "EMWGPGHNN8Y8E" below
+            // with the actual, UNIQUE Hosted Button ID that corresponds to your $152.60 product/subscription in your PayPal account.
+            paypal.HostedButtons({
+                hostedButtonId: "EMWGPGHNN8Y8E", // Using this ID to ensure PayPal button renders visually
+            }).render("#paypal-container-ENTERPRISE");
+
 
             // General theme and quantity selector logic (remains as is)
             const body = document.body;
