@@ -3580,7 +3580,7 @@ input:not(:checked) + .slider .monthly-text {
                         const sectionId = event.target.dataset.section;
                         showAdminSection(sectionId, event.target);
                     });
-                });
+                }); 
 
                 // Manually trigger the initial active section
                 const initialNavLink = document.querySelector('.admin-nav-link[data-section="add-brand-section"]');
