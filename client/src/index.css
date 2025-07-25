@@ -1,0 +1,631 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for Theming */
+:root {
+  /* Light Theme Defaults */
+  --bg-color-primary: hsl(0, 0%, 96.1%);
+  --text-color-primary: hsl(0, 0%, 11.4%);
+  --text-color-secondary: hsl(0, 0%, 25.9%);
+  --primary-blue: hsl(207, 90%, 54%);
+  --header-bg: hsla(0, 0%, 100%, 0.9);
+  --header-border: hsl(0, 0%, 91%);
+  --card-bg: hsl(0, 0%, 100%);
+  --card-border: hsl(0, 0%, 91%);
+  --muted-text: hsl(0, 0%, 43.1%);
+  --code-bg: hsl(0, 0%, 94.1%);
+  --code-text: hsl(0, 0%, 11.4%);
+  --button-secondary-bg: hsl(0, 0%, 94.1%);
+  --button-secondary-border: hsl(0, 0%, 86.3%);
+  --button-secondary-hover-bg: hsl(0, 0%, 91%);
+  --button-secondary-hover-text: hsl(0, 0%, 11.4%);
+  --hero-h2-color: hsl(0, 0%, 11.4%);
+  --vault-cyan: hsl(187, 100%, 42%);
+  --vault-orange: hsl(36, 100%, 50%);
+  --hyper-background-blend: hsla(187, 100%, 42%, 0.05);
+  --hyper-primary-color: hsl(187, 100%, 42%);
+  --hyper-text-color: hsl(187, 100%, 42%);
+  --mindlift-purple: hsl(249, 80%, 67%);
+  --mindlift-accent: hsl(249, 60%, 73%);
+
+  /* shadcn/ui variables */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+}
+
+/* Dark Mode Overrides */
+.dark {
+  --bg-color-primary: hsl(220, 39%, 11%);
+  --text-color-primary: hsl(210, 40%, 91%);
+  --text-color-secondary: hsl(215, 20%, 81%);
+  --primary-blue: hsl(207, 73%, 69%);
+  --header-bg: hsla(220, 39%, 11%, 0.9);
+  --header-border: hsl(215, 25%, 27%);
+  --card-bg: hsl(215, 25%, 27%);
+  --card-border: hsl(217, 19%, 35%);
+  --muted-text: hsl(215, 16%, 65%);
+  --code-bg: hsl(0, 0%, 3.9%);
+  --code-text: hsl(150, 100%, 66%);
+  --button-secondary-bg: hsl(217, 19%, 35%);
+  --button-secondary-border: hsl(215, 13%, 52%);
+  --button-secondary-hover-bg: hsl(249, 95%, 63%);
+  --button-secondary-hover-text: hsl(0, 0%, 100%);
+  --hero-h2-color: hsl(210, 40%, 91%);
+  --vault-cyan: hsl(187, 100%, 69%);
+  --vault-orange: hsl(36, 100%, 70%);
+  --hyper-background-blend: hsla(187, 100%, 69%, 0.1);
+  --hyper-primary-color: hsl(187, 100%, 69%);
+  --hyper-text-color: hsl(187, 100%, 69%);
+
+  /* shadcn/ui dark variables */
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+/* Hyper Mode Overrides */
+.hyper-mode {
+  --text-color-primary: var(--hyper-text-color);
+  --text-color-secondary: var(--hyper-text-color);
+  --primary-blue: var(--hyper-primary-color);
+  --header-bg: hsla(187, 100%, 42%, 0.1);
+  --header-border: var(--hyper-primary-color);
+  --card-bg: hsla(187, 100%, 42%, 0.05);
+  --card-border: var(--hyper-primary-color);
+  --muted-text: var(--hyper-text-color);
+  --button-secondary-bg: hsla(187, 100%, 42%, 0.1);
+  --button-secondary-border: var(--hyper-primary-color);
+  --button-secondary-hover-bg: hsla(187, 100%, 42%, 0.2);
+  --button-secondary-hover-text: hsl(0, 0%, 100%);
+  --hero-h2-color: var(--hyper-text-color);
+}
+
+.dark.hyper-mode {
+  --header-bg: hsla(187, 100%, 69%, 0.1);
+  --card-bg: hsla(187, 100%, 69%, 0.05);
+  --button-secondary-hover-bg: hsla(187, 100%, 69%, 0.2);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color-primary);
+    color: var(--text-color-primary);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5rem;
+    transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+  }
+
+  body.hyper-mode {
+    background-image: linear-gradient(rgba(0,0,0,0.01), var(--hyper-background-blend));
+  }
+}
+
+/* Header */
+.header {
+  background-color: var(--header-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--header-border);
+  padding: 1rem 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  color: var(--text-color-primary);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.header nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.header nav a {
+  color: var(--text-color-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.header nav a:hover {
+  color: var(--primary-blue);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark .header nav a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.header nav a.button-style-original {
+  background-color: transparent;
+  color: var(--text-color-secondary);
+  font-weight: 600;
+  border: 1px solid var(--button-secondary-border);
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+}
+
+.header nav a.button-style-original:hover {
+  background-color: var(--button-secondary-hover-bg);
+  color: var(--button-secondary-hover-text);
+}
+
+.header nav a.button-style-main {
+  background-color: var(--primary-blue);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.header nav a.button-style-main:hover {
+  background-color: var(--primary-blue);
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.theme-language-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle, .hyper-toggle {
+  cursor: pointer;
+  width: 40px;
+  height: 22px;
+  background-color: var(--button-secondary-border);
+  border-radius: 11px;
+  position: relative;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle::before, .hyper-toggle::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.dark .theme-toggle {
+  background-color: var(--primary-blue);
+}
+
+.dark .theme-toggle::before {
+  transform: translateX(18px);
+  background-color: var(--text-color-primary);
+}
+
+.hyper-mode .hyper-toggle {
+  background-color: var(--hyper-primary-color);
+}
+
+.hyper-mode .hyper-toggle::before {
+  transform: translateX(18px);
+  background-color: white;
+}
+
+.language-select {
+  background-color: var(--button-secondary-bg);
+  color: var(--text-color-secondary);
+  border: 1px solid var(--button-secondary-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.language-select:hover {
+  background-color: var(--button-secondary-hover-bg);
+  border-color: var(--primary-blue);
+}
+
+/* Hero Section */
+.hero-section {
+  background-color: var(--card-bg);
+  padding: 10rem 1.5rem;
+  color: var(--text-color-primary);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-section canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.hero-content {
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.hero-section h2 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--hero-h2-color);
+  line-height: 1.1;
+  margin-bottom: 6rem;
+}
+
+.hero-section h2 span {
+  color: var(--primary-blue);
+}
+
+/* MindLift Hero Variation */
+.mindlift-hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, var(--mindlift-purple) 0%, var(--mindlift-accent) 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 1200px;
+  box-shadow: 0 10px 30px rgba(123, 104, 238, 0.4);
+}
+
+.mindlift-hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.05em;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.mindlift-hero p {
+  font-size: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto 40px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* CTA Buttons */
+.cta-button, .cta-button-secondary {
+  padding: 0.8rem 1.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  height: 50px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.cta-button {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.cta-button:hover {
+  background-color: var(--primary-blue);
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.cta-button-secondary {
+  background-color: var(--button-secondary-bg);
+  color: var(--text-color-secondary);
+  border: 1px solid var(--button-secondary-border);
+}
+
+.cta-button-secondary:hover {
+  background-color: var(--button-secondary-hover-bg);
+  color: var(--button-secondary-hover-text);
+}
+
+/* Sections */
+.section {
+  padding: 8rem 2rem;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+  text-align: center;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section h2, .section h3 {
+  color: var(--text-color-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+}
+
+.section p {
+  color: var(--text-color-secondary);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* Feature Cards */
+.feature-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid var(--card-border);
+  text-align: left;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.feature-card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-blue);
+}
+
+.feature-card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: var(--muted-text);
+}
+
+/* Terminal Styling */
+.terminal-container {
+  background-color: var(--code-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  color: var(--code-text);
+  min-height: 400px;
+  position: relative;
+}
+
+.terminal-btn {
+  background-color: var(--button-secondary-bg);
+  color: var(--text-color-secondary);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid var(--button-secondary-border);
+  cursor: pointer;
+}
+
+.terminal-btn:hover {
+  background-color: var(--button-secondary-hover-bg);
+  color: var(--button-secondary-hover-text);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Pricing Cards */
+.pricing-card {
+  background-color: var(--card-bg);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  height: 100%;
+  text-align: left;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.pricing-card.highlight {
+  border-color: var(--mindlift-purple);
+  box-shadow: 0 8px 25px rgba(123, 104, 238, 0.3);
+  transform: translateY(-8px);
+}
+
+.pricing-card h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-color-primary);
+  text-align: center;
+}
+
+.pricing-card .price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--primary-blue);
+}
+
+.pricing-card .price-description {
+  font-size: 0.95rem;
+  color: var(--muted-text);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Share Price Section */
+.share-price-section {
+  background-color: var(--card-bg);
+  color: var(--text-color-primary);
+  padding: 4rem 1.5rem;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.share-price-section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.price-display {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  letter-spacing: -0.02em;
+}
+
+.timestamp {
+  color: var(--muted-text);
+  font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    padding: 1rem 2rem;
+  }
+  
+  .header nav {
+    gap: 0;
+    margin-top: 0;
+  }
+  
+  .header nav a:not(.button-style-original):not(.button-style-main) {
+    margin-right: 1.5rem;
+  }
+  
+  .header nav a.button-style-original {
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section h2 {
+    font-size: 2.5rem;
+  }
+  
+  .mindlift-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .pricing-card {
+    max-width: 100%;
+  }
+}
