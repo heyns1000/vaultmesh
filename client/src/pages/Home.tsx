@@ -4,6 +4,7 @@ import PriceChart from "../components/PriceChart";
 import Terminal from "../components/Terminal";
 import VipButtonsGrid from "../components/VipButtonsGrid";
 import URLBackupSystem from "../components/URLBackupSystem";
+import SecurityStatusIndicator from "../components/SecurityStatusIndicator";
 
 export default function Home() {
   const features = [
@@ -126,6 +127,11 @@ export default function Home() {
           {/* URL Backup & Restore System */}
           <div className="mt-12">
             <URLBackupSystem />
+          </div>
+          
+          {/* Security Status Indicator */}
+          <div className="mt-6">
+            <SecurityStatusIndicator />
           </div>
         </div>
       </section>

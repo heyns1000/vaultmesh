@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Terminal, X, Maximize2, Minimize2, RefreshCw, Home, ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { Terminal, X, Maximize2, Minimize2, RefreshCw, Home, ArrowLeft, ArrowRight, ExternalLink, Shield } from 'lucide-react';
+import { isPlatformSecure, getSecurityMessage } from '@/data/platformSecurity';
+import PlatformAlert from './PlatformAlert';
 
 interface EmbeddedTerminalProps {
   isVisible: boolean;
@@ -234,7 +236,14 @@ export const EmbeddedTerminal: React.FC<EmbeddedTerminalProps> = ({
                           setIsLoading(false);
                         }}
                       />
-                      {/* Fallback for iframe blocking */}
+                      
+                      {/* Platform Security Alert */}
+                      <PlatformAlert 
+                        url={currentUrl}
+                        onOpenExternal={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}
+                      />
+                      
+                      {/* Standard Open in New Tab Button */}
                       <div className="absolute inset-0 pointer-events-none">
                         <div className="absolute top-4 right-4 z-10">
                           <Button
