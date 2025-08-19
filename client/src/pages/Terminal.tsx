@@ -1,4 +1,5 @@
 import Terminal from "../components/Terminal";
+import VipButtonsGrid from "../components/VipButtonsGrid";
 
 export default function TerminalPage() {
   return (
@@ -89,6 +90,13 @@ export default function TerminalPage() {
               Contact Support
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* Sector Terminals Section - VIP Terminal Access */}
+      <section className="section bg-gray-950 border-t border-blue-500/20">
+        <div className="container mx-auto px-4">
+          <VipButtonsGrid section="terminal" />
         </div>
       </section>
     </main>

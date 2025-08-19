@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import PulseCanvas from "../components/PulseCanvas";
 import PriceChart from "../components/PriceChart";
 import Terminal from "../components/Terminal";
+import VipButtonsGrid from "../components/VipButtonsGrid";
 
 export default function Home() {
   const features = [
@@ -109,8 +110,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* VIP Admin Panel Access - Hero Section Buttons */}
+      <section className="section bg-gray-950 border-t border-green-500/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-green-400 mb-4">🔐 Heyns Admin Panel Sections</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Essential VIP access points from the original VaultMesh ecosystem. These links preserve 
+              the complete administrative infrastructure and external platform integrations.
+            </p>
+          </div>
+          <VipButtonsGrid section="hero" columns={4} />
+        </div>
+      </section>
+
       {/* Features Section */}
-      <section className="section">
+      <section className="section" id="features">
         <div className="container mx-auto px-4">
           <h2>Core Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

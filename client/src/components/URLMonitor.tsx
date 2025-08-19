@@ -25,7 +25,7 @@ export default function URLMonitor() {
   const [urlBackups, setUrlBackups] = useState<URLBackup[]>([]);
   const [sessionId] = useState(() => `vm-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
 
-  // VaultMesh URL mapping for complete ecosystem coverage
+  // VaultMesh URL mapping for complete ecosystem coverage including VIP URLs
   const vaultMeshUrls = {
     // Core Navigation URLs from original HTML
     '/': 'VaultMesh Home - Main Dashboard',
@@ -40,17 +40,20 @@ export default function URLMonitor() {
     '/packages': 'Global Packages - Pricing & Subscriptions',
     '/agrochain': 'AgroChain Core Protocol Overview',
     '/agrochain/details': 'AgroChain Detailed Implementation',
+    '/analytics': 'VaultMesh Analytics Dashboard',
     '/login': 'VaultMesh Authentication Portal',
     '/signup': 'VaultMesh Registration Portal',
     
     // Feature URLs from footer links
     '/features': 'VaultMesh Core Features',
+    '#features': 'VaultMesh Core Features Anchor',
     '/pricing': 'VaultMesh Pricing Overview',
     '/security': 'VaultMesh Security Framework',
     '/integrations': 'VaultMesh Integration Hub',
     
     // Company URLs  
     '/about': 'About VaultMesh & Fruitful Team',
+    '#about': 'About VaultMesh Anchor',
     '/careers': 'VaultMesh Career Opportunities',
     '/press': 'VaultMesh Press & Media',
     '/contact': 'VaultMesh Contact & Support',
@@ -71,7 +74,35 @@ export default function URLMonitor() {
     // Subscription URLs
     '/subscribe/starter': 'Agriculture & Biotech Starter Package',
     '/subscribe/pro': 'Agriculture & Biotech Pro Package',
-    '/subscribe/enterprise': 'Agriculture & Biotech Enterprise Package'
+    '/subscribe/enterprise': 'Agriculture & Biotech Enterprise Package',
+    
+    // VIP External URLs (tracked for analytics)
+    'https://faa.zone/omnigrid': 'OmniGrid Infrastructure Platform',
+    'https://fruitful.faa.zone': 'Fruitful Platform',
+    'https://baobab.faa.zone': 'Baobab System',
+    'https://fruitfulcratedance.com/': 'Fruitful Crate Dance',
+    'https://vaultmesh.faa.zone/fruitful-brand-packages.html': 'VaultMesh Brand Packages',
+    'https://seedwave.faa.zone/ecosystem-dashboard.html': 'Seedwave Ecosystem Dashboard',
+    'https://faa.zone/careers/hiring-homepage.html': 'FAA Zone Careers',
+    'https://faa.zone/legal/securesign.html': 'FAA Zone SecureSign',
+    'https://faa.zone/contact-us.html': 'FAA Zone Contact',
+    
+    // Anchor sections from original HTML
+    '#shareprice': 'Share Price Signal Section',
+    '#vault-access': 'Vault Terminal Access Section',
+    '#treaty': 'Treaty System Section',
+    '#vaultmesh': 'VaultMesh Executive Summary',
+    
+    // Terminal access files
+    'vault-master.html': 'VaultMaster Terminal',
+    'cube-lattice.html': 'Cube Lattice GPT Terminal',
+    'global-view.html': 'Global View GPT Terminal',
+    'freight-ops.html': 'Freight Ops GPT Terminal',
+    'loop-watch.html': 'Loop Watch GPT Terminal',
+    'seedwave.html': 'Seedwave GPT Terminal',
+    'distribution.html': 'Distribution GPT Terminal',
+    'signal.html': 'Signal GPT Terminal',
+    'faa-brands.html': '7038 FAA Brands Terminal'
   };
 
   // URL backup system for routing preservation
