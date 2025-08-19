@@ -33,7 +33,7 @@ export const heroSectionUrls = {
   alibabaAccount: "https://login.alibaba.com/newlogin/icbuLogin.htm?defaultActive=signIn&return_url=https%3A%2F%2Fwww.alibaba.com%2F%3Fsrc%3Dsem_ggl%26field%3DUG%26from%3Dsem_ggl%26cmpgn%3D9922923274%26adgrp%3D97780323342%26fditm%3D%26tgt%3Dkwd-482944541254%26locintrst%3D%26locphyscl%3D1028682%26mtchtyp%3De%26ntwrk%3Dg%26device%3Dc%26dvcmdl%3D%26creative%3D598857653475%26plcmnt%3D%26plcmntcat%3D%26aceid%3D%26position%3D%26gad_source%3D1%26gad_campaignid%3D9922923274%26gbraid%3D0AAAAAD8m77qRAZex2ej01gArx6VezE9m5%26gclid%3DCjwKCAjw6s7CBhACEiwAuHQckkoZ8x6add65vgObqo7p06J8PMrqd9Jj5d3QDQk02m9K2MLM2Q3hURoCWgkQAvD_BwE&_lang=en_US",
   homemart: "https://homemart.africa/",
   gemini: "https://gemini.google.com/",
-  banimal: "https://samfox.faa.zone/",
+  banimal: "https://www.clmhosting.co.za/banimal/",
   seedwave: "https://seedwave.faa.zone/global.html",
   respitories: "https://legal.faa.zone/respitories/index.html",
   replitFruitful: "https://replit.com/t/fruitful-global/",
@@ -232,7 +232,7 @@ export const vipButtons = [
     label: "🦊 Banimal™",
     url: heroSectionUrls.banimal,
     type: "secondary",
-    description: "SamFox Banimal Platform"
+    description: "CLM Hosting - Designer Platform for App Development"
   }
 ];
 

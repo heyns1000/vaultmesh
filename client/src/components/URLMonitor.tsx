@@ -88,6 +88,7 @@ export default function URLMonitor() {
     'https://faa.zone/contact-us.html': 'FAA Zone Contact',
     'https://replit.com/t/fruitful-global/': 'Replit Fruitful Global Team',
     'https://login.xero.com/identity/user/login': 'Xero Accounting Login',
+    'https://www.clmhosting.co.za/banimal/': 'CLM Hosting Banimal Designer Platform',
     
     // Anchor sections from original HTML
     '#shareprice': 'Share Price Signal Section',
