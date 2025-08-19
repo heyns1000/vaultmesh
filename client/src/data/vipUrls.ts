@@ -35,7 +35,9 @@ export const heroSectionUrls = {
   gemini: "https://gemini.google.com/",
   banimal: "https://samfox.faa.zone/",
   seedwave: "https://seedwave.faa.zone/global.html",
-  respitories: "https://legal.faa.zone/respitories/index.html"
+  respitories: "https://legal.faa.zone/respitories/index.html",
+  replitFruitful: "https://replit.com/t/fruitful-global/",
+  xeroLogin: "https://login.xero.com/identity/user/login"
 };
 
 export const terminalUrls = {
@@ -204,6 +206,20 @@ export const vipButtons = [
     url: heroSectionUrls.respitories,
     type: "secondary",
     description: "Legal Respitories Index"
+  },
+  {
+    id: "replitFruitful",
+    label: "🔧 Replit Fruitful",
+    url: heroSectionUrls.replitFruitful,
+    type: "primary",
+    description: "Fruitful Global Replit Team"
+  },
+  {
+    id: "xeroLogin",
+    label: "💼 Xero Login",
+    url: heroSectionUrls.xeroLogin,
+    type: "secondary",
+    description: "Xero Accounting Platform Access"
   }
 ];
 

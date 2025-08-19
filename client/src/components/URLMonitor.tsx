@@ -86,6 +86,8 @@ export default function URLMonitor() {
     'https://faa.zone/careers/hiring-homepage.html': 'FAA Zone Careers',
     'https://faa.zone/legal/securesign.html': 'FAA Zone SecureSign',
     'https://faa.zone/contact-us.html': 'FAA Zone Contact',
+    'https://replit.com/t/fruitful-global/': 'Replit Fruitful Global Team',
+    'https://login.xero.com/identity/user/login': 'Xero Accounting Login',
     
     // Anchor sections from original HTML
     '#shareprice': 'Share Price Signal Section',
