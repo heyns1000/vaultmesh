@@ -241,6 +241,7 @@ export const EmbeddedTerminal: React.FC<EmbeddedTerminalProps> = ({
                       <PlatformAlert 
                         url={currentUrl}
                         onOpenExternal={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}
+                        onClose={() => setCurrentUrl('')}
                       />
                       
                       {/* Standard Open in New Tab Button */}

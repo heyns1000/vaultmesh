@@ -25,6 +25,7 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
   // Handle external URL clicks with embedded option
   const handleExternalClick = (url: string, label: string) => {
     console.log(`[VaultMesh VIP] Opening URL in embedded terminal: ${url}`);
+    // For secure platforms, show the security alert but don't auto-open externally
     setTerminalUrl(url);
     setTerminalVisible(true);
   };
