@@ -37,7 +37,12 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
           <p className="text-gray-400 text-sm">Essential platform access points from VaultMesh ecosystem</p>
         </div>
         
-        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${columns} gap-3`}>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${
+          columns === 2 ? 'md:grid-cols-2' :
+          columns === 3 ? 'md:grid-cols-3' :
+          columns === 4 ? 'md:grid-cols-4' :
+          'md:grid-cols-6'
+        } gap-3`}>
           {vipButtons.map((button) => (
             <Button
               key={button.id}
@@ -88,7 +93,7 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
           <p className="text-gray-400 text-sm">Access specialized AI terminals and VaultMaster systems</p>
         </div>
         
-        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4`}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {terminalButtons.map((button) => (
             <Card 
               key={button.id}
