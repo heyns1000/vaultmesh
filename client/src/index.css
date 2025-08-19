@@ -139,7 +139,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: 5rem;
+    padding-top: 3rem;
     transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
   }
 

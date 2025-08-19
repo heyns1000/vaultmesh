@@ -64,18 +64,18 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
                 onClick={() => handleExternalClick(button.url, button.label)}
                 variant={button.type === 'primary' ? 'default' : 'secondary'}
                 className={`
-                  w-full h-auto p-4 flex flex-col items-center gap-2 text-center transition-all duration-200
+                  w-full h-auto p-3 flex flex-col items-center gap-2 text-center transition-all duration-200 rounded-lg
                   ${button.type === 'primary' 
-                    ? 'bg-green-600 hover:bg-green-700 text-white' 
-                    : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border-gray-600'
+                    ? 'bg-green-600 hover:bg-green-700 text-white border border-green-500' 
+                    : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-600'
                   }
-                  hover:scale-105 hover:shadow-lg
+                  hover:scale-105 hover:shadow-lg shadow-md
                 `}
                 data-testid={`vip-button-${button.id}`}
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <Monitor className="h-4 w-4" />
-                  <span className="text-sm font-semibold">{button.label}</span>
+                  <Monitor className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-sm font-semibold truncate">{button.label}</span>
                 </div>
                 <div className="text-xs text-gray-400 line-clamp-2">
                   {button.description}
