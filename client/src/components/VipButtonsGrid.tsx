@@ -38,12 +38,15 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
   const renderVipButtons = () => {
     if (section === 'terminal') return null;
     
+    console.log('[VaultMesh Debug] VIP Buttons data:', vipButtons);
+    console.log('[VaultMesh Debug] VIP Buttons count:', vipButtons.length);
+    
     return (
       <div className="space-y-6">
         <div className="text-center">
           <h3 className="text-2xl font-bold text-green-400 mb-2 flex items-center justify-center gap-2">
             <Zap className="h-6 w-6" />
-            VIP Access Buttons
+            VIP Access Buttons ({vipButtons.length} buttons)
           </h3>
           <p className="text-gray-400 text-sm">Essential platform access points from VaultMesh ecosystem</p>
         </div>
@@ -54,7 +57,7 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
           columns === 4 ? 'md:grid-cols-4' :
           'md:grid-cols-6'
         } gap-3`}>
-          {vipButtons.map((button) => (
+          {vipButtons && vipButtons.length > 0 ? vipButtons.map((button) => (
             <div key={button.id} className="relative group">
               <Button
                 onClick={() => handleExternalClick(button.url, button.label)}
@@ -94,7 +97,12 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
                 <ExternalLink className="h-3 w-3 text-gray-300" />
               </Button>
             </div>
-          ))}
+          )) : (
+            <div className="col-span-full text-center text-red-400 p-8">
+              <p>No VIP buttons found. vipButtons array is {vipButtons ? 'defined' : 'undefined'}</p>
+              <p>Length: {vipButtons ? vipButtons.length : 0}</p>
+            </div>
+          )}
         </div>
       </div>
     );
