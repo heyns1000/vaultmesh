@@ -69,12 +69,9 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
                 `}
                 data-testid={`vip-button-${button.id}`}
               >
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">{button.label.split(' ')[0]}</span>
-                  <Monitor className="h-3 w-3" />
-                </div>
-                <div className="text-xs font-medium">
-                  {button.label.substring(button.label.indexOf(' ') + 1)}
+                <div className="flex items-center gap-2 mb-1">
+                  <Monitor className="h-4 w-4" />
+                  <span className="text-sm font-semibold">{button.label}</span>
                 </div>
                 <div className="text-xs text-gray-400 line-clamp-2">
                   {button.description}
