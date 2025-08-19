@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Terminal, X, Maximize2, Minimize2, RefreshCw, Home, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Terminal, X, Maximize2, Minimize2, RefreshCw, Home, ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 
 interface EmbeddedTerminalProps {
   isVisible: boolean;
@@ -90,7 +90,7 @@ export const EmbeddedTerminal: React.FC<EmbeddedTerminalProps> = ({
 
   return (
     <div className={`w-full ${isFullscreen ? 'fixed inset-0 z-50 bg-black/95 p-4' : ''}`}>
-      <Card className={`bg-gray-900 border-gray-700 ${isFullscreen ? 'h-full' : 'h-[600px]'}`}>
+      <Card className={`bg-gray-900 border-gray-700 ${isFullscreen ? 'h-full' : 'h-[750px]'}`}>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-green-400 flex items-center gap-2">
@@ -185,7 +185,7 @@ export const EmbeddedTerminal: React.FC<EmbeddedTerminalProps> = ({
         </CardHeader>
         
         <CardContent className="p-0 h-full">
-          <div className={`bg-black text-green-400 font-mono ${isFullscreen ? 'h-[calc(100%-120px)]' : 'h-[520px]'} overflow-hidden`}>
+          <div className={`bg-black text-green-400 font-mono ${isFullscreen ? 'h-[calc(100%-120px)]' : 'h-[670px]'} overflow-hidden`}>
             {!currentUrl ? (
               <div className="p-6 h-full flex flex-col justify-center items-center text-center">
                 <Terminal className="h-16 w-16 mb-4 text-green-400" />
@@ -220,19 +220,36 @@ export const EmbeddedTerminal: React.FC<EmbeddedTerminalProps> = ({
                 </div>
                 
                 {/* Content Area */}
-                <div className="h-[calc(100%-48px)]">
+                <div className="h-[calc(100%-48px)] min-h-[600px] relative">
                   {currentUrl.startsWith('http') ? (
-                    <iframe
-                      ref={iframeRef}
-                      src={currentUrl}
-                      className="w-full h-full border-0"
-                      title="Embedded Content"
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
-                      onLoad={() => setIsLoading(false)}
-                      onError={() => {
-                        setIsLoading(false);
-                      }}
-                    />
+                    <>
+                      <iframe
+                        ref={iframeRef}
+                        src={currentUrl}
+                        className="w-full h-full border-0"
+                        title="Embedded Content"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+                        onLoad={() => setIsLoading(false)}
+                        onError={() => {
+                          setIsLoading(false);
+                        }}
+                      />
+                      {/* Fallback for iframe blocking */}
+                      <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute top-4 right-4 z-10">
+                          <Button
+                            onClick={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}
+                            variant="outline"
+                            size="sm"
+                            className="bg-blue-600 hover:bg-blue-700 text-white border-blue-600 pointer-events-auto"
+                            data-testid="open-in-new-tab"
+                          >
+                            <ExternalLink className="h-4 w-4 mr-1" />
+                            Open in New Tab
+                          </Button>
+                        </div>
+                      </div>
+                    </>
                   ) : (
                     <div className="p-6 h-full">
                       <div className="text-green-400 space-y-2">
