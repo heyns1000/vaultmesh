@@ -22,10 +22,9 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
     setTerminalVisible(true);
   };
 
-  // Handle external URL clicks with embedded option
+  // Handle external URL clicks - direct to terminal
   const handleExternalClick = (url: string, label: string) => {
-    console.log(`[VaultMesh VIP] Opening URL in embedded terminal: ${url}`);
-    // For secure platforms, show the security alert but don't auto-open externally
+    console.log(`[VaultMesh VIP] Loading directly: ${url}`);
     setTerminalUrl(url);
     setTerminalVisible(true);
   };
@@ -76,9 +75,7 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
-                visibility: 'visible !important',
-                opacity: '1 !important'
+                gap: '8px'
               }}
               data-testid={`vip-button-${button.id}`}
             >

@@ -3,8 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Terminal, X, Maximize2, Minimize2, RefreshCw, Home, ArrowLeft, ArrowRight, ExternalLink, Shield } from 'lucide-react';
-import { isPlatformSecure, getSecurityMessage } from '@/data/platformSecurity';
-import PlatformAlert from './PlatformAlert';
+// Direct terminal loading - no security prompts
 
 interface EmbeddedTerminalProps {
   isVisible: boolean;
@@ -237,12 +236,7 @@ export const EmbeddedTerminal: React.FC<EmbeddedTerminalProps> = ({
                         }}
                       />
                       
-                      {/* Platform Security Alert */}
-                      <PlatformAlert 
-                        url={currentUrl}
-                        onOpenExternal={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}
-                        onClose={() => setCurrentUrl('')}
-                      />
+
                       
                       {/* Standard Open in New Tab Button */}
                       <div className="absolute inset-0 pointer-events-none">
