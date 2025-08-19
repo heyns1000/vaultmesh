@@ -72,8 +72,9 @@ export const externalUrls = {
   chartJs: "https://cdn.jsdelivr.net/npm/chart.js"
 };
 
-// VIP Button Configuration with Labels and Actions
+// VIP Button Configuration - Organized by Function Groups
 export const vipButtons = [
+  // Core Infrastructure (Primary)
   {
     id: "omnigrid",
     label: "🌐 OmniGrid",
@@ -81,6 +82,116 @@ export const vipButtons = [
     type: "primary",
     description: "Explore OmniGrid Infrastructure"
   },
+  {
+    id: "globalPackages",
+    label: "📦 Global Packages",
+    url: heroSectionUrls.globalPackages,
+    type: "primary",
+    description: "VaultMesh Fruitful Brand Packages"
+  },
+  {
+    id: "replitFruitful",
+    label: "🔧 Replit Fruitful",
+    url: heroSectionUrls.replitFruitful,
+    type: "primary",
+    description: "Fruitful Global Replit Team"
+  },
+
+  // Development & Tech Platforms
+  {
+    id: "vercelAccess",
+    label: "⚡ Vercel Access",
+    url: heroSectionUrls.vercelAccess,
+    type: "secondary",
+    description: "FAA Systems Vercel Projects"
+  },
+  {
+    id: "hetznerCloud",
+    label: "☁️ Hetzner Cloud",
+    url: heroSectionUrls.hetznerCloud,
+    type: "secondary",
+    description: "Hetzner Account Management"
+  },
+  {
+    id: "gemini",
+    label: "🤖 Gemini",
+    url: heroSectionUrls.gemini,
+    type: "secondary",
+    description: "Google Gemini AI"
+  },
+
+  // Accounting & Finance
+  {
+    id: "xeroLogin",
+    label: "💼 Xero Login",
+    url: heroSectionUrls.xeroLogin,
+    type: "secondary",
+    description: "Xero Accounting Platform Access"
+  },
+  {
+    id: "sageAccess", 
+    label: "💼 Sage Access",
+    url: heroSectionUrls.sageAccess,
+    type: "secondary",
+    description: "Sage Accounting Platform"
+  },
+  {
+    id: "paypalAccess",
+    label: "💳 PayPal Access",
+    url: heroSectionUrls.paypalAccess,
+    type: "secondary", 
+    description: "PayPal Account Login"
+  },
+
+  // Business & E-commerce
+  {
+    id: "takealot",
+    label: "🛒 Takealot Sellers",
+    url: heroSectionUrls.takealot,
+    type: "secondary",
+    description: "Takealot Seller Portal"
+  },
+  {
+    id: "alibabaAccount",
+    label: "🏪 Alibaba Account",
+    url: heroSectionUrls.alibabaAccount,
+    type: "secondary",
+    description: "Alibaba Business Account"
+  },
+  {
+    id: "homemart",
+    label: "🏠 Homemart",
+    url: heroSectionUrls.homemart,
+    type: "secondary",
+    description: "Homemart Africa Platform"
+  },
+
+  // Communication & Email
+  {
+    id: "vaultEmail",
+    label: "📧 Vault Email",
+    url: heroSectionUrls.vaultEmail,
+    type: "secondary",
+    description: "Zoho Email Access"
+  },
+
+  // Legal & Documentation
+  {
+    id: "legalAccess",
+    label: "⚖️ Legal Access",
+    url: heroSectionUrls.legalAccess,
+    type: "secondary",
+    description: "FAA Legal Documentation"
+  },
+  {
+    id: "respitories",
+    label: "📚 Respitories™",
+    url: heroSectionUrls.respitories,
+    type: "secondary",
+    description: "Legal Respitories Index"
+  },
+
+  // Platforms & Ecosystems
   {
     id: "fruitful", 
     label: "🍃 Fruitful",
@@ -103,95 +214,11 @@ export const vipButtons = [
     description: "Fruitful Crate Dance Platform"
   },
   {
-    id: "globalPackages",
-    label: "📦 Global Packages",
-    url: heroSectionUrls.globalPackages,
-    type: "primary",
-    description: "VaultMesh Fruitful Brand Packages"
-  },
-  {
     id: "ecosystemDashboard",
     label: "🌱 Ecosystem Dashboard", 
     url: heroSectionUrls.ecosystemDashboard,
     type: "secondary",
     description: "Seedwave Ecosystem Overview"
-  },
-  {
-    id: "takealot",
-    label: "🛒 Takealot Sellers",
-    url: heroSectionUrls.takealot,
-    type: "secondary",
-    description: "Takealot Seller Portal"
-  },
-  {
-    id: "vaultEmail",
-    label: "📧 Vault Email",
-    url: heroSectionUrls.vaultEmail,
-    type: "secondary",
-    description: "Zoho Email Access"
-  },
-  {
-    id: "paypalAccess",
-    label: "💳 PayPal Access",
-    url: heroSectionUrls.paypalAccess,
-    type: "secondary", 
-    description: "PayPal Account Login"
-  },
-  {
-    id: "vercelAccess",
-    label: "⚡ Vercel Access",
-    url: heroSectionUrls.vercelAccess,
-    type: "secondary",
-    description: "FAA Systems Vercel Projects"
-  },
-  {
-    id: "hetznerCloud",
-    label: "☁️ Hetzner Cloud",
-    url: heroSectionUrls.hetznerCloud,
-    type: "secondary",
-    description: "Hetzner Account Management"
-  },
-  {
-    id: "legalAccess",
-    label: "⚖️ Legal Access",
-    url: heroSectionUrls.legalAccess,
-    type: "secondary",
-    description: "FAA Legal Documentation"
-  },
-  {
-    id: "sageAccess", 
-    label: "💼 Sage Access",
-    url: heroSectionUrls.sageAccess,
-    type: "secondary",
-    description: "Sage Accounting Platform"
-  },
-  {
-    id: "alibabaAccount",
-    label: "🏪 Alibaba Account",
-    url: heroSectionUrls.alibabaAccount,
-    type: "secondary",
-    description: "Alibaba Business Account"
-  },
-  {
-    id: "homemart",
-    label: "🏠 Homemart",
-    url: heroSectionUrls.homemart,
-    type: "secondary",
-    description: "Homemart Africa Platform"
-  },
-  {
-    id: "gemini",
-    label: "🤖 Gemini",
-    url: heroSectionUrls.gemini,
-    type: "secondary",
-    description: "Google Gemini AI"
-  },
-  {
-    id: "banimal",
-    label: "🦊 Banimal™",
-    url: heroSectionUrls.banimal,
-    type: "secondary",
-    description: "SamFox Banimal Platform"
   },
   {
     id: "seedwave",
@@ -201,25 +228,11 @@ export const vipButtons = [
     description: "Seedwave Global Platform"
   },
   {
-    id: "respitories",
-    label: "📚 Respitories™",
-    url: heroSectionUrls.respitories,
+    id: "banimal",
+    label: "🦊 Banimal™",
+    url: heroSectionUrls.banimal,
     type: "secondary",
-    description: "Legal Respitories Index"
-  },
-  {
-    id: "replitFruitful",
-    label: "🔧 Replit Fruitful",
-    url: heroSectionUrls.replitFruitful,
-    type: "primary",
-    description: "Fruitful Global Replit Team"
-  },
-  {
-    id: "xeroLogin",
-    label: "💼 Xero Login",
-    url: heroSectionUrls.xeroLogin,
-    type: "secondary",
-    description: "Xero Accounting Platform Access"
+    description: "SamFox Banimal Platform"
   }
 ];
 
