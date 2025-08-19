@@ -37,7 +37,8 @@ export const heroSectionUrls = {
   seedwave: "https://seedwave.faa.zone/global.html",
   respitories: "https://legal.faa.zone/respitories/index.html",
   replitFruitful: "https://replit.com/t/fruitful-global/",
-  xeroLogin: "https://login.xero.com/identity/user/login"
+  xeroLogin: "https://login.xero.com/identity/user/login",
+  gmailInbox: "https://mail.google.com/mail/u/0/#inbox"
 };
 
 export const terminalUrls = {
@@ -167,6 +168,13 @@ export const vipButtons = [
   },
 
   // Communication & Email
+  {
+    id: "gmailInbox",
+    label: "📧 Gmail Inbox",
+    url: heroSectionUrls.gmailInbox,
+    type: "secondary",
+    description: "Personal Gmail Landing Page Inbox"
+  },
   {
     id: "vaultEmail",
     label: "📧 Vault Email",
