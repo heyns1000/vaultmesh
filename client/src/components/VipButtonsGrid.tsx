@@ -57,7 +57,7 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
           columns === 3 ? 'md:grid-cols-3' :
           columns === 4 ? 'md:grid-cols-4' :
           'md:grid-cols-6'
-        } gap-3`}>
+        } gap-3 w-full`}>
           {vipButtons && vipButtons.length > 0 ? vipButtons.map((button) => (
             <div key={button.id} className="relative group">
               <Button
@@ -99,9 +99,11 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
               </Button>
             </div>
           )) : (
-            <div className="col-span-full text-center text-red-400 p-8">
-              <p>No VIP buttons found. vipButtons array is {vipButtons ? 'defined' : 'undefined'}</p>
-              <p>Length: {vipButtons ? vipButtons.length : 0}</p>
+            <div className="col-span-full text-center text-red-400 p-8 bg-gray-800 rounded-lg border border-red-500/20">
+              <p className="text-lg font-semibold mb-2">⚠️ VIP Buttons Not Loading</p>
+              <p>Debug Info: vipButtons array is {vipButtons ? 'defined' : 'undefined'}</p>
+              <p>Button Count: {vipButtons ? vipButtons.length : 0}</p>
+              <p className="text-sm text-gray-400 mt-2">Check console for detailed button data</p>
             </div>
           )}
         </div>
