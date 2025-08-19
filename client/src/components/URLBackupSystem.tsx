@@ -1,368 +1,401 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Download, Upload, Save, RefreshCw, Database, Shield, Clock, FileDown, FileUp } from 'lucide-react';
+import { vipButtons } from '@/data/vipUrls';
 
-interface URLBackupConfig {
-  primary: string;
-  backups: string[];
-  fallback: string;
-  priority: number;
-  lastChecked: string;
-  status: 'active' | 'degraded' | 'failed';
-  responseTime: number;
-}
-
-interface URLIntegrityResult {
-  url: string;
-  isValid: boolean;
-  responseTime: number;
-  errorMessage?: string;
+interface BackupData {
+  id: string;
   timestamp: string;
+  version: string;
+  urls: {
+    vipUrls: typeof vipButtons;
+    routingHistory: string[];
+    analytics: any[];
+    userPreferences: any;
+  };
+  metadata: {
+    totalUrls: number;
+    backupSize: string;
+    checksum: string;
+  };
 }
 
-export default function URLBackupSystem() {
-  const [location, setLocation] = useLocation();
-  const [backupConfigs, setBackupConfigs] = useState<URLBackupConfig[]>([]);
-  const [integrityResults, setIntegrityResults] = useState<URLIntegrityResult[]>([]);
-  const [lastFullCheck, setLastFullCheck] = useState<string>('');
+interface URLBackupSystemProps {
+  isVisible?: boolean;
+  onBackupComplete?: (backup: BackupData) => void;
+  onRestoreComplete?: (backup: BackupData) => void;
+}
 
-  // Comprehensive VaultMesh URL backup configuration
-  const vaultMeshBackupSystem: URLBackupConfig[] = [
-    {
-      primary: '/',
-      backups: ['/home', '/dashboard', '/main', '/index'],
-      fallback: '/terminal',
-      priority: 1,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    },
-    {
-      primary: '/sectors',
-      backups: ['/industries', '/verticals', '/solutions', '/markets'],
-      fallback: '/',
-      priority: 2,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    },
-    {
-      primary: '/terminal',
-      backups: ['/console', '/cli', '/command', '/admin'],
-      fallback: '/',
-      priority: 1,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    },
-    {
-      primary: '/packages',
-      backups: ['/pricing', '/plans', '/subscriptions', '/billing'],
-      fallback: '/',
-      priority: 2,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    },
-    {
-      primary: '/agrochain',
-      backups: ['/agriculture', '/agro', '/biotech', '/farming'],
-      fallback: '/sectors/agriculture',
-      priority: 2,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    },
-    {
-      primary: '/login',
-      backups: ['/signin', '/auth', '/authenticate', '/access'],
-      fallback: '/',
-      priority: 3,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    },
-    {
-      primary: '/signup',
-      backups: ['/register', '/join', '/create-account', '/enroll'],
-      fallback: '/login',
-      priority: 3,
-      lastChecked: new Date().toISOString(),
-      status: 'active',
-      responseTime: 0
-    }
-  ];
+const URLBackupSystem: React.FC<URLBackupSystemProps> = ({
+  isVisible = true,
+  onBackupComplete,
+  onRestoreComplete
+}) => {
+  const [backups, setBackups] = useState<BackupData[]>([]);
+  const [isCreatingBackup, setIsCreatingBackup] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
+  const [backupName, setBackupName] = useState('');
+  const [selectedBackup, setSelectedBackup] = useState<string | null>(null);
 
-  // Sector-specific backup URLs
-  const sectorBackups = [
-    'tech', 'finance', 'health', 'energy', 'agriculture', 'transport'
-  ].map(sector => ({
-    primary: `/sectors/${sector}`,
-    backups: [`/${sector}`, `/industry/${sector}`, `/solutions/${sector}`],
-    fallback: '/sectors',
-    priority: 3,
-    lastChecked: new Date().toISOString(),
-    status: 'active' as const,
-    responseTime: 0
-  }));
-
-  // Subscription backup URLs
-  const subscriptionBackups = [
-    'starter', 'pro', 'enterprise'
-  ].map(tier => ({
-    primary: `/subscribe/${tier}`,
-    backups: [`/plans/${tier}`, `/pricing/${tier}`, `/packages/${tier}`],
-    fallback: '/packages',
-    priority: 2,
-    lastChecked: new Date().toISOString(),
-    status: 'active' as const,
-    responseTime: 0
-  }));
-
-  // Validate URL accessibility
-  const validateURL = async (url: string): Promise<URLIntegrityResult> => {
-    const startTime = performance.now();
-    const timestamp = new Date().toISOString();
-    
-    try {
-      // Check if it's a valid route in our system
-      const validRoutes = [
-        '/', '/sectors', '/terminal', '/packages', '/agrochain', '/login', '/signup',
-        '/features', '/pricing', '/security', '/integrations', '/about', '/careers',
-        '/press', '/contact', '/docs', '/api', '/blog', '/support', '/learn',
-        '/privacy', '/terms', '/cookies', '/gdpr',
-        ...sectorBackups.map(s => s.primary),
-        ...subscriptionBackups.map(s => s.primary)
-      ];
-      
-      const isValidRoute = validRoutes.includes(url) || 
-                          url.startsWith('/sectors/') || 
-                          url.startsWith('/subscribe/');
-      
-      const responseTime = performance.now() - startTime;
-      
-      if (!isValidRoute) {
-        return {
-          url,
-          isValid: false,
-          responseTime,
-          errorMessage: 'Route not found in VaultMesh system',
-          timestamp
-        };
-      }
-      
-      // Additional checks could include server-side validation
-      return {
-        url,
-        isValid: true,
-        responseTime,
-        timestamp
-      };
-      
-    } catch (error) {
-      const responseTime = performance.now() - startTime;
-      return {
-        url,
-        isValid: false,
-        responseTime,
-        errorMessage: error instanceof Error ? error.message : 'Unknown error',
-        timestamp
-      };
-    }
-  };
-
-  // Run comprehensive integrity check
-  const runIntegrityCheck = async (urls?: string[]) => {
-    console.log('[VaultMesh URL Backup] Running integrity check...');
-    
-    const allConfigs = [...vaultMeshBackupSystem, ...sectorBackups, ...subscriptionBackups];
-    const urlsToCheck = urls || allConfigs.flatMap(config => [config.primary, ...config.backups]);
-    
-    const results = await Promise.all(
-      urlsToCheck.map(url => validateURL(url))
-    );
-    
-    setIntegrityResults(prev => {
-      const updated = [...prev];
-      results.forEach(result => {
-        const existingIndex = updated.findIndex(r => r.url === result.url);
-        if (existingIndex >= 0) {
-          updated[existingIndex] = result;
-        } else {
-          updated.push(result);
-        }
-      });
-      return updated.slice(-200); // Keep last 200 results
-    });
-    
-    // Update backup configs with status
-    setBackupConfigs(allConfigs.map(config => {
-      const primaryResult = results.find(r => r.url === config.primary);
-      const backupResults = config.backups.map(backup => 
-        results.find(r => r.url === backup)
-      );
-      
-      let status: 'active' | 'degraded' | 'failed' = 'active';
-      if (!primaryResult?.isValid) {
-        const workingBackups = backupResults.filter(r => r?.isValid);
-        status = workingBackups.length > 0 ? 'degraded' : 'failed';
-      }
-      
-      return {
-        ...config,
-        status,
-        responseTime: primaryResult?.responseTime || 0,
-        lastChecked: new Date().toISOString()
-      };
-    }));
-    
-    setLastFullCheck(new Date().toISOString());
-    
-    // Store results in localStorage
-    const integrityData = {
-      results,
-      timestamp: new Date().toISOString(),
-      configs: allConfigs
-    };
-    localStorage.setItem('vaultmesh-url-integrity', JSON.stringify(integrityData));
-    
-    return results;
-  };
-
-  // Auto-redirect to backup URL if primary fails
-  const handleURLFailure = (failedUrl: string) => {
-    const config = [...vaultMeshBackupSystem, ...sectorBackups, ...subscriptionBackups]
-      .find(c => c.primary === failedUrl);
-    
-    if (config) {
-      // Try backups in order
-      for (const backup of config.backups) {
-        const backupResult = integrityResults.find(r => r.url === backup);
-        if (backupResult?.isValid) {
-          console.log(`[VaultMesh URL Backup] Redirecting from ${failedUrl} to ${backup}`);
-          setLocation(backup);
-          return;
-        }
-      }
-      
-      // If all backups fail, redirect to fallback
-      console.log(`[VaultMesh URL Backup] All backups failed, redirecting to fallback: ${config.fallback}`);
-      setLocation(config.fallback);
-    }
-  };
-
-  // Initialize backup system
   useEffect(() => {
-    const initializeSystem = async () => {
-      // Load saved integrity data
-      const saved = localStorage.getItem('vaultmesh-url-integrity');
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          const oneHourAgo = Date.now() - (60 * 60 * 1000);
-          const savedTime = new Date(data.timestamp).getTime();
-          
-          if (savedTime > oneHourAgo) {
-            setIntegrityResults(data.results || []);
-            setBackupConfigs(data.configs || []);
-            setLastFullCheck(data.timestamp);
-          }
-        } catch (error) {
-          console.warn('[VaultMesh URL Backup] Failed to load saved integrity data:', error);
-        }
-      }
-      
-      // Run initial integrity check
-      await runIntegrityCheck();
-    };
-    
-    initializeSystem();
-    
-    // Set up periodic integrity checks
-    const interval = setInterval(() => {
-      runIntegrityCheck();
-    }, 10 * 60 * 1000); // Every 10 minutes
-    
-    return () => clearInterval(interval);
+    loadExistingBackups();
+    performAutomaticBackup();
   }, []);
 
-  // Monitor current location for failures
-  useEffect(() => {
-    const currentResult = integrityResults.find(r => r.url === location);
-    if (currentResult && !currentResult.isValid) {
-      console.warn(`[VaultMesh URL Backup] Current URL ${location} is invalid, attempting backup`);
-      handleURLFailure(location);
-    }
-  }, [location, integrityResults]);
+  const generateBackupId = () => {
+    return `backup_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  };
 
-  // Export backup system data
-  const exportBackupData = () => {
-    const exportData = {
-      backupConfigs,
-      integrityResults,
-      lastFullCheck,
-      exportTimestamp: new Date().toISOString(),
-      vaultMeshVersion: '3.2.1',
-      systemStatus: {
-        totalURLs: backupConfigs.length,
-        activeURLs: backupConfigs.filter(c => c.status === 'active').length,
-        degradedURLs: backupConfigs.filter(c => c.status === 'degraded').length,
-        failedURLs: backupConfigs.filter(c => c.status === 'failed').length,
-        averageResponseTime: backupConfigs.reduce((sum, c) => sum + c.responseTime, 0) / backupConfigs.length
-      }
-    };
+  const calculateChecksum = (data: any): string => {
+    const str = JSON.stringify(data);
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16);
+  };
+
+  const getBackupSize = (data: any): string => {
+    const sizeInBytes = new Blob([JSON.stringify(data)]).size;
+    if (sizeInBytes < 1024) return `${sizeInBytes} B`;
+    if (sizeInBytes < 1024 * 1024) return `${(sizeInBytes / 1024).toFixed(1)} KB`;
+    return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const createBackup = async () => {
+    setIsCreatingBackup(true);
     
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
-      type: 'application/json' 
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `vaultmesh-backup-system-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    try {
+      // Collect all URL and routing data
+      const routingHistory = JSON.parse(localStorage.getItem('vaultmesh-routing-history') || '[]');
+      const analytics = JSON.parse(localStorage.getItem('vaultmesh-analytics') || '[]');
+      const userPreferences = JSON.parse(localStorage.getItem('vaultmesh-preferences') || '{}');
+      
+      const urlData = {
+        vipUrls: vipButtons,
+        routingHistory,
+        analytics,
+        userPreferences
+      };
+
+      const backup: BackupData = {
+        id: generateBackupId(),
+        timestamp: new Date().toISOString(),
+        version: '1.0.0',
+        urls: urlData,
+        metadata: {
+          totalUrls: vipButtons.length,
+          backupSize: getBackupSize(urlData),
+          checksum: calculateChecksum(urlData)
+        }
+      };
+
+      // Store backup in localStorage
+      const existingBackups = JSON.parse(localStorage.getItem('vaultmesh-backups') || '[]');
+      const updatedBackups = [backup, ...existingBackups].slice(0, 10); // Keep last 10 backups
+      localStorage.setItem('vaultmesh-backups', JSON.stringify(updatedBackups));
+      
+      setBackups(updatedBackups);
+      setBackupName('');
+      
+      console.log(`[VaultMesh Backup] Created backup: ${backup.id}`);
+      onBackupComplete?.(backup);
+      
+    } catch (error) {
+      console.error('[VaultMesh Backup] Error creating backup:', error);
+    } finally {
+      setIsCreatingBackup(false);
+    }
+  };
+
+  const restoreBackup = async (backupId: string) => {
+    setIsRestoring(true);
+    
+    try {
+      const backup = backups.find(b => b.id === backupId);
+      if (!backup) {
+        throw new Error('Backup not found');
+      }
+
+      // Verify backup integrity
+      const currentChecksum = calculateChecksum(backup.urls);
+      if (currentChecksum !== backup.metadata.checksum) {
+        throw new Error('Backup integrity check failed');
+      }
+
+      // Restore data to localStorage
+      localStorage.setItem('vaultmesh-routing-history', JSON.stringify(backup.urls.routingHistory));
+      localStorage.setItem('vaultmesh-analytics', JSON.stringify(backup.urls.analytics));
+      localStorage.setItem('vaultmesh-preferences', JSON.stringify(backup.urls.userPreferences));
+      
+      console.log(`[VaultMesh Backup] Restored backup: ${backupId}`);
+      onRestoreComplete?.(backup);
+      
+      // Reload page to apply restored settings
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      
+    } catch (error) {
+      console.error('[VaultMesh Backup] Error restoring backup:', error);
+    } finally {
+      setIsRestoring(false);
+    }
+  };
+
+  const loadExistingBackups = () => {
+    const existingBackups = JSON.parse(localStorage.getItem('vaultmesh-backups') || '[]');
+    setBackups(existingBackups);
+  };
+
+  const performAutomaticBackup = () => {
+    const lastAutoBackup = localStorage.getItem('vaultmesh-last-auto-backup');
+    const now = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    
+    if (!lastAutoBackup || (now - parseInt(lastAutoBackup)) > twentyFourHours) {
+      createBackup();
+      localStorage.setItem('vaultmesh-last-auto-backup', now.toString());
+    }
+  };
+
+  const exportBackup = (backup: BackupData) => {
+    const dataStr = JSON.stringify(backup, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `vaultmesh-backup-${backup.id}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  // Only show in development or debug mode
-  if (process.env.NODE_ENV === 'production' && !localStorage.getItem('vaultmesh-debug')) {
-    return null;
-  }
+  const importBackup = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  const statusCounts = {
-    active: backupConfigs.filter(c => c.status === 'active').length,
-    degraded: backupConfigs.filter(c => c.status === 'degraded').length,
-    failed: backupConfigs.filter(c => c.status === 'failed').length
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const backup: BackupData = JSON.parse(e.target?.result as string);
+        
+        // Validate backup structure
+        if (!backup.id || !backup.urls || !backup.metadata) {
+          throw new Error('Invalid backup file format');
+        }
+
+        const existingBackups = JSON.parse(localStorage.getItem('vaultmesh-backups') || '[]');
+        const updatedBackups = [backup, ...existingBackups].slice(0, 10);
+        localStorage.setItem('vaultmesh-backups', JSON.stringify(updatedBackups));
+        
+        setBackups(updatedBackups);
+        console.log(`[VaultMesh Backup] Imported backup: ${backup.id}`);
+        
+      } catch (error) {
+        console.error('[VaultMesh Backup] Error importing backup:', error);
+      }
+    };
+    reader.readAsText(file);
   };
 
+  const deleteBackup = (backupId: string) => {
+    const updatedBackups = backups.filter(b => b.id !== backupId);
+    localStorage.setItem('vaultmesh-backups', JSON.stringify(updatedBackups));
+    setBackups(updatedBackups);
+    console.log(`[VaultMesh Backup] Deleted backup: ${backupId}`);
+  };
+
+  if (!isVisible) return null;
+
   return (
-    <div className="fixed top-4 right-4 z-50 bg-gray-900 text-white text-xs p-3 rounded max-w-sm">
-      <div className="font-bold mb-2 text-green-400">VaultMesh URL Backup System</div>
+    <Card className="bg-gray-900 border-gray-700">
+      <CardHeader>
+        <CardTitle className="text-blue-400 flex items-center gap-2">
+          <Database className="h-5 w-5" />
+          URL Backup & Restore System
+        </CardTitle>
+        <p className="text-gray-400 text-sm">
+          Complete routing preservation and recovery system for VaultMesh infrastructure
+        </p>
+      </CardHeader>
       
-      <div className="space-y-1 mb-3">
-        <div>Active: <span className="text-green-400">{statusCounts.active}</span></div>
-        <div>Degraded: <span className="text-yellow-400">{statusCounts.degraded}</span></div>
-        <div>Failed: <span className="text-red-400">{statusCounts.failed}</span></div>
-      </div>
-      
-      <div className="text-gray-300 mb-2">
-        Last Check: {lastFullCheck ? new Date(lastFullCheck).toLocaleTimeString() : 'None'}
-      </div>
-      
-      <div className="flex gap-2">
-        <button 
-          onClick={() => runIntegrityCheck()}
-          className="px-2 py-1 bg-blue-600 rounded text-xs hover:bg-blue-700"
-        >
-          Check Now
-        </button>
-        <button 
-          onClick={exportBackupData}
-          className="px-2 py-1 bg-green-600 rounded text-xs hover:bg-green-700"
-        >
-          Export
-        </button>
-      </div>
-    </div>
+      <CardContent className="space-y-6">
+        {/* Backup Creation */}
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+            <Save className="h-4 w-4" />
+            Create New Backup
+          </h3>
+          
+          <div className="flex gap-2">
+            <Input
+              value={backupName}
+              onChange={(e) => setBackupName(e.target.value)}
+              placeholder="Optional backup description..."
+              className="bg-gray-800 border-gray-600 text-white"
+              data-testid="backup-name-input"
+            />
+            <Button
+              onClick={createBackup}
+              disabled={isCreatingBackup}
+              className="bg-green-600 hover:bg-green-700"
+              data-testid="create-backup-button"
+            >
+              {isCreatingBackup ? (
+                <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+              ) : (
+                <Save className="h-4 w-4 mr-2" />
+              )}
+              Create Backup
+            </Button>
+          </div>
+        </div>
+
+        {/* Import/Export */}
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-yellow-400 flex items-center gap-2">
+            <FileDown className="h-4 w-4" />
+            Import/Export
+          </h3>
+          
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="border-gray-600 text-gray-300"
+              onClick={() => document.getElementById('backup-import')?.click()}
+              data-testid="import-backup-button"
+            >
+              <FileUp className="h-4 w-4 mr-2" />
+              Import Backup
+            </Button>
+            <input
+              id="backup-import"
+              type="file"
+              accept=".json"
+              onChange={importBackup}
+              className="hidden"
+            />
+          </div>
+        </div>
+
+        {/* Backup List */}
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Available Backups ({backups.length})
+          </h3>
+          
+          {backups.length === 0 ? (
+            <div className="text-center py-6 text-gray-400">
+              <Database className="h-12 w-12 mx-auto mb-2 opacity-50" />
+              <p>No backups available</p>
+              <p className="text-sm">Create your first backup to get started</p>
+            </div>
+          ) : (
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {backups.map((backup) => (
+                <div
+                  key={backup.id}
+                  className={`p-3 rounded-lg border transition-colors cursor-pointer ${
+                    selectedBackup === backup.id
+                      ? 'border-blue-500 bg-blue-500/10'
+                      : 'border-gray-600 bg-gray-800/50 hover:border-gray-500'
+                  }`}
+                  onClick={() => setSelectedBackup(backup.id)}
+                  data-testid={`backup-item-${backup.id}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Clock className="h-3 w-3 text-gray-400" />
+                        <span className="text-sm font-medium">
+                          {new Date(backup.timestamp).toLocaleString()}
+                        </span>
+                        <Badge variant="outline" className="text-xs">
+                          v{backup.version}
+                        </Badge>
+                      </div>
+                      <div className="text-xs text-gray-400 space-x-4">
+                        <span>{backup.metadata.totalUrls} URLs</span>
+                        <span>{backup.metadata.backupSize}</span>
+                        <span>#{backup.metadata.checksum.slice(0, 8)}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          exportBackup(backup);
+                        }}
+                        className="text-xs border-gray-600"
+                        data-testid={`export-backup-${backup.id}`}
+                      >
+                        <Download className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          restoreBackup(backup.id);
+                        }}
+                        disabled={isRestoring}
+                        className="text-xs bg-blue-600 hover:bg-blue-700"
+                        data-testid={`restore-backup-${backup.id}`}
+                      >
+                        {isRestoring ? (
+                          <RefreshCw className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <Upload className="h-3 w-3" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* System Status */}
+        <div className="bg-gray-800/50 p-3 rounded-lg">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="text-gray-400">Active URLs:</span>
+              <span className="ml-2 text-green-400">{vipButtons.length}</span>
+            </div>
+            <div>
+              <span className="text-gray-400">Total Backups:</span>
+              <span className="ml-2 text-blue-400">{backups.length}</span>
+            </div>
+            <div>
+              <span className="text-gray-400">Auto Backup:</span>
+              <span className="ml-2 text-green-400">Enabled</span>
+            </div>
+            <div>
+              <span className="text-gray-400">Last Backup:</span>
+              <span className="ml-2 text-yellow-400">
+                {backups.length > 0 
+                  ? new Date(backups[0].timestamp).toLocaleDateString()
+                  : 'Never'
+                }
+              </span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
-}
+};
+
+export default URLBackupSystem;

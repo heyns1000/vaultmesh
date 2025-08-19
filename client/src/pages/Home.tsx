@@ -3,6 +3,7 @@ import PulseCanvas from "../components/PulseCanvas";
 import PriceChart from "../components/PriceChart";
 import Terminal from "../components/Terminal";
 import VipButtonsGrid from "../components/VipButtonsGrid";
+import URLBackupSystem from "../components/URLBackupSystem";
 
 export default function Home() {
   const features = [
@@ -121,6 +122,11 @@ export default function Home() {
             </p>
           </div>
           <VipButtonsGrid section="hero" columns={4} />
+          
+          {/* URL Backup & Restore System */}
+          <div className="mt-12">
+            <URLBackupSystem />
+          </div>
         </div>
       </section>
 
@@ -163,6 +169,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+
 
       {/* MindLift AgroChain Hero */}
       <section className="section">
