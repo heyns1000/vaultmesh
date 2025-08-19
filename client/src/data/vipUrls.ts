@@ -38,7 +38,8 @@ export const heroSectionUrls = {
   respitories: "https://legal.faa.zone/respitories/index.html",
   replitFruitful: "https://replit.com/t/fruitful-global/",
   xeroLogin: "https://login.xero.com/identity/user/login",
-  gmailInbox: "https://mail.google.com/mail/u/0/#inbox"
+  gmailInbox: "https://mail.google.com/mail/u/0/#inbox",
+  fnbBank: "https://www.fnb.co.za/"
 };
 
 export const terminalUrls = {
@@ -142,6 +143,13 @@ export const vipButtons = [
     url: heroSectionUrls.paypalAccess,
     type: "secondary", 
     description: "PayPal Account Login"
+  },
+  {
+    id: "fnbBank",
+    label: "🏦 FNB Banking",
+    url: heroSectionUrls.fnbBank,
+    type: "secondary",
+    description: "First National Bank Online Banking"
   },
 
   // Business & E-commerce

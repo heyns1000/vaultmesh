@@ -90,6 +90,7 @@ export default function URLMonitor() {
     'https://login.xero.com/identity/user/login': 'Xero Accounting Login',
     'https://www.clmhosting.co.za/banimal/': 'CLM Hosting Banimal Designer Platform',
     'https://mail.google.com/mail/u/0/#inbox': 'Gmail Inbox - Landing Page Email',
+    'https://www.fnb.co.za/': 'First National Bank Online Banking',
     
     // Anchor sections from original HTML
     '#shareprice': 'Share Price Signal Section',
