@@ -59,45 +59,34 @@ export default function VipButtonsGrid({ section = 'all', columns = 4 }: VipButt
           'md:grid-cols-6'
         } gap-3 w-full`}>
           {vipButtons && vipButtons.length > 0 ? vipButtons.map((button) => (
-            <div key={button.id} className="relative group">
-              <Button
-                onClick={() => handleExternalClick(button.url, button.label)}
-                variant={button.type === 'primary' ? 'default' : 'secondary'}
-                className={`
-                  w-full h-auto p-3 flex flex-col items-center gap-2 text-center transition-all duration-200 rounded-lg
-                  ${button.type === 'primary' 
-                    ? 'bg-green-600 hover:bg-green-700 text-white border border-green-500' 
-                    : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-600'
-                  }
-                  hover:scale-105 hover:shadow-lg shadow-md
-                `}
-                data-testid={`vip-button-${button.id}`}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <Monitor className="h-4 w-4 flex-shrink-0" />
-                  <span className="text-sm font-semibold truncate">{button.label}</span>
-                </div>
-                <div className="text-xs text-gray-400 line-clamp-2">
-                  {button.description}
-                </div>
-                {button.type === 'primary' && (
-                  <Badge variant="default" className="mt-1 bg-yellow-500 text-black text-xs">
-                    Priority
-                  </Badge>
-                )}
-              </Button>
-              
-              {/* External Link Button */}
-              <Button
-                onClick={() => handleExternalNewTab(button.url, button.label)}
-                variant="ghost"
-                size="sm"
-                className="absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 hover:bg-black/70"
-                data-testid={`external-link-${button.id}`}
-              >
-                <ExternalLink className="h-3 w-3 text-gray-300" />
-              </Button>
-            </div>
+            <button
+              key={button.id}
+              onClick={() => handleExternalClick(button.url, button.label)}
+              className={`
+                w-full p-4 rounded-lg border-2 text-center transition-all duration-200 cursor-pointer
+                ${button.type === 'primary' 
+                  ? 'bg-green-600 hover:bg-green-700 text-white border-green-400 shadow-green-500/20' 
+                  : 'bg-gray-700 hover:bg-gray-600 text-gray-100 border-gray-500 shadow-gray-500/20'
+                }
+                hover:scale-105 hover:shadow-lg shadow-md transform active:scale-95 block
+              `}
+              style={{
+                minHeight: '100px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                visibility: 'visible !important',
+                opacity: '1 !important'
+              }}
+              data-testid={`vip-button-${button.id}`}
+            >
+              <Monitor className="h-5 w-5 mb-1" />
+              <span className="text-sm font-semibold leading-tight">{button.label}</span>
+              <span className="text-xs opacity-80 line-clamp-2">{button.description}</span>
+              <ExternalLink className="h-3 w-3 opacity-70" />
+            </button>
           )) : (
             <div className="col-span-full text-center text-red-400 p-8 bg-gray-800 rounded-lg border border-red-500/20">
               <p className="text-lg font-semibold mb-2">⚠️ VIP Buttons Not Loading</p>
