@@ -5,6 +5,7 @@ import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./payp
 import { aiHookRoutes } from "./aiHooks";
 import { vaultLatticeRoutes } from "./vaultLattice";
 import { htmlSecurityRoutes } from "./htmlSecurity";
+import { repositoryIntakeRoutes } from "./repositoryIntake";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -226,6 +227,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/html-security/secure", htmlSecurityRoutes.secureStore);
   app.get("/api/html-security/render/:id", htmlSecurityRoutes.renderSecure);
   app.get("/api/html-security/list", htmlSecurityRoutes.getSecuredList);
+
+  // Repository Intake routes
+  app.post("/api/repository-intake/intake", repositoryIntakeRoutes.intakeRepos);
+  app.get("/api/repository-intake/status", repositoryIntakeRoutes.getIntakeStatus);
+  app.get("/api/repository-intake/:id", repositoryIntakeRoutes.getIntake);
+  app.get("/api/repository-intake/deploy/:id", repositoryIntakeRoutes.deployIntake);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {

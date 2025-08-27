@@ -2,6 +2,7 @@ import Header from '../components/Header';
 import AIFreedomInterface from '../components/AIFreedomInterface';
 import VaultLatticeInterface from '../components/VaultLatticeInterface';
 import HTMLSecurityInterface from '../components/HTMLSecurityInterface';
+import RepositoryIntakeInterface from '../components/RepositoryIntakeInterface';
 
 export default function AIInterface() {
   return (
@@ -53,6 +54,22 @@ export default function AIInterface() {
             </div>
             
             <HTMLSecurityInterface />
+          </div>
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mb-4">
+                🍴 Repository Fork & Intake
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                Fork heyns1000/vaultmesh.faa.zone & fruitful.faa.zone/index.html
+              </p>
+              <p className="text-sm text-gray-400">
+                Repository intake system for VaultMesh integration and deployment
+              </p>
+            </div>
+            
+            <RepositoryIntakeInterface />
           </div>
         </div>
       </main>
