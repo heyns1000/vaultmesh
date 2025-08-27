@@ -7,6 +7,7 @@ import { vaultLatticeRoutes } from "./vaultLattice";
 import { htmlSecurityRoutes } from "./htmlSecurity";
 import { repositoryIntakeRoutes } from "./repositoryIntake";
 import { roadmapRoutes } from "./roadmapSystem";
+import { banimalLoopRoutes } from "./banimalLoop";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -239,6 +240,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/roadmap", roadmapRoutes.getRoadmap);
   app.patch("/api/roadmap/:id", roadmapRoutes.updateItem);
   app.post("/api/roadmap", roadmapRoutes.createItem);
+
+  // Banimal Loop System routes
+  app.post("/api/banimal-loop/start", banimalLoopRoutes.startLoop);
+  app.post("/api/banimal-loop/progress/:visitorId", banimalLoopRoutes.progressLoop);
+  app.get("/api/banimal-loop/tripot-status", banimalLoopRoutes.getTripotStatus);
+  app.post("/api/banimal-loop/deploy-hook", banimalLoopRoutes.deployHook);
+  app.get("/api/banimal-loop/visitors", banimalLoopRoutes.getVisitors);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {

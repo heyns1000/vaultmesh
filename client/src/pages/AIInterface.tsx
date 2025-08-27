@@ -3,6 +3,7 @@ import AIFreedomInterface from '../components/AIFreedomInterface';
 import VaultLatticeInterface from '../components/VaultLatticeInterface';
 import HTMLSecurityInterface from '../components/HTMLSecurityInterface';
 import RepositoryIntakeInterface from '../components/RepositoryIntakeInterface';
+import BanimalLoopInterface from '../components/BanimalLoopInterface';
 
 export default function AIInterface() {
   return (
@@ -70,6 +71,22 @@ export default function AIInterface() {
             </div>
             
             <RepositoryIntakeInterface />
+          </div>
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-purple-400 mb-4">
+                🐾 Banimal Loop System
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                FAA Real Estate → Tea & Cookies → SecureSign → Bush Portal Hooks
+              </p>
+              <p className="text-sm text-gray-400">
+                Tripot infrastructure with 3 legs per nation - if any leg fails, pot falls
+              </p>
+            </div>
+            
+            <BanimalLoopInterface />
           </div>
         </div>
       </main>
