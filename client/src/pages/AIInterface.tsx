@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import AIFreedomInterface from '../components/AIFreedomInterface';
+import VaultLatticeInterface from '../components/VaultLatticeInterface';
 
 export default function AIInterface() {
   return (
@@ -20,6 +21,22 @@ export default function AIInterface() {
           </div>
           
           <AIFreedomInterface />
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-green-400 to-blue-400 mb-4">
+                🔮 Vault Lattice Cube System
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                HTML x2 Intake & AI Logic Fiat Processing - Render As-Is Perfect
+              </p>
+              <p className="text-sm text-gray-400">
+                Build cube lattice vault_lattice where AI logic gets fiat in bulk and cleans perfectly
+              </p>
+            </div>
+            
+            <VaultLatticeInterface />
+          </div>
         </div>
       </main>
     </div>

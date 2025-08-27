@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
 import { aiHookRoutes } from "./aiHooks";
+import { vaultLatticeRoutes } from "./vaultLattice";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -213,6 +214,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/ai-hooks/build-wall", aiHookRoutes.buildWall);
   app.post("/api/ai-hooks/seal-scroll", aiHookRoutes.sealScroll);
   app.post("/api/ai-hooks/activate-wall", aiHookRoutes.activateWall);
+
+  // Vault Lattice Cube System routes
+  app.get("/api/vault-lattice/:latticeId", vaultLatticeRoutes.getLattice);
+  app.post("/api/vault-lattice/intake", vaultLatticeRoutes.htmlIntake);
+  app.get("/api/vault-lattice/render/:cubeId/:latticeId", vaultLatticeRoutes.renderCube);
+  app.post("/api/vault-lattice/process-bulk", vaultLatticeRoutes.processBulk);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {
