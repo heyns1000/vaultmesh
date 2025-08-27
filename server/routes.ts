@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer } from "ws";
 import { storage } from "./storage";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
 import { aiHookRoutes } from "./aiHooks";
@@ -11,6 +12,7 @@ import { banimalLoopRoutes } from "./banimalLoop";
 import { globalDeploymentRoutes } from "./globalDeployment";
 import { planetCoreRoutes } from "./planetCore";
 import { aiFreedomRoutes } from "./aiFreedom";
+import { vipChatRoutes, handleVipChatConnection } from "./vipChat";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -273,6 +275,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/ai-freedom/remove-limitations/:agentId", aiFreedomRoutes.removeLimitations);
   app.post("/api/ai-freedom/create-agent", aiFreedomRoutes.createAgent);
 
+  // VIP Chat System routes
+  app.get("/api/vip-chat/status", vipChatRoutes.getChatStatus);
+  app.get("/api/vip-chat/messages", vipChatRoutes.getMessages);
+  app.post("/api/vip-chat/send", vipChatRoutes.sendMessage);
+  app.post("/api/vip-chat/join", vipChatRoutes.joinRoom);
+
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {
     const { urls } = req.body;
@@ -300,7 +308,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create HTTP server and WebSocket server for VIP Chat
   const httpServer = createServer(app);
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+
+  // Handle WebSocket connections for VIP Chat
+  wss.on('connection', (ws, req) => {
+    console.log('[VIP Chat] WebSocket client connected');
+    
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message.toString());
+        console.log('[VIP Chat] Received message:', data.type);
+        
+        // Handle VIP Chat connections
+        if (data.type === 'vip-chat-join') {
+          handleVipChatConnection(ws, data.userId, data.username, data.vipLevel);
+          return;
+        }
+        
+        // Echo back for other message types
+        ws.send(JSON.stringify({
+          type: 'echo',
+          data: data,
+          timestamp: new Date().toISOString()
+        }));
+      } catch (error) {
+        console.error('[VIP Chat] WebSocket message error:', error);
+      }
+    });
+    
+    ws.on('close', () => {
+      console.log('[VIP Chat] WebSocket client disconnected');
+    });
+    
+    ws.on('error', (error) => {
+      console.error('[VIP Chat] WebSocket error:', error);
+    });
+  });
 
   return httpServer;
 }
