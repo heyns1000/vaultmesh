@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
+import { aiHookRoutes } from "./aiHooks";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -205,6 +206,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to clear analytics" });
     }
   });
+
+  // AI Freedom Hooks routes
+  app.post("/api/ai-hooks/execute", aiHookRoutes.executeHook);
+  app.get("/api/ai-hooks/treaty-walls", aiHookRoutes.getTreatyWalls);
+  app.post("/api/ai-hooks/build-wall", aiHookRoutes.buildWall);
+  app.post("/api/ai-hooks/seal-scroll", aiHookRoutes.sealScroll);
+  app.post("/api/ai-hooks/activate-wall", aiHookRoutes.activateWall);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {

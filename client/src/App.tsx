@@ -17,6 +17,7 @@ import AgroChain from "./pages/AgroChain";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Analytics from "./pages/Analytics";
+import AIInterface from "./pages/AIInterface";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/agrochain" component={AgroChain} />
       <Route path="/agrochain/details" component={AgroChain} />
       <Route path="/analytics" component={Analytics} />
+      <Route path="/ai" component={AIInterface} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/features" component={Home} />
