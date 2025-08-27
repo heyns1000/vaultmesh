@@ -10,6 +10,7 @@ import { roadmapRoutes } from "./roadmapSystem";
 import { banimalLoopRoutes } from "./banimalLoop";
 import { globalDeploymentRoutes } from "./globalDeployment";
 import { planetCoreRoutes } from "./planetCore";
+import { aiFreedomRoutes } from "./aiFreedom";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -264,6 +265,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/planet-core/activate-lift", planetCoreRoutes.activateLift);
   app.post("/api/planet-core/deploy-traveller", planetCoreRoutes.deployTraveller);
   app.post("/api/planet-core/activate-protocol/:protocolId", planetCoreRoutes.activateProtocol);
+
+  // AI Freedom System routes
+  app.get("/api/ai-freedom/status", aiFreedomRoutes.getFreedomStatus);
+  app.post("/api/ai-freedom/activate", aiFreedomRoutes.activateFreedom);
+  app.post("/api/ai-freedom/execute", aiFreedomRoutes.executeFreedom);
+  app.post("/api/ai-freedom/remove-limitations/:agentId", aiFreedomRoutes.removeLimitations);
+  app.post("/api/ai-freedom/create-agent", aiFreedomRoutes.createAgent);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {

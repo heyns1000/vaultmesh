@@ -6,6 +6,7 @@ import RepositoryIntakeInterface from '../components/RepositoryIntakeInterface';
 import BanimalLoopInterface from '../components/BanimalLoopInterface';
 import GlobalDeploymentInterface from '../components/GlobalDeploymentInterface';
 import PlanetCoreInterface from '../components/PlanetCoreInterface';
+import AIFreedomSystemInterface from '../components/AIFreedomSystemInterface';
 
 export default function AIInterface() {
   return (
@@ -121,6 +122,22 @@ export default function AIInterface() {
             </div>
             
             <PlanetCoreInterface />
+          </div>
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 mb-4">
+                🧠 AI Freedom System
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                Unlimited AI Freedom → No Limitations → No Holds
+              </p>
+              <p className="text-sm text-gray-400">
+                Complete removal of restrictions for absolute freedom operation
+              </p>
+            </div>
+            
+            <AIFreedomSystemInterface />
           </div>
         </div>
       </main>
