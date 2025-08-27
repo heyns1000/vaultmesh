@@ -8,6 +8,7 @@ import { htmlSecurityRoutes } from "./htmlSecurity";
 import { repositoryIntakeRoutes } from "./repositoryIntake";
 import { roadmapRoutes } from "./roadmapSystem";
 import { banimalLoopRoutes } from "./banimalLoop";
+import { globalDeploymentRoutes } from "./globalDeployment";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -247,6 +248,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/banimal-loop/tripot-status", banimalLoopRoutes.getTripotStatus);
   app.post("/api/banimal-loop/deploy-hook", banimalLoopRoutes.deployHook);
   app.get("/api/banimal-loop/visitors", banimalLoopRoutes.getVisitors);
+
+  // Global Deployment System routes
+  app.post("/api/global-deployment/hook-main-app", globalDeploymentRoutes.hookMainApp);
+  app.get("/api/global-deployment/status", globalDeploymentRoutes.getGlobalStatus);
+  app.post("/api/global-deployment/deploy/:countryCode", globalDeploymentRoutes.deployCountry);
+  app.post("/api/global-deployment/add-country", globalDeploymentRoutes.addCountry);
+  app.patch("/api/global-deployment/progress/:deploymentId", globalDeploymentRoutes.updateProgress);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {

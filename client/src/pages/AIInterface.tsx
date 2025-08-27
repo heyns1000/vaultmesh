@@ -4,6 +4,7 @@ import VaultLatticeInterface from '../components/VaultLatticeInterface';
 import HTMLSecurityInterface from '../components/HTMLSecurityInterface';
 import RepositoryIntakeInterface from '../components/RepositoryIntakeInterface';
 import BanimalLoopInterface from '../components/BanimalLoopInterface';
+import GlobalDeploymentInterface from '../components/GlobalDeploymentInterface';
 
 export default function AIInterface() {
   return (
@@ -87,6 +88,22 @@ export default function AIInterface() {
             </div>
             
             <BanimalLoopInterface />
+          </div>
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-green-400 mb-4">
+                🌍 Global Deployment System
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                Hook Main App Standalone → FAA Housing → 120 Countries
+              </p>
+              <p className="text-sm text-gray-400">
+                Drive VaultMesh project globally from FAA housing base to all continents
+              </p>
+            </div>
+            
+            <GlobalDeploymentInterface />
           </div>
         </div>
       </main>
