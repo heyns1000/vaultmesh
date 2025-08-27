@@ -31,6 +31,7 @@ export default function Header() {
         <Link href="/terminal" className="text-gray-300 hover:text-cyan-400">{content.terminal}</Link>
         <Link href="/packages" className="text-gray-300 hover:text-cyan-400">{content.packages}</Link>
         <Link href="/ai" className="text-purple-400 hover:text-purple-300">✨AI</Link>
+        <Link href="/roadmap" className="text-cyan-400 hover:text-cyan-300">🗺️ Roadmap</Link>
         <select 
           className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-white" 
           value={language}

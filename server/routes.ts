@@ -6,6 +6,7 @@ import { aiHookRoutes } from "./aiHooks";
 import { vaultLatticeRoutes } from "./vaultLattice";
 import { htmlSecurityRoutes } from "./htmlSecurity";
 import { repositoryIntakeRoutes } from "./repositoryIntake";
+import { roadmapRoutes } from "./roadmapSystem";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -233,6 +234,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/repository-intake/status", repositoryIntakeRoutes.getIntakeStatus);
   app.get("/api/repository-intake/:id", repositoryIntakeRoutes.getIntake);
   app.get("/api/repository-intake/deploy/:id", repositoryIntakeRoutes.deployIntake);
+
+  // Roadmap System routes
+  app.get("/api/roadmap", roadmapRoutes.getRoadmap);
+  app.patch("/api/roadmap/:id", roadmapRoutes.updateItem);
+  app.post("/api/roadmap", roadmapRoutes.createItem);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {
