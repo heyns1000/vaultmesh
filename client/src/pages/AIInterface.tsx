@@ -1,6 +1,7 @@
 import Header from '../components/Header';
 import AIFreedomInterface from '../components/AIFreedomInterface';
 import VaultLatticeInterface from '../components/VaultLatticeInterface';
+import HTMLSecurityInterface from '../components/HTMLSecurityInterface';
 
 export default function AIInterface() {
   return (
@@ -36,6 +37,22 @@ export default function AIInterface() {
             </div>
             
             <VaultLatticeInterface />
+          </div>
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-400 to-cyan-400 mb-4">
+                🔒 HTML Security Only
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                Pure HTML Rendering - Security Only, No Modifications
+              </p>
+              <p className="text-sm text-gray-400">
+                HTML rendered exactly as your vision and build - only security protection
+              </p>
+            </div>
+            
+            <HTMLSecurityInterface />
           </div>
         </div>
       </main>

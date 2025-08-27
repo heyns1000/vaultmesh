@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
 import { aiHookRoutes } from "./aiHooks";
 import { vaultLatticeRoutes } from "./vaultLattice";
+import { htmlSecurityRoutes } from "./htmlSecurity";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -220,6 +221,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/vault-lattice/intake", vaultLatticeRoutes.htmlIntake);
   app.get("/api/vault-lattice/render/:cubeId/:latticeId", vaultLatticeRoutes.renderCube);
   app.post("/api/vault-lattice/process-bulk", vaultLatticeRoutes.processBulk);
+
+  // HTML Security Only routes
+  app.post("/api/html-security/secure", htmlSecurityRoutes.secureStore);
+  app.get("/api/html-security/render/:id", htmlSecurityRoutes.renderSecure);
+  app.get("/api/html-security/list", htmlSecurityRoutes.getSecuredList);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {
