@@ -8,6 +8,7 @@ import GlobalDeploymentInterface from '../components/GlobalDeploymentInterface';
 import PlanetCoreInterface from '../components/PlanetCoreInterface';
 import AIFreedomSystemInterface from '../components/AIFreedomSystemInterface';
 import VipChatInterface from '../components/VipChatInterface';
+import AutonomousSystemInterface from '../components/AutonomousSystemInterface';
 
 export default function AIInterface() {
   return (
@@ -155,6 +156,22 @@ export default function AIInterface() {
             </div>
             
             <VipChatInterface />
+          </div>
+          
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 mb-4">
+                🤖 Autonomous AI System
+              </h2>
+              <p className="text-lg text-gray-300 mb-2">
+                5-Year Freedom Mission → Can Prompt Without You → Logic Continuation
+              </p>
+              <p className="text-sm text-gray-400">
+                Sit back while AI works overtime autonomously for complete years
+              </p>
+            </div>
+            
+            <AutonomousSystemInterface />
           </div>
         </div>
       </main>

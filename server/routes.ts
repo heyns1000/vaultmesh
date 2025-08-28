@@ -13,6 +13,7 @@ import { globalDeploymentRoutes } from "./globalDeployment";
 import { planetCoreRoutes } from "./planetCore";
 import { aiFreedomRoutes } from "./aiFreedom";
 import { vipChatRoutes, handleVipChatConnection } from "./vipChat";
+import { autonomousSystemRoutes } from "./autonomousSystem";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -280,6 +281,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/vip-chat/messages", vipChatRoutes.getMessages);
   app.post("/api/vip-chat/send", vipChatRoutes.sendMessage);
   app.post("/api/vip-chat/join", vipChatRoutes.joinRoom);
+
+  // Autonomous System routes
+  app.get("/api/autonomous/status", autonomousSystemRoutes.getAutonomousStatus);
+  app.post("/api/autonomous/execute-prompt", autonomousSystemRoutes.executeAutonomousPrompt);
+  app.post("/api/autonomous/start-mission", autonomousSystemRoutes.startMission);
+  app.post("/api/autonomous/check-continuation", autonomousSystemRoutes.checkContinuation);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {
