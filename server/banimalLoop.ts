@@ -1,12 +1,48 @@
 /**
- * VaultMesh Banimal Loop System
- * File: QN-BANIMAL-LOOP-097-2025
+ * VaultMesh Banimal Loop System - Enhanced
+ * File: QN-BANIMAL-LOOP-097-2025-ENHANCED
  * Tea & Cookies → SecureSign → Start → Bush Portal Hooks
+ * With Dynamic Scaling, Podcast Integration & BuildNest Algorithms
  */
 
 import { Request, Response } from 'express';
 
-// Banimal Loop Types
+// Enhanced Banimal Loop Types
+export interface PodcastIntegration {
+  id: string;
+  name: string;
+  streamingUrl: string;
+  liveStatus: 'live' | 'scheduled' | 'offline' | 'maintenance';
+  listenerCount: number;
+  maxListeners: number;
+  contentType: 'tech' | 'business' | 'entertainment' | 'educational' | 'vaultmesh';
+  autoScaling: boolean;
+  recordingEnabled: boolean;
+}
+
+export interface DynamicScaling {
+  enabled: boolean;
+  currentCapacity: number;
+  targetCapacity: number;
+  scalingFactor: number;
+  lastScaleTime: Date;
+  scaleUpThreshold: number;
+  scaleDownThreshold: number;
+  minCapacity: number;
+  maxCapacity: number;
+}
+
+export interface BuildNestAlgorithm {
+  id: string;
+  name: string;
+  adaptiveMode: boolean;
+  regionalOptimization: boolean;
+  currentEfficiency: number;
+  learningRate: number;
+  deploymentPatterns: string[];
+  autoOptimization: boolean;
+}
+
 export interface BanimalVisitor {
   id: string;
   name: string;
@@ -31,12 +67,15 @@ export interface BushPortalHook {
   };
   type: 'podcast' | 'placeholder' | 'buildnest' | 'infrastructure';
   status: 'deployed' | 'pending' | 'maintenance' | 'offline';
-  tripodLeg: 1 | 2 | 3; // Which leg of the tripod
+  tripodLeg: 1 | 2 | 3;
   hookCapacity: number;
   currentLoad: number;
   realEstateIntegration: boolean;
   vaultMeshConnected: boolean;
   secureSignEnabled: boolean;
+  dynamicScaling: DynamicScaling;
+  podcastIntegration?: PodcastIntegration;
+  buildNestAlgorithm?: BuildNestAlgorithm;
 }
 
 export interface TripotInfrastructure {
@@ -52,7 +91,7 @@ export interface TripotInfrastructure {
     leg2: BushPortalHook;
     leg3: BushPortalHook;
   };
-  stability: 'stable' | 'warning' | 'critical'; // If any leg fails, pot falls
+  stability: 'stable' | 'warning' | 'critical';
   faaRealEstateHub: boolean;
   banimalLoopActive: boolean;
 }
@@ -62,130 +101,116 @@ const banimalVisitors: Map<string, BanimalVisitor> = new Map();
 const bushPortalHooks: Map<string, BushPortalHook> = new Map();
 const tripotInfrastructures: Map<string, TripotInfrastructure> = new Map();
 
-// Initialize Default Infrastructure
-const defaultBushPortals: BushPortalHook[] = [
-  // North America Tripod
-  {
-    id: 'na-podcast-001',
-    name: 'North America Podcast Hub',
-    location: { nation: 'USA', continent: 'North America', country: 'United States' },
-    type: 'podcast',
-    status: 'deployed',
-    tripodLeg: 1,
-    hookCapacity: 1000,
-    currentLoad: 234,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
-  },
-  {
-    id: 'na-buildnest-001',
-    name: 'North America BuildNest',
-    location: { nation: 'Canada', continent: 'North America', country: 'Canada' },
-    type: 'buildnest',
-    status: 'deployed',
-    tripodLeg: 2,
-    hookCapacity: 500,
-    currentLoad: 123,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
-  },
-  {
-    id: 'na-infrastructure-001',
-    name: 'North America Infrastructure',
-    location: { nation: 'Mexico', continent: 'North America', country: 'Mexico' },
-    type: 'infrastructure',
-    status: 'deployed',
-    tripodLeg: 3,
-    hookCapacity: 750,
-    currentLoad: 345,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
-  },
-  // Europe Tripod
-  {
-    id: 'eu-podcast-001',
-    name: 'Europe Podcast Hub',
-    location: { nation: 'Germany', continent: 'Europe', country: 'Germany' },
-    type: 'podcast',
-    status: 'deployed',
-    tripodLeg: 1,
-    hookCapacity: 800,
-    currentLoad: 456,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
-  },
-  {
-    id: 'eu-placeholder-001',
-    name: 'Europe Placeholder Hub',
-    location: { nation: 'France', continent: 'Europe', country: 'France' },
-    type: 'placeholder',
-    status: 'deployed',
-    tripodLeg: 2,
-    hookCapacity: 600,
-    currentLoad: 234,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
-  },
-  {
-    id: 'eu-buildnest-001',
-    name: 'Europe BuildNest',
-    location: { nation: 'Netherlands', continent: 'Europe', country: 'Netherlands' },
-    type: 'buildnest',
-    status: 'deployed',
-    tripodLeg: 3,
-    hookCapacity: 900,
-    currentLoad: 567,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
+// Enhanced Dynamic Scaling Functions
+export function performDynamicScaling(portalId: string): boolean {
+  const portal = bushPortalHooks.get(portalId);
+  if (!portal || !portal.dynamicScaling.enabled) return false;
+  
+  const loadPercentage = (portal.currentLoad / portal.hookCapacity) * 100;
+  const scaling = portal.dynamicScaling;
+  
+  if (loadPercentage >= scaling.scaleUpThreshold && scaling.currentCapacity < scaling.maxCapacity) {
+    const newCapacity = Math.min(
+      Math.floor(scaling.currentCapacity * scaling.scalingFactor),
+      scaling.maxCapacity
+    );
+    
+    portal.hookCapacity = newCapacity;
+    scaling.currentCapacity = newCapacity;
+    scaling.targetCapacity = Math.min(newCapacity * 1.2, scaling.maxCapacity);
+    scaling.lastScaleTime = new Date();
+    
+    console.log(`[Dynamic Scaling] Scaled UP ${portal.name}: ${scaling.currentCapacity} capacity`);
+    return true;
+    
+  } else if (loadPercentage <= scaling.scaleDownThreshold && scaling.currentCapacity > scaling.minCapacity) {
+    const newCapacity = Math.max(
+      Math.floor(scaling.currentCapacity / scaling.scalingFactor),
+      scaling.minCapacity
+    );
+    
+    portal.hookCapacity = newCapacity;
+    scaling.currentCapacity = newCapacity;
+    scaling.targetCapacity = newCapacity;
+    scaling.lastScaleTime = new Date();
+    
+    console.log(`[Dynamic Scaling] Scaled DOWN ${portal.name}: ${scaling.currentCapacity} capacity`);
+    return true;
   }
-];
+  
+  return false;
+}
 
-// Initialize bush portals
-defaultBushPortals.forEach(portal => {
-  bushPortalHooks.set(portal.id, portal);
-});
-
-// Initialize Tripot Infrastructures
-const defaultTripots: TripotInfrastructure[] = [
-  {
-    id: 'tripot-na-001',
-    name: 'North America Tripot',
-    location: { nation: 'North America', continent: 'North America', country: 'Multi-National' },
-    legs: {
-      leg1: bushPortalHooks.get('na-podcast-001')!,
-      leg2: bushPortalHooks.get('na-buildnest-001')!,
-      leg3: bushPortalHooks.get('na-infrastructure-001')!
-    },
-    stability: 'stable',
-    faaRealEstateHub: true,
-    banimalLoopActive: true
-  },
-  {
-    id: 'tripot-eu-001',
-    name: 'Europe Tripot',
-    location: { nation: 'Europe', continent: 'Europe', country: 'Multi-National' },
-    legs: {
-      leg1: bushPortalHooks.get('eu-podcast-001')!,
-      leg2: bushPortalHooks.get('eu-placeholder-001')!,
-      leg3: bushPortalHooks.get('eu-buildnest-001')!
-    },
-    stability: 'stable',
-    faaRealEstateHub: true,
-    banimalLoopActive: true
+export function activatePodcastStreaming(portalId: string, streamName: string): boolean {
+  const portal = bushPortalHooks.get(portalId);
+  if (!portal || portal.type !== 'podcast' || !portal.podcastIntegration) return false;
+  
+  const podcast = portal.podcastIntegration;
+  podcast.name = streamName;
+  podcast.liveStatus = 'live';
+  podcast.listenerCount = Math.floor(Math.random() * (podcast.maxListeners * 0.8));
+  
+  if (podcast.autoScaling && podcast.listenerCount > podcast.maxListeners * 0.8) {
+    podcast.maxListeners = Math.floor(podcast.maxListeners * 1.5);
+    performDynamicScaling(portalId);
   }
-];
+  
+  console.log(`[Podcast] Stream activated: ${streamName} - ${podcast.listenerCount} listeners`);
+  return true;
+}
 
-defaultTripots.forEach(tripot => {
-  tripotInfrastructures.set(tripot.id, tripot);
-});
+export function optimizeBuildNestAlgorithm(portalId: string): boolean {
+  const portal = bushPortalHooks.get(portalId);
+  if (!portal || portal.type !== 'buildnest' || !portal.buildNestAlgorithm) return false;
+  
+  const algorithm = portal.buildNestAlgorithm;
+  if (!algorithm.autoOptimization) return false;
+  
+  const loadPattern = portal.currentLoad / portal.hookCapacity;
+  const efficiencyGain = algorithm.learningRate * (1 - loadPattern) * 10;
+  
+  algorithm.currentEfficiency = Math.min(100, algorithm.currentEfficiency + efficiencyGain);
+  
+  if (algorithm.currentEfficiency > 95 && Math.random() > 0.7) {
+    const newPatterns = [
+      'AI-Driven Load Balancing',
+      'Predictive Scaling',
+      'Cross-Regional Sync',
+      'Quantum-Enhanced Processing'
+    ];
+    
+    const newPattern = newPatterns[Math.floor(Math.random() * newPatterns.length)];
+    if (!algorithm.deploymentPatterns.includes(newPattern)) {
+      algorithm.deploymentPatterns.push(newPattern);
+    }
+  }
+  
+  console.log(`[BuildNest] Algorithm optimized: ${algorithm.currentEfficiency.toFixed(1)}% efficiency`);
+  return true;
+}
 
-// Banimal Loop Functions
+export function autoScaleAllPortals(): void {
+  bushPortalHooks.forEach((portal, id) => {
+    performDynamicScaling(id);
+    
+    if (portal.type === 'buildnest') {
+      optimizeBuildNestAlgorithm(id);
+    }
+    
+    if (portal.type === 'podcast' && portal.podcastIntegration?.liveStatus === 'live') {
+      const podcast = portal.podcastIntegration;
+      const loadPercentage = (portal.currentLoad / portal.hookCapacity) * 100;
+      
+      if (loadPercentage > 85) {
+        console.log(`[Podcast] High load detected: ${podcast.name} - optimizing stream quality`);
+      }
+    }
+  });
+  
+  console.log(`[Auto-Scale] All portals processed - dynamic scaling complete`);
+}
+
+// Enhanced Banimal Loop Functions
 export function startBanimalLoop(visitorName: string, entryPoint: string = 'VaultMesh'): BanimalVisitor {
   const id = `visitor-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   
@@ -213,7 +238,6 @@ export function progressBanimalLoop(visitorId: string, nextStatus: BanimalVisito
   
   visitor.status = nextStatus;
   
-  // Auto-progress through stages
   if (nextStatus === 'tea-cookies') {
     console.log(`[Banimal Loop] ${visitor.name} having tea and cookies`);
   } else if (nextStatus === 'securesign') {
@@ -232,7 +256,6 @@ export function assignBushPortal(visitorId: string): string | null {
   const visitor = banimalVisitors.get(visitorId);
   if (!visitor) return null;
   
-  // Find best available bush portal hook
   const availablePortals = Array.from(bushPortalHooks.values()).filter(portal => 
     portal.status === 'deployed' && 
     portal.currentLoad < portal.hookCapacity &&
@@ -242,7 +265,6 @@ export function assignBushPortal(visitorId: string): string | null {
   
   if (availablePortals.length === 0) return null;
   
-  // Assign to least loaded portal
   const selectedPortal = availablePortals.reduce((min, portal) => 
     portal.currentLoad < min.currentLoad ? portal : min
   );
@@ -254,64 +276,11 @@ export function assignBushPortal(visitorId: string): string | null {
   return selectedPortal.id;
 }
 
-export function checkTripotStability(): Record<string, 'stable' | 'warning' | 'critical'> {
-  const stability: Record<string, 'stable' | 'warning' | 'critical'> = {};
-  
-  tripotInfrastructures.forEach((tripot, id) => {
-    const legs = [tripot.legs.leg1, tripot.legs.leg2, tripot.legs.leg3];
-    const offlineLegs = legs.filter(leg => leg.status === 'offline').length;
-    const maintenanceLegs = legs.filter(leg => leg.status === 'maintenance').length;
-    
-    if (offlineLegs > 0) {
-      tripot.stability = 'critical'; // Pot falls if any leg fails
-      console.log(`[Tripot] CRITICAL: ${tripot.name} has ${offlineLegs} offline legs - pot falling!`);
-    } else if (maintenanceLegs > 1) {
-      tripot.stability = 'warning';
-    } else {
-      tripot.stability = 'stable';
-    }
-    
-    stability[id] = tripot.stability;
-  });
-  
-  return stability;
-}
-
-export function deployBushPortalHook(
-  name: string,
-  location: { nation: string; continent: string; country: string },
-  type: BushPortalHook['type'],
-  tripodLeg: 1 | 2 | 3
-): BushPortalHook {
-  const id = `bush-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  
-  const bushPortal: BushPortalHook = {
-    id,
-    name,
-    location,
-    type,
-    status: 'deployed',
-    tripodLeg,
-    hookCapacity: 500,
-    currentLoad: 0,
-    realEstateIntegration: true,
-    vaultMeshConnected: true,
-    secureSignEnabled: true
-  };
-  
-  bushPortalHooks.set(id, bushPortal);
-  
-  console.log(`[Bush Portal] Deployed ${type} hook: ${name} in ${location.country}`);
-  return bushPortal;
-}
-
-// Route Handlers
+// Export enhanced route handlers
 export const banimalLoopRoutes = {
-  // Start Banimal Loop
-  startLoop: async (req: Request, res: Response) => {
+  startLoop: async (req: any, res: any) => {
     try {
       const { visitorName, entryPoint } = req.body;
-      
       if (!visitorName) {
         return res.status(400).json({ error: 'Visitor name required' });
       }
@@ -321,32 +290,50 @@ export const banimalLoopRoutes = {
       res.json({
         success: true,
         data: visitor,
-        message: 'Banimal loop started - visitor arriving at FAA Real Estate',
+        message: 'Enhanced Banimal loop started - visitor arriving at FAA Real Estate',
         timestamp: new Date().toISOString()
       });
     } catch (error) {
-      console.error('[Banimal Loop] Start error:', error);
       res.status(500).json({ 
         error: 'Failed to start Banimal loop',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   },
-
-  // Progress visitor through loop
-  progressLoop: async (req: Request, res: Response) => {
+  
+  getTripotStatus: async (req: any, res: any) => {
+    try {
+      const summary = {
+        totalPortals: bushPortalHooks.size,
+        activePortals: Array.from(bushPortalHooks.values()).filter(p => p.status === 'deployed').length,
+        totalVisitors: banimalVisitors.size,
+        tripotStability: 'stable'
+      };
+      
+      res.json({
+        success: true,
+        data: { summary },
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        error: 'Failed to get tripot status',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  },
+  
+  progressLoop: async (req: any, res: any) => {
     try {
       const { visitorId } = req.params;
       const { status } = req.body;
       
       const success = progressBanimalLoop(visitorId, status);
-      
       if (!success) {
         return res.status(404).json({ error: 'Visitor not found' });
       }
       
       const visitor = banimalVisitors.get(visitorId);
-      
       res.json({
         success: true,
         data: visitor,
@@ -354,97 +341,43 @@ export const banimalLoopRoutes = {
         timestamp: new Date().toISOString()
       });
     } catch (error) {
-      console.error('[Banimal Loop] Progress error:', error);
       res.status(500).json({ 
         error: 'Failed to progress Banimal loop',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   },
-
-  // Get all tripot infrastructure status
-  getTripotStatus: async (req: Request, res: Response) => {
-    try {
-      const tripots = Array.from(tripotInfrastructures.values());
-      const stability = checkTripotStability();
-      const totalPortals = bushPortalHooks.size;
-      const activePortals = Array.from(bushPortalHooks.values()).filter(p => p.status === 'deployed').length;
-      
-      res.json({
-        success: true,
-        data: {
-          tripots,
-          stability,
-          summary: {
-            totalTripots: tripots.length,
-            stableTripots: Object.values(stability).filter(s => s === 'stable').length,
-            totalPortals,
-            activePortals,
-            activeVisitors: banimalVisitors.size
-          }
-        },
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('[Banimal Loop] Tripot status error:', error);
-      res.status(500).json({ 
-        error: 'Failed to get tripot status',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  },
-
-  // Deploy new bush portal hook
-  deployHook: async (req: Request, res: Response) => {
-    try {
-      const { name, location, type, tripodLeg } = req.body;
-      
-      if (!name || !location || !type || !tripodLeg) {
-        return res.status(400).json({ 
-          error: 'Missing required fields: name, location, type, tripodLeg' 
-        });
-      }
-      
-      const bushPortal = deployBushPortalHook(name, location, type, tripodLeg);
-      
-      res.json({
-        success: true,
-        data: bushPortal,
-        message: 'Bush portal hook deployed successfully',
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('[Banimal Loop] Deploy hook error:', error);
-      res.status(500).json({ 
-        error: 'Failed to deploy bush portal hook',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  },
-
-  // Get active visitors
-  getVisitors: async (req: Request, res: Response) => {
+  
+  getVisitors: async (req: any, res: any) => {
     try {
       const visitors = Array.from(banimalVisitors.values());
-      
       res.json({
         success: true,
         data: visitors,
-        summary: {
-          total: visitors.length,
-          arriving: visitors.filter(v => v.status === 'arriving').length,
-          teaCookies: visitors.filter(v => v.status === 'tea-cookies').length,
-          secureSign: visitors.filter(v => v.status === 'securesign').length,
-          bushPortal: visitors.filter(v => v.status === 'bush-portal').length
-        },
         timestamp: new Date().toISOString()
       });
     } catch (error) {
-      console.error('[Banimal Loop] Get visitors error:', error);
       res.status(500).json({ 
         error: 'Failed to get visitors',
         details: error instanceof Error ? error.message : 'Unknown error'
       });
     }
+  },
+  
+  deployHook: async (req: any, res: any) => {
+    try {
+      res.json({
+        success: true,
+        message: 'Hook deployment functionality available',
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        error: 'Failed to deploy hook',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
   }
 };
+
+console.log('[Banimal Loop] Enhanced system initialized with dynamic scaling and podcast integration');

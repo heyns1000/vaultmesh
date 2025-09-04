@@ -14,6 +14,8 @@ import { planetCoreRoutes } from "./planetCore";
 import { aiFreedomRoutes } from "./aiFreedom";
 import { vipChatRoutes, handleVipChatConnection } from "./vipChat";
 import { autonomousSystemRoutes } from "./autonomousSystem";
+import { missionRedundancyRoutes } from "./missionRedundancy";
+import { hyperModeRoutes } from "./hyperModeEvolution";
 
 // URL Analytics types
 interface URLAnalyticsData {
@@ -287,6 +289,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/autonomous/execute-prompt", autonomousSystemRoutes.executeAutonomousPrompt);
   app.post("/api/autonomous/start-mission", autonomousSystemRoutes.startMission);
   app.post("/api/autonomous/check-continuation", autonomousSystemRoutes.checkContinuation);
+
+  // Mission Redundancy System routes
+  app.get("/api/mission-redundancy/status", missionRedundancyRoutes.getRedundancyStatus);
+  app.get("/api/mission-redundancy/health-check/:systemId?", missionRedundancyRoutes.performHealthCheck);
+  app.post("/api/mission-redundancy/failover", missionRedundancyRoutes.triggerFailover);
+  app.post("/api/mission-redundancy/backup/:procedureId", missionRedundancyRoutes.executeBackup);
+  app.post("/api/mission-redundancy/emergency-recovery", missionRedundancyRoutes.emergencyRecovery);
+
+  // Hyper-Mode Evolution System routes
+  app.get("/api/hyper-mode/themes", hyperModeRoutes.getAvailableThemes);
+  app.post("/api/hyper-mode/activate-theme/:sector", hyperModeRoutes.activateTheme);
+  app.post("/api/hyper-mode/voice-command", hyperModeRoutes.processVoiceCommand);
+  app.get("/api/hyper-mode/voice-commands/:sector?", hyperModeRoutes.getVoiceCommands);
 
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {

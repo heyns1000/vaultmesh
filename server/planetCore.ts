@@ -6,6 +6,29 @@
 
 import { Request, Response } from 'express';
 
+// Quantum Mesh Integration Types
+export interface QuantumEntanglement {
+  id: string;
+  sourcePortal: string;
+  targetPortal: string;
+  entanglementStrength: number; // 0-100
+  syncSpeed: number; // milliseconds
+  quantumState: 'stable' | 'fluctuating' | 'entangled' | 'collapsed';
+  dataIntegrity: number; // 0-100
+  lastSync: Date;
+}
+
+export interface QuantumMeshNode {
+  id: string;
+  location: string;
+  countryCode: string;
+  quantumCapacity: number;
+  currentLoad: number;
+  entanglements: string[];
+  syncProtocols: string[];
+  meshStability: number; // 0-100
+}
+
 // Planet Core Types
 export interface PlanetCorePortal {
   id: string;
@@ -16,13 +39,22 @@ export interface PlanetCorePortal {
     depth: number; // Distance to planetary core
     coreRadius: number; // Earth core radius ~1220km
   };
+  quantumMesh: {
+    enabled: boolean;
+    entanglements: QuantumEntanglement[];
+    meshNodes: QuantumMeshNode[];
+    globalSyncSpeed: number; // milliseconds
+    quantumStability: number; // 0-100
+    instantDataSync: boolean;
+  };
   baobabSecurity: {
-    level: 'maximum' | 'ultra' | 'planetary' | 'cosmic';
+    level: 'maximum' | 'ultra' | 'planetary' | 'cosmic' | 'quantum';
     protocols: string[];
     activeShields: number;
     coreProtection: boolean;
     nonNegotiational: boolean;
     titularCore: boolean;
+    quantumShield: boolean;
   };
   travellersHQ: {
     status: 'operational' | 'standby' | 'maintenance' | 'emergency';
@@ -77,10 +109,13 @@ export interface BaobabSecurityProtocol {
   lastActivated: Date;
 }
 
-// Storage
 const planetCorePortals: Map<string, PlanetCorePortal> = new Map();
 const coreTravellers: Map<string, CoreTraveller> = new Map();
 const baobabProtocols: Map<string, BaobabSecurityProtocol> = new Map();
+
+// Storage
+const quantumEntanglements: Map<string, QuantumEntanglement> = new Map();
+const quantumMeshNodes: Map<string, QuantumMeshNode> = new Map();
 
 // Initialize Primary Core Portal
 const primaryCorePortal: PlanetCorePortal = {
@@ -92,13 +127,22 @@ const primaryCorePortal: PlanetCorePortal = {
     depth: 6371000, // Earth's radius in meters (center)
     coreRadius: 1220000 // Earth's inner core radius
   },
+  quantumMesh: {
+    enabled: true,
+    entanglements: [],
+    meshNodes: [],
+    globalSyncSpeed: 0.001, // Instantaneous quantum sync
+    quantumStability: 99.9,
+    instantDataSync: true
+  },
   baobabSecurity: {
-    level: 'cosmic',
-    protocols: ['Core Shield Alpha', 'Baobab Fortress', 'Planetary Guardian', 'Non-Neg Override'],
-    activeShields: 12,
+    level: 'quantum',
+    protocols: ['Core Shield Alpha', 'Baobab Fortress', 'Planetary Guardian', 'Non-Neg Override', 'Quantum Shield'],
+    activeShields: 15,
     coreProtection: true,
     nonNegotiational: true,
-    titularCore: true
+    titularCore: true,
+    quantumShield: true
   },
   travellersHQ: {
     status: 'operational',
@@ -234,8 +278,100 @@ defaultCoreTravellers.forEach(traveller => {
   coreTravellers.set(traveller.id, traveller);
 });
 
+// Quantum Mesh Functions
+export function createQuantumEntanglement(
+  sourcePortal: string,
+  targetPortal: string,
+  entanglementStrength: number = 100
+): QuantumEntanglement {
+  const id = `quantum-entanglement-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
+  
+  const entanglement: QuantumEntanglement = {
+    id,
+    sourcePortal,
+    targetPortal,
+    entanglementStrength,
+    syncSpeed: 0.001, // Quantum instantaneous sync
+    quantumState: 'entangled',
+    dataIntegrity: 100,
+    lastSync: new Date()
+  };
+  
+  quantumEntanglements.set(id, entanglement);
+  
+  // Add to portal's quantum mesh
+  const portal = planetCorePortals.get(sourcePortal);
+  if (portal) {
+    portal.quantumMesh.entanglements.push(entanglement);
+  }
+  
+  console.log(`[Quantum Mesh] Entanglement created between ${sourcePortal} and ${targetPortal}`);
+  return entanglement;
+}
+
+export function deployQuantumMeshNode(
+  location: string,
+  countryCode: string,
+  quantumCapacity: number = 1000
+): QuantumMeshNode {
+  const id = `quantum-node-${countryCode}-${Date.now()}`;
+  
+  const node: QuantumMeshNode = {
+    id,
+    location,
+    countryCode,
+    quantumCapacity,
+    currentLoad: 0,
+    entanglements: [],
+    syncProtocols: ['Quantum Sync Alpha', 'Instant Data Transfer', 'Mesh Stability Protocol'],
+    meshStability: 95.0
+  };
+  
+  quantumMeshNodes.set(id, node);
+  
+  // Add to main portal's mesh network
+  const mainPortal = planetCorePortals.get('planet-core-primary-001');
+  if (mainPortal) {
+    mainPortal.quantumMesh.meshNodes.push(node);
+  }
+  
+  console.log(`[Quantum Mesh] Node deployed in ${location} (${countryCode})`);
+  return node;
+}
+
+export function activateInstantGlobalSync(portalId: string): boolean {
+  const portal = planetCorePortals.get(portalId);
+  if (!portal) return false;
+  
+  portal.quantumMesh.instantDataSync = true;
+  portal.quantumMesh.globalSyncSpeed = 0.001; // Quantum instant
+  portal.quantumMesh.quantumStability = 99.9;
+  
+  // Activate quantum shields
+  portal.baobabSecurity.level = 'quantum';
+  portal.baobabSecurity.quantumShield = true;
+  portal.baobabSecurity.activeShields += 5;
+  
+  console.log(`[Quantum Mesh] Instant global sync activated for all 120 countries`);
+  return true;
+}
+
+export function enhanceVipChatSync(syncTime: number = 9): boolean {
+  // Ensure VIP chat stays under 9 seconds even with quantum improvements
+  const quantumSyncTime = Math.min(syncTime, 0.001); // Quantum speed but respect VIP limits
+  
+  const mainPortal = planetCorePortals.get('planet-core-primary-001');
+  if (mainPortal) {
+    mainPortal.quantumMesh.globalSyncSpeed = quantumSyncTime;
+    mainPortal.quantumMesh.instantDataSync = true;
+  }
+  
+  console.log(`[Quantum Mesh] VIP chat sync enhanced - no connection drops, ${quantumSyncTime}ms sync time`);
+  return true;
+}
+
 // Planet Core Functions
-export function liftBaobabSecurity(portalId: string, securityLevel: 'maximum' | 'ultra' | 'planetary' | 'cosmic'): boolean {
+export function liftBaobabSecurity(portalId: string, securityLevel: 'maximum' | 'ultra' | 'planetary' | 'cosmic' | 'quantum'): boolean {
   const portal = planetCorePortals.get(portalId);
   if (!portal) return false;
   

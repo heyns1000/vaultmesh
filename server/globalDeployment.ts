@@ -6,6 +6,47 @@
 
 import { Request, Response } from 'express';
 
+// Regional Hub Specialization Types
+export interface RegionalSpecialization {
+  id: string;
+  name: string;
+  region: string;
+  specializations: {
+    regulatory: string[];
+    cultural: string[];
+    technological: string[];
+    environmental: string[];
+  };
+  baobabSecurity: {
+    regionalProtocols: string[];
+    complianceFrameworks: string[];
+    customSecurity: boolean;
+  };
+  adaptationAlgorithms: {
+    localCustomization: boolean;
+    languageSupport: string[];
+    timeZoneOptimization: boolean;
+    regionalCurrency: string[];
+  };
+}
+
+export interface CulturalAdaptation {
+  id: string;
+  countryCode: string;
+  adaptations: {
+    userInterface: string;
+    workflowPatterns: string[];
+    communicationStyle: 'formal' | 'informal' | 'mixed';
+    businessPractices: string[];
+  };
+  localization: {
+    language: string;
+    dateFormat: string;
+    numberFormat: string;
+    currencyDisplay: string;
+  };
+}
+
 // Global Deployment Types
 export interface CountryDeployment {
   id: string;
@@ -17,6 +58,8 @@ export interface CountryDeployment {
   faaHousingConnected: boolean;
   mainAppHooked: boolean;
   deploymentProgress: number; // 0-100
+  regionalSpecialization?: RegionalSpecialization;
+  culturalAdaptation?: CulturalAdaptation;
   infrastructure: {
     bushPortals: number;
     tripotStability: 'stable' | 'warning' | 'critical';
