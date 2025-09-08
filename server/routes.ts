@@ -16,6 +16,7 @@ import { vipChatRoutes, handleVipChatConnection } from "./vipChat";
 import { autonomousSystemRoutes } from "./autonomousSystem";
 import { missionRedundancyRoutes } from "./missionRedundancy";
 import { hyperModeRoutes } from "./hyperModeEvolution";
+import { twisterCubeRoutes } from "./twisterCubeLattice";
 
 // URL Analytics types
 interface URLAnalyticsData {
