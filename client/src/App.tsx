@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import Analytics from "./pages/Analytics";
 import AIInterface from "./pages/AIInterface";
 import Roadmap from "./pages/Roadmap";
+import TwisterCubePage from "./pages/TwisterCubePage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/ai" component={AIInterface} />
       <Route path="/roadmap" component={Roadmap} />
+      <Route path="/twister-cube" component={TwisterCubePage} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/features" component={Home} />

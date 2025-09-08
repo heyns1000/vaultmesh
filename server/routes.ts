@@ -304,6 +304,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/hyper-mode/voice-command", hyperModeRoutes.processVoiceCommand);
   app.get("/api/hyper-mode/voice-commands/:sector?", hyperModeRoutes.getVoiceCommands);
 
+  // Twister Cube Lattice System routes
+  app.get("/api/twister-cube/status", twisterCubeRoutes.getCubeStatus);
+  app.post("/api/twister-cube/tornado", twisterCubeRoutes.activateTornado);
+  app.post("/api/twister-cube/rotate/:side", twisterCubeRoutes.rotateSide);
+  app.post("/api/twister-cube/chaos", twisterCubeRoutes.chaosMode);
+  app.post("/api/twister-cube/synchronize", twisterCubeRoutes.synchronize);
+
   // URL Integrity check endpoint
   app.post("/api/url-integrity/check", (req, res) => {
     const { urls } = req.body;
