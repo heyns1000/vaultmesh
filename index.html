@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Maps API script - ensure YOUR_GOOGLE_MAPS_API_KEY is replaced by the actual key from the centralized object -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPG8dG29cl0TvYRGyLozejGed5Wj5Ab80&callback=initMap"></script>
-
     <style>
         /* CSS Variables for Theming */
         :root {
@@ -38,7 +37,6 @@
             --hyper-primary-color: #00bcd4; /* Main cyan for hyper mode elements */
             --hyper-text-color: #00bcd4; /* Hyper mode text color */
         }
-
         /* Dark Mode Overrides */
         body.dark-mode {
             --bg-color-primary: #1a202c;
@@ -64,7 +62,6 @@
             --hyper-primary-color: #00e5ff; /* Main bright cyan for dark hyper mode */
             --hyper-text-color: #00e5ff; /* Hyper mode text color */
         }
-
         /* Hyper Mode Overrides (Applied when body has .hyper-mode class) */
         body.hyper-mode {
             background-color: var(--bg-color-primary); /* Keep base background, add overlay */
@@ -83,13 +80,11 @@
             --button-secondary-hover-text: white; /* Ensure good contrast */
             --hero-h2-color: var(--hyper-text-color); /* Hero text in hyper color */
         }
-
         body.dark-mode.hyper-mode {
             --header-bg: rgba(0, 229, 255, 0.1);
             --card-bg: rgba(0, 229, 255, 0.05);
             --button-secondary-hover-bg: rgba(0, 229, 255, 0.2);
         }
-
         /* Base Styles */
         body {
             font-family: 'Inter', sans-serif;
@@ -106,7 +101,6 @@
             padding-top: 5rem;
             transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease; /* Smooth theme transitions */
         }
-
         /* Header */
         header {
             background-color: var(--header-bg);
@@ -156,7 +150,6 @@
         body.dark-mode header nav a:hover {
             background-color: rgba(255, 255, 255, 0.08); /* Dark mode specific hover */
         }
-
         header nav a.button-style-original {
             background-color: transparent;
             color: var(--text-color-secondary);
@@ -172,7 +165,6 @@
             transform: none;
             box-shadow: none;
         }
-
         header nav a.button-style-main {
             background-color: var(--primary-blue);
             color: white;
@@ -188,20 +180,17 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
-
         .theme-language-controls {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-left: 1rem; /* Spacing from main nav links */
         }
-
         .toggle-container {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
         .theme-toggle, .hyper-toggle {
             cursor: pointer;
             width: 40px;
@@ -212,7 +201,6 @@
             transition: background-color 0.3s ease;
             flex-shrink: 0; /* Prevent shrinking on small screens */
         }
-
         .theme-toggle::before, .hyper-toggle::before {
             content: '';
             position: absolute;
@@ -224,16 +212,13 @@
             border-radius: 50%;
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
-
         body.dark-mode .theme-toggle {
             background-color: var(--primary-blue);
         }
-
         body.dark-mode .theme-toggle::before {
             transform: translateX(18px);
             background-color: var(--text-color-primary); /* Lighter circle in dark mode */
         }
-
         /* Hyper Toggle Specifics */
         body.hyper-mode .hyper-toggle {
             background-color: var(--hyper-primary-color); /* Active color for hyper toggle */
@@ -255,8 +240,6 @@
         body.dark-mode .hyper-toggle::before { /* Dark mode off state */
             background-color: var(--text-color-primary);
         }
-
-
         .language-select {
             background-color: var(--button-secondary-bg);
             color: var(--text-color-secondary);
@@ -276,8 +259,6 @@
             color: var(--text-color-primary);
             border-color: var(--card-border);
         }
-
-
         @media (min-width: 768px) {
             header {
                 flex-direction: row;
@@ -299,8 +280,6 @@
                 margin-left: 0;
             }
         }
-
-
 /* Hero Section */
 .hero-section {
     background-color: var(--card-bg);
@@ -346,7 +325,6 @@
         .hero-section h2 span {
             color: var(--primary-blue);
         }
-
         /* CTA button styling */
         .cta-button, .cta-button-secondary {
             padding: 0.8rem 1.8rem;
@@ -384,7 +362,6 @@
             color: var(--button-secondary-hover-text);
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-
         /* Sections - Clean, defined blocks */
         section {
             padding: 8rem 2rem;
@@ -409,7 +386,6 @@
             font-size: 1.1rem;
             line-height: 1.5;
         }
-
         /* Feature Cards */
         .feature-card {
             background-color: var(--card-bg);
@@ -439,7 +415,6 @@
             font-size: 0.95rem;
             color: var(--muted-text);
         }
-
         /* Share Signal Section */
         #shareprice {
             background-color: var(--card-bg);
@@ -462,7 +437,6 @@
             color: var(--muted-text);
             font-size: 0.85rem;
         }
-
         /* Seedwave Growth */
         #seedwave {
             background-color: var(--bg-color-primary);
@@ -551,8 +525,6 @@
         body.hyper-mode #seedwave .progress-bar {
             background-color: var(--hyper-primary-color);
         }
-
-
         /* Founder's Note */
         section.founders-note-section {
             background-color: var(--card-bg);
@@ -581,7 +553,6 @@
             font-weight: 600;
             margin-top: 2rem;
         }
-
         /* Vault Terminal Access - Clean buttons */
         #vault-access {
             background-color: var(--bg-color-primary);
@@ -621,7 +592,6 @@
             border-color: var(--primary-blue);
             box-shadow: 0 0 0 2px var(--primary-blue);
         }
-
         /* Sector Scrolls - Clean link grid */
         section.sector-scrolls-section {
             background-color: var(--card-bg);
@@ -655,7 +625,6 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
         /* Treaty Section - Elegant quote */
         #treaty {
             background-color: var(--card-bg);
@@ -691,7 +660,6 @@
             content: '”';
             margin-left: 0.05em;
         }
-
         /* Signal Packet - Developer focused, clean code block */
         section.signal-packet-section {
             background-color: #1d1d1f;
@@ -708,7 +676,6 @@
             white-space: pre-wrap;
             word-break: break-all;
         }
-
         /* VaultMesh Executive Summary */
         #vaultmesh {
             background-color: var(--card-bg);
@@ -757,7 +724,6 @@
             background-color: #4a5568;
             color: #e2e8f0;
         }
-
         /* About Section */
         #about {
             background-color: var(--bg-color-primary);
@@ -778,7 +744,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-
         /* Global Hubs Section */
         #global-hubs {
             background-color: var(--card-bg);
@@ -801,7 +766,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             overflow: hidden;
         }
-
         /* Call to Action Section */
         #cta {
             background: var(--card-bg);
@@ -823,7 +787,6 @@
             margin-right: auto;
             margin-bottom: 2.5rem;
         }
-
         /* Footer */
         footer {
             background-color: var(--card-bg);
@@ -841,7 +804,6 @@
         footer a:hover {
             color: var(--text-color-primary);
         }
-
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .hero-section h2 {
@@ -858,7 +820,6 @@
                 font-size: 0.9rem;
                 margin: 0.25rem auto;
             }
-
             header nav {
                 flex-wrap: wrap;
                 justify-content: center;
@@ -876,7 +837,6 @@
             header nav a.login-button.ml-auto {
                 margin-left: 0.25rem;
             }
-
             section {
                 padding: 4rem 1.5rem;
             }
@@ -924,7 +884,6 @@
                 margin-top: 1rem;
             }
         }
-
         @media (max-width: 480px) {
             .cta-button, .cta-button-secondary {
                 width: 90%;
@@ -943,7 +902,6 @@
                 margin: 0.2rem auto;
             }
         }
-
         /* Styles for VaultMesh Index Cards */
         .vaultmesh-index-card {
             background-color: var(--button-secondary-bg);
@@ -1018,401 +976,254 @@
             background-color: #4a5568;
             color: #e2e8f0;
         }
-
-        /* Firebase Auth Specific Styles */
-        .auth-card {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            position: relative; /* For z-index context */
-            z-index: 100; /* Ensure it's above the canvas */
-        }
-        .auth-card input {
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            width: 100%;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-        .auth-card button {
-            background-color: #4f46e5;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 100%;
-        }
-        .auth-card button:hover {
-            background-color: #4338ca;
-        }
-        .message-box {
-            background-color: #fef2f2;
-            color: #ef4444;
-            border: 1px solid #fca5a5;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin-top: 1rem;
-            text-align: left;
-            display: none;
-        }
-        .success-box {
-            background-color: #ecfdf5;
-            color: #10b981;
-            border: 1px solid #a7f3d0;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin-top: 1rem;
-            text-align: left;
-            display: none;
-        }
-        .hidden {
-            display: none;
-        }
-        #authOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999; /* Ensure it's on top */
-            backdrop-filter: blur(5px); /* Optional blur effect */
-        }
-        #loadingSpinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #fff;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
-
-    <!-- Authentication Overlay/Section -->
-    <div id="authOverlay">
-        <div class="auth-card">
-            <h1 class="text-2xl font-bold mb-6 text-gray-800">Welcome to FAA Nexus</h1>
-
-            <!-- Loading Spinner -->
-            <div id="loadingSpinner" class="mx-auto"></div>
-            <p id="loadingMessage" class="text-gray-600 mb-4">Initializing authentication...</p>
-
-            <!-- Message Box for errors and success -->
-            <div id="messageBox" class="message-box"></div>
-            <div id="successBox" class="success-box"></div>
-
-            <!-- Authentication Forms Section -->
-            <div id="authSection" class="hidden">
-                <!-- Sign Up Form -->
-                <div id="signUpForm" class="mb-8">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-700">Create Account</h2>
-                    <input type="text" id="signUpDisplayName" placeholder="Display Name" class="focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <input type="email" id="signUpEmail" placeholder="Email" class="focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <input type="password" id="signUpPassword" placeholder="Password" class="focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <button id="signUpButton" class="bg-indigo-600 hover:bg-indigo-700">Sign Up</button>
-                    <p class="mt-4 text-gray-600">Already have an account? <a href="#" id="showSignIn" class="text-indigo-600 hover:underline">Sign In</a></p>
+    <header class="py-4 px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center">
+        <h1 class="text-2xl font-extrabold tracking-tight mb-4 sm:mb-0" data-i18n="vaultmeshTitle">🌐 VaultMesh™</h1>
+        <nav class="flex flex-wrap justify-center sm:justify-end items-center">
+            <a href="fruitful.faa.zone/index.html" class="transition-colors duration-200" data-i18n="navHome">Home</a>
+            <a href="#features" class="transition-colors duration-200" data-i18n="navFeatures">Features</a>
+            <a href="#shareprice" class="transition-colors duration-200" data-i18n="navSignal">Signal</a>
+            <a href="#vault-access" class="transition-colors duration-200" data-i18n="navVault">Vault</a>
+            <a href="#treaty" class="transition-colors duration-200" data-i18n="navTreaty">Treaty</a>
+            <a href="#vaultmesh" class="transition-colors duration-200" data-i18n="navVaultmesh">VaultMesh</a>
+            <a href="#about" class="transition-colors duration-200" data-i18n="navAbout">About</a>
+            <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200" data-i18n="navCareers">Careers</a>
+            <!-- These links will now be handled by the auth overlay -->
+            <!-- <a href="https://seedwave.faa.zone/login.html" class="transition-colors duration-200 button-style-original login-button" data-i18n="navLogin">Login</a> -->
+            <!-- <a href="https://seedwave.faa.zone/signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main" data-i18n="navSignup">Sign Up</a> -->
+            <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original" data-i18n="navSecuresign">SecureSign</a>
+            <a href="https://faa.zone/contact-us.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main" data-i18n="navContactUs">Contact Us</a>
+            <div class="theme-language-controls">
+                <!-- Theme Toggle -->
+                <div class="toggle-container">
+                    <span class="text-xs text-gray-500 mr-1" data-i18n="themeToggleLabel">Theme</span>
+                    <div id="theme-toggle" class="theme-toggle"></div>
                 </div>
-
-                <!-- Sign In Form -->
-                <div id="signInForm" class="hidden">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-700">Sign In</h2>
-                    <input type="email" id="signInEmail" placeholder="Email" class="focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <input type="password" id="signInPassword" placeholder="Password" class="focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <button id="signInButton" class="bg-indigo-600 hover:bg-indigo-700">Sign In</button>
-                    <p class="mt-4 text-gray-600">Don't have an account? <a href="#" id="showSignUp" class="text-indigo-600 hover:underline">Sign Up</a></p>
+                <!-- Hyper Toggle -->
+                <div class="toggle-container">
+                    <span class="text-xs text-gray-500 mr-1" data-i18n="hyperToggleLabel">Hyper</span>
+                    <div id="hyper-toggle" class="hyper-toggle"></div>
                 </div>
+                <!-- Language Selector -->
+                <select id="language-select" class="language-select">
+                    <option value="en" data-i18n="langEnglish">English</option>
+                    <option value="af" data-i18n="langAfrikaans">Afrikaans</option>
+                </select>
             </div>
-
-            <!-- Dashboard Section (hidden until authenticated) -->
-            <div id="dashboardSection" class="hidden text-left">
-                <h2 class="text-xl font-semibold mb-4 text-gray-700">Welcome to your Dashboard!</h2>
-                <p class="text-gray-600 mb-2">You are signed in as:</p>
-                <p class="text-lg font-medium text-gray-800" id="userName"></p>
-                <p class="text-sm text-gray-500 mb-4" id="userEmail"></p>
-                <p class="text-sm text-gray-500 mb-4" id="userIdDisplay"></p>
-                <button id="signOutButton" class="bg-red-600 hover:bg-red-700">Sign Out</button>
+        </nav>
+    </header>
+    <section class="hero-section">
+        <!-- The rhythmicCanvas where the pulse bar and hacking logic will be displayed -->
+        <canvas id="rhythmicCanvas"></canvas>
+        <div class="hero-content">
+            <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6" data-i18n="heroHeading">
+                Welcome to <span class="text-blue-600">VaultMesh™</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mx-auto w-full max-w-6xl mt-40">
+                <a href="https://faa.zone/omnigrid" class="cta-button w-full" data-i18n="heroBtnExplore">
+                    🌐Explore Omnigrid
+                </a>
+                <a href="https://fruitful.faa.zone" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnFruitful">
+                    🌐Fruitful™
+                </a>
+                <a href="https://baobab.faa.zone" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnBaobab">
+                   🌐Baobab Network
+                </a>
+                <a href="https://fruitfulcratedance.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnCrateDance">
+                    🐑Fruitful Crate Dance
+                </a>
+                <a href="https://vaultmesh.faa.zone/fruitful-brand-packages.html" target="_blank" class="cta-button cta-button-secondary" data-i18n="heroBtnGlobalPackages">
+                    🌐Global 💰 Packages
+                </a>
+                <a href="https://seedwave.faa.zone/ecosystem-dashboard.html" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnEcosystemDashboard">
+                    🌐Ecosystem dashboard
+                </a>
+                <a href="https://sellers.takealot.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnTakealot">
+                    🔒Takealot Seller
+                </a>
+                <a href="https://www.zoho.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnVaultEmail">
+                    🔒Vault Email
+                </a>
+                <a href="https://www.paypal.com/signin/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnPaypalAccess">
+                    🔒Paypal Access
+                </a>
+                <a href="https://vercel.com/faa-systems-projects/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnVercelAccess">
+                    🔒Vecel Access
+                </a>
+                <a href="https://github.com/heyns1000/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnGithubAccess">
+                    🔒Github Access
+                </a>
+                <a href="https://dash.cloudflare.com/login" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnCloudflareAccess">
+                    Cloudfare Access
+                </a>
+                <a href="https://accounts.hetzner.com/account/masterdata" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnHetznerCloud">
+                    🔒Hetzner Cloud
+                </a>
+                <a href="https://faa.zone/legal/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnLegalAccess">
+                    🌐Legal Access
+                </a>
+                <a href="https://accounting.sageone.co.za/Maintenance/OpenAndManageCompanyMaintenance.aspx" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnSageAccess">
+                    🔒Sage Access
+                </a>
+                <a href="https://login.alibaba.com/newlogin/icbuLogin.htm?defaultActive=signIn&return_url=https%3A%2F%2Fwww.alibaba.com%2F%3Fsrc%3Dsem_ggl%26field%3DUG%26from%3Dsem_ggl%26cmpgn%3D9922923274%26adgrp%3D97780323342%26fditm%3D%26tgt%3Dkwd-482944541254%26locintrst%3D%26locphyscl%3D1028682%26mtchtyp%3De%26ntwrk%3Dg%26device%3Dc%26dvcmdl%3D%26creative%3D598857653475%26plcmnt%3D%26plcmntcat%3D%26aceid%3D%26position%3D%26gad_source%3D1%26gad_campaignid%3D9922923274%26gbraid%3D0AAAAAD8m77qRAZex2ej01gArx6VezE9m5%26gclid%3DCjwKCAjw6s7CBhACEiwAuHQckkoZ8x6add65vgObqo7p06J8PMrqd9Jj5d3QDQk02m9K2MLM2Q3hURoCWgkQAvD_BwE&_lang=en_US" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnAlibabaAccount">
+                    🔒Alibaba Account
+                </a>
+                <a href="https://homemart.africa/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnHomemart">
+                    🌐Homemart.Africa
+                </a>
+                <a href="https://gemini.google.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnGemini">
+                    🔒Gemini
+                </a>
+                <a href="https://samfox.faa.zone/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnBanimal™:">
+                    🐑Banimal™:
+                </a>
+                <a href="https://seedwave.faa.zone/global.html" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnSeedwave™:">
+                    🌱Seedwave Global™:
+                </a>
+                <a href="https://legal.faa.zone/respitories/index.html" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnRespitories™:">
+                    🌱Respitories Global™:
+                </a>
+                <a href="https://banimal.co.za/wp-admin" target="_blank" class="cta-button cta-button-secondary w-full">
+                    🐑Banimal Admin
+                </a>
             </div>
         </div>
-    </div>
-
-    <!-- Main Website Content (initially hidden if not authenticated) -->
-    <div id="mainContent" class="hidden">
-        <header class="py-4 px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center">
-            <h1 class="text-2xl font-extrabold tracking-tight mb-4 sm:mb-0" data-i18n="vaultmeshTitle">🌐 VaultMesh™</h1>
-            <nav class="flex flex-wrap justify-center sm:justify-end items-center">
-                <a href="fruitful.faa.zone/index.html" class="transition-colors duration-200" data-i18n="navHome">Home</a>
-                <a href="#features" class="transition-colors duration-200" data-i18n="navFeatures">Features</a>
-                <a href="#shareprice" class="transition-colors duration-200" data-i18n="navSignal">Signal</a>
-                <a href="#vault-access" class="transition-colors duration-200" data-i18n="navVault">Vault</a>
-                <a href="#treaty" class="transition-colors duration-200" data-i18n="navTreaty">Treaty</a>
-                <a href="#vaultmesh" class="transition-colors duration-200" data-i18n="navVaultmesh">VaultMesh</a>
-                <a href="#about" class="transition-colors duration-200" data-i18n="navAbout">About</a>
-                <a href="https://faa.zone/careers/hiring-homepage.html" target="_blank" class="transition-colors duration-200" data-i18n="navCareers">Careers</a>
-                <!-- These links will now be handled by the auth overlay -->
-                <!-- <a href="https://seedwave.faa.zone/login.html" class="transition-colors duration-200 button-style-original login-button" data-i18n="navLogin">Login</a> -->
-                <!-- <a href="https://seedwave.faa.zone/signup.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main" data-i18n="navSignup">Sign Up</a> -->
-                <a href="https://faa.zone/legal/securesign.html" target="_blank" class="transition-colors duration-200 font-semibold px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 hover:text-gray-900 button-style-original" data-i18n="navSecuresign">SecureSign</a>
-                <a href="https://faa.zone/contact-us.html" class="px-4 py-2 rounded-full font-semibold transition-colors duration-200 button-style-main" data-i18n="navContactUs">Contact Us</a>
-
-                <div class="theme-language-controls">
-                    <!-- Theme Toggle -->
-                    <div class="toggle-container">
-                        <span class="text-xs text-gray-500 mr-1" data-i18n="themeToggleLabel">Theme</span>
-                        <div id="theme-toggle" class="theme-toggle"></div>
-                    </div>
-                    <!-- Hyper Toggle -->
-                    <div class="toggle-container">
-                        <span class="text-xs text-gray-500 mr-1" data-i18n="hyperToggleLabel">Hyper</span>
-                        <div id="hyper-toggle" class="hyper-toggle"></div>
-                    </div>
-
-                    <!-- Language Selector -->
-                    <select id="language-select" class="language-select">
-                        <option value="en" data-i18n="langEnglish">English</option>
-                        <option value="af" data-i18n="langAfrikaans">Afrikaans</option>
-                    </select>
+    </section>
+    <section id="features" class="py-16 md:py-24 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-4xl font-bold text-center mb-16" data-i18n="featuresHeading">
+                Unlock Your Potential with Our Core Features
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div>💡</div>
+                    <h4 data-i18n="feature1Title">AI-Powered Insights</h4>
+                    <p data-i18n="feature1Desc">
+                        Leverage advanced AI to gain deep insights, optimize operations, and make smarter decisions.
+                    </p>
                 </div>
-            </nav>
-        </header>
-
-        <section class="hero-section">
-            <!-- The rhythmicCanvas where the pulse bar and hacking logic will be displayed -->
-            <canvas id="rhythmicCanvas"></canvas>
-
-            <div class="hero-content">
-                <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6" data-i18n="heroHeading">
-                    Welcome to <span class="text-blue-600">VaultMesh™</span>
-                </h2>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mx-auto w-full max-w-6xl mt-40">
-                    <a href="https://faa.zone/omnigrid" class="cta-button w-full" data-i18n="heroBtnExplore">
-                        🌐Explore Omnigrid
-                    </a>
-                    <a href="https://fruitful.faa.zone" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnFruitful">
-                        🌐Fruitful™
-                    </a>
-                    <a href="https://baobab.faa.zone" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnBaobab">
-                       🌐Baobab Network
-                    </a>
-                    <a href="https://fruitfulcratedance.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnCrateDance">
-                        🐑Fruitful Crate Dance
-                    </a>
-                    <a href="https://vaultmesh.faa.zone/fruitful-brand-packages.html" target="_blank" class="cta-button cta-button-secondary" data-i18n="heroBtnGlobalPackages">
-                        🌐Global 💰 Packages
-                    </a>
-                    <a href="https://seedwave.faa.zone/ecosystem-dashboard.html" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnEcosystemDashboard">
-                        🌐Ecosystem dashboard
-                    </a>
-                    <a href="https://sellers.takealot.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnTakealot">
-                        🔒Takealot Seller
-                    </a>
-                    <a href="https://www.zoho.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnVaultEmail">
-                        🔒Vault Email
-                    </a>
-                    <a href="https://www.paypal.com/signin/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnPaypalAccess">
-                        🔒Paypal Access
-                    </a>
-                    <a href="https://vercel.com/faa-systems-projects/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnVercelAccess">
-                        🔒Vecel Access
-                    </a>
-                    <a href="https://github.com/heyns1000/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnGithubAccess">
-                        🔒Github Access
-                    </a>
-                    <a href="https://dash.cloudflare.com/login" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnCloudflareAccess">
-                        Cloudfare Access
-                    </a>
-                    <a href="https://accounts.hetzner.com/account/masterdata" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnHetznerCloud">
-                        🔒Hetzner Cloud
-                    </a>
-                    <a href="https://faa.zone/legal/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnLegalAccess">
-                        🌐Legal Access
-                    </a>
-                    <a href="https://accounting.sageone.co.za/Maintenance/OpenAndManageCompanyMaintenance.aspx" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnSageAccess">
-                        🔒Sage Access
-                    </a>
-                    <a href="https://login.alibaba.com/newlogin/icbuLogin.htm?defaultActive=signIn&return_url=https%3A%2F%2Fwww.alibaba.com%2F%3Fsrc%3Dsem_ggl%26field%3DUG%26from%3Dsem_ggl%26cmpgn%3D9922923274%26adgrp%3D97780323342%26fditm%3D%26tgt%3Dkwd-482944541254%26locintrst%3D%26locphyscl%3D1028682%26mtchtyp%3De%26ntwrk%3Dg%26device%3Dc%26dvcmdl%3D%26creative%3D598857653475%26plcmnt%3D%26plcmntcat%3D%26aceid%3D%26position%3D%26gad_source%3D1%26gad_campaignid%3D9922923274%26gbraid%3D0AAAAAD8m77qRAZex2ej01gArx6VezE9m5%26gclid%3DCjwKCAjw6s7CBhACEiwAuHQckkoZ8x6add65vgObqo7p06J8PMrqd9Jj5d3QDQk02m9K2MLM2Q3hURoCWgkQAvD_BwE&_lang=en_US" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnAlibabaAccount">
-                        🔒Alibaba Account
-                    </a>
-                    <a href="https://homemart.africa/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnHomemart">
-                        🌐Homemart.Africa
-                    </a>
-                    <a href="https://gemini.google.com/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnGemini">
-                        🔒Gemini
-                    </a>
-                    <a href="https://samfox.faa.zone/" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnBanimal™:">
-                        🐑Banimal™:
-                    </a>
-                    <a href="https://seedwave.faa.zone/global.html" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnSeedwave™:">
-                        🌱Seedwave Global™:
-                    </a>
-                    <a href="https://legal.faa.zone/respitories/index.html" target="_blank" class="cta-button cta-button-secondary w-full" data-i18n="heroBtnRespitories™:">
-                        🌱Respitories Global™:
-                    </a>
+                <div class="feature-card">
+                    <div>🤝</div>
+                    <h4 data-i18n="feature2Title">Global Collaboration</h4>
+                    <p data-i18n="feature2Desc">
+                        Connect with thousands of independent brands and partners worldwide, fostering a network of mutual growth.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🌱</div>
+                    <h4 data-i18n="feature3Title">Sustainable Solutions</h4>
+                    <p data-i18n="feature3Desc">
+                        Champion eco-friendly practices and contribute to a healthier planet through our curated marketplace.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🔒</div>
+                    <h4 data-i18n="feature4Title">Secure VaultMesh™</h4>
+                    <p data-i18n="feature4Desc">
+                        Protect your data and transactions with our state-of-the-art blockchain-inspired security protocols.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>📈</div>
+                    <h4 data-i18n="feature5Title">Real-time Analytics</h4>
+                    <p data-i18n="feature5Desc">
+                        Monitor your progress and impact with intuitive dashboards and real-time performance metrics.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div>🌐</div>
+                    <h4 data-i18n="feature6Title">OmniScroll Integration</h4>
+                    <p data-i18n="feature6Desc">
+                        Seamlessly integrate with our OmniScroll ledger for transparent and efficient record-keeping.
+                    </p>
                 </div>
             </div>
-        </section>
-
-        <section id="features" class="py-16 md:py-24 px-6 md:px-12">
-            <div class="max-w-6xl mx-auto">
-                <h3 class="text-4xl font-bold text-center mb-16" data-i18n="featuresHeading">
-                    Unlock Your Potential with Our Core Features
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="feature-card">
-                        <div>💡</div>
-                        <h4 data-i18n="feature1Title">AI-Powered Insights</h4>
-                        <p data-i18n="feature1Desc">
-                            Leverage advanced AI to gain deep insights, optimize operations, and make smarter decisions.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div>🤝</div>
-                        <h4 data-i18n="feature2Title">Global Collaboration</h4>
-                        <p data-i18n="feature2Desc">
-                            Connect with thousands of independent brands and partners worldwide, fostering a network of mutual growth.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div>🌱</div>
-                        <h4 data-i18n="feature3Title">Sustainable Solutions</h4>
-                        <p data-i18n="feature3Desc">
-                            Champion eco-friendly practices and contribute to a healthier planet through our curated marketplace.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div>🔒</div>
-                        <h4 data-i18n="feature4Title">Secure VaultMesh™</h4>
-                        <p data-i18n="feature4Desc">
-                            Protect your data and transactions with our state-of-the-art blockchain-inspired security protocols.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div>📈</div>
-                        <h4 data-i18n="feature5Title">Real-time Analytics</h4>
-                        <p data-i18n="feature5Desc">
-                            Monitor your progress and impact with intuitive dashboards and real-time performance metrics.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div>🌐</div>
-                        <h4 data-i18n="feature6Title">OmniScroll Integration</h4>
-                        <p data-i18n="feature6Desc">
-                            Seamlessly integrate with our OmniScroll ledger for transparent and efficient record-keeping.
-                        </p>
-                    </div>
-                </div>
+        </div>
+    </section>
+    <section id="shareprice" class="py-12 text-center">
+        <h2 class="text-3xl font-semibold mb-2" data-i18n="sharePriceHeading">FAA™ Share Signal</h2>
+        <div id="price" class="text-5xl font-bold">$88.88</div>
+        <div class="text-sm text-gray-400 mt-1" data-i18n="lastUpdated">Last updated: <span id="timestamp">Live</span></div>
+    </section>
+    <section id="seedwave" class="py-16 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-8" data-i18n="seedwaveHeading">🌱 Seedwave Brand Growth 🌱</h2>
+        <div class="metrics-container">
+            <div class="metric-card">
+                <h3 data-i18n="seedwaveGoalTitle">End Goal</h3>
+                <p id="seedwave-goal">9000</p>
+                <div class="description" data-i18n="seedwaveGoalDesc">Target for total brand activations.</div>
             </div>
-        </section>
-
-        <section id="shareprice" class="py-12 text-center">
-            <h2 class="text-3xl font-semibold mb-2" data-i18n="sharePriceHeading">FAA™ Share Signal</h2>
-            <div id="price" class="text-5xl font-bold">$88.88</div>
-            <div class="text-sm text-gray-400 mt-1" data-i18n="lastUpdated">Last updated: <span id="timestamp">Live</span></div>
-        </section>
-
-        <section id="seedwave" class="py-16 px-6 text-center">
-            <h2 class="text-4xl font-bold mb-8" data-i18n="seedwaveHeading">🌱 Seedwave Brand Growth 🌱</h2>
-            <div class="metrics-container">
-                <div class="metric-card">
-                    <h3 data-i18n="seedwaveGoalTitle">End Goal</h3>
-                    <p id="seedwave-goal">9000</p>
-                    <div class="description" data-i18n="seedwaveGoalDesc">Target for total brand activations.</div>
-                </div>
-                <div class="metric-card">
-                    <h3 data-i18n="seedwaveInDevTitle">In Development</h3>
-                    <p id="seedwave-in-dev">7038</p>
-                    <div class="description" data-i18n="seedwaveInDevDesc">Brands currently being onboarded/developed.</div>
-                </div>
-                <div class="metric-card">
-                    <h3 data-i18n="seedwaveDeployedTitle">Deployed</h3>
-                    <p id="seedwave-deployed">1172</p>
-                    <div class="description" data-i18n="seedwaveDeployedDesc">Brands live and operational on Seedwave.</div>
-                </div>
+            <div class="metric-card">
+                <h3 data-i18n="seedwaveInDevTitle">In Development</h3>
+                <p id="seedwave-in-dev">7038</p>
+                <div class="description" data-i18n="seedwaveInDevDesc">Brands currently being onboarded/developed.</div>
             </div>
-            <div class="progress-wrapper">
-                <p class="text-lg font-semibold text-gray-700 mb-2" data-i18n="seedwaveProgressLabel">Progress to Goal</p>
-                <div class="progress-bar-container">
-                    <div id="seedwave-progress-bar" class="progress-bar">0%</div>
-                </div>
+            <div class="metric-card">
+                <h3 data-i18n="seedwaveDeployedTitle">Deployed</h3>
+                <p id="seedwave-deployed">1172</p>
+                <div class="description" data-i18n="seedwaveDeployedDesc">Brands live and operational on Seedwave.</div>
             </div>
-        </section>
-
-        <section class="py-16 px-6 text-center founders-note-section">
-            <h2 class="text-4xl font-bold mb-8" data-i18n="foundersNoteHeading">🧬 Founder's Glyph™</h2>
-            <p class="max-w-3xl mx-auto text-xl leading-relaxed" data-i18n="foundersNoteParagraph1">
-                FAA™ wasn’t built like a typical startup. It emerged — out of silence, out of signal, out of glyphs and patterns that refused to be ignored.
-                What you're seeing isn't a site. It’s a vault interface. A codebase of culture. A trust-machine powered by real human intelligence.
-            </p>
-            <p class="mt-6 max-w-2xl mx-auto italic" data-i18n="foundersNoteParagraph2">
-                Where others scale with speed, we scale with meaning. Every brand here agreed to something deeper than growth — they signed a Treaty.
-                That’s why this isn’t eCommerce. It’s TreatyCommerce™.
-            </p>
-            <p class="mt-6 font-semibold" data-i18n="foundersNoteSignature">— Written from the edge of code & culture 🌍 FAA.Zone Founder Glyph Activated™</p>
-        </section>
-
-        <section id="vault-access" class="py-16 px-6">
-            <h3 class="text-4xl font-bold text-center mb-10" data-i18n="sectorTerminalsHeading">🔐 Sector Terminals</h3>
-
-            <div class="w-full max-w-6xl mx-auto mb-10">
-                <div class="w-full h-[800px] border-4 rounded-xl shadow-2xl overflow-hidden">
-                    <iframe
-                        id="vault-frame"
-                        src=""
-                        class="w-full h-full rounded-xl"
-                        frameborder="0"
-                        title="VaultMaster Terminal"
-                        sandbox="allow-scripts allow-same-origin allow-forms"
-                    ></iframe>
-                </div>
+        </div>
+        <div class="progress-wrapper">
+            <p class="text-lg font-semibold text-gray-700 mb-2" data-i18n="seedwaveProgressLabel">Progress to Goal</p>
+            <div class="progress-bar-container">
+                <div id="seedwave-progress-bar" class="progress-bar">0%</div>
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                <button onclick="loadTerminal('vault-master.html')" class="terminal-btn p-6" data-i18n="terminalVaultMaster">🦍 VaultMaster Terminal</button>
-                <button onclick="loadTerminal('cube-lattice.html')" class="terminal-btn p-6" data-i18n="terminalCubeLattice">🧱 Cube Lattice GPT</button>
-                <button onclick="loadTerminal('global-view.html')" class="terminal-btn p-6" data-i18n="terminalGlobalView">🌍 Global View GPT</button>
-                <button onclick="loadTerminal('freight-ops.html')" class="terminal-btn p-6" data-i18n="terminalFreightOps">🚚 Freight Ops GPT</button>
-                <button onclick="loadTerminal('loop-watch.html')" class="terminal-btn p-6" data-i18n="terminalLoopWatch">♻️ Loop Watch GPT</button>
-                <button onclick="loadTerminal('seedwave.html')" class="terminal-btn p-6" data-i18n="terminalSeedwave">🌱 Seedwave GPT</button>
-                <button onclick="loadTerminal('distribution.html')" class="terminal-btn p-6" data-i18n="terminalDistribution">📦 Distribution GPT</button>
-                <button onclick="loadTerminal('signal.html')" class="terminal-btn p-6" data-i18n="terminalSignal">🔐 Signal GPT</button>
-                <button onclick="loadTerminal('faa-brands.html')" class="terminal-btn p-6" data-i18n="terminalFAABrands">📦 7038 FAA Brands</button>
+        </div>
+    </section>
+    <section class="py-16 px-6 text-center founders-note-section">
+        <h2 class="text-4xl font-bold mb-8" data-i18n="foundersNoteHeading">🧬 Founder's Glyph™</h2>
+        <p class="max-w-3xl mx-auto text-xl leading-relaxed" data-i18n="foundersNoteParagraph1">
+            FAA™ wasn’t built like a typical startup. It emerged — out of silence, out of signal, out of glyphs and patterns that refused to be ignored.
+            What you're seeing isn't a site. It’s a vault interface. A codebase of culture. A trust-machine powered by real human intelligence.
+        </p>
+        <p class="mt-6 max-w-2xl mx-auto italic" data-i18n="foundersNoteParagraph2">
+            Where others scale with speed, we scale with meaning. Every brand here agreed to something deeper than growth — they signed a Treaty.
+            That’s why this isn’t eCommerce. It’s TreatyCommerce™.
+        </p>
+        <p class="mt-6 font-semibold" data-i18n="foundersNoteSignature">— Written from the edge of code & culture 🌍 FAA.Zone Founder Glyph Activated™</p>
+    </section>
+    <section id="vault-access" class="py-16 px-6">
+        <h3 class="text-4xl font-bold text-center mb-10" data-i18n="sectorTerminalsHeading">🔐 Sector Terminals</h3>
+        <div class="w-full max-w-6xl mx-auto mb-10">
+            <div class="w-full h-[800px] border-4 rounded-xl shadow-2xl overflow-hidden">
+                <iframe
+                    id="vault-frame"
+                    src=""
+                    class="w-full h-full rounded-xl"
+                    frameborder="0"
+                    title="VaultMaster Terminal"
+                    sandbox="allow-scripts allow-same-origin allow-forms"
+                ></iframe>
             </div>
-        </section>
-
-        <section class="py-16 px-6 text-center sector-scrolls-section">
-            <h2 class="text-4xl font-bold mb-8" data-i18n="sectorScrollsHeading">🧬 Sector Scrolls</h2>
-            <div id="sector-glyphs-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            </div>
-            <div id="sector-content-container" class="mt-10 px-6 max-w-6xl mx-auto"></div>
-        </section>
-
-        <section id="treaty" class="py-16 px-6 text-center">
-            <h2 class="text-4xl font-bold mb-6" data-i18n="treatySystemHeading">📜 Treaty System™</h2>
-            <p class="max-w-2xl mx-auto text-lg mb-8" data-i18n="treatyParagraph1">The FAA™ Treaty Layer binds interface to intention. This is not UI. This is glyph-encoded law.</p>
-            <blockquote class="text-2xl italic font-semibold" data-i18n="treatyQuote">"FAA™ isn't a site. It's the shape of alignment — and 🦍 holds the flame."</blockquote>
-        </section>
-
-        <section class="py-10 text-xs text-center signal-packet-section">
-            <pre class="max-w-2xl mx-auto p-4 rounded-lg overflow-auto"><code>{
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <button onclick="loadTerminal('vault-master.html')" class="terminal-btn p-6" data-i18n="terminalVaultMaster">🦍 VaultMaster Terminal</button>
+            <button onclick="loadTerminal('cube-lattice.html')" class="terminal-btn p-6" data-i18n="terminalCubeLattice">🧱 Cube Lattice GPT</button>
+            <button onclick="loadTerminal('global-view.html')" class="terminal-btn p-6" data-i18n="terminalGlobalView">🌍 Global View GPT</button>
+            <button onclick="loadTerminal('freight-ops.html')" class="terminal-btn p-6" data-i18n="terminalFreightOps">🚚 Freight Ops GPT</button>
+            <button onclick="loadTerminal('loop-watch.html')" class="terminal-btn p-6" data-i18n="terminalLoopWatch">♻️ Loop Watch GPT</button>
+            <button onclick="loadTerminal('seedwave.html')" class="terminal-btn p-6" data-i18n="terminalSeedwave">🌱 Seedwave GPT</button>
+            <button onclick="loadTerminal('distribution.html')" class="terminal-btn p-6" data-i18n="terminalDistribution">📦 Distribution GPT</button>
+            <button onclick="loadTerminal('signal.html')" class="terminal-btn p-6" data-i18n="terminalSignal">🔐 Signal GPT</button>
+            <button onclick="loadTerminal('faa-brands.html')" class="terminal-btn p-6" data-i18n="terminalFAABrands">📦 7038 FAA Brands</button>
+        </div>
+    </section>
+    <section class="py-16 px-6 text-center sector-scrolls-section">
+        <h2 class="text-4xl font-bold mb-8" data-i18n="sectorScrollsHeading">🧬 Sector Scrolls</h2>
+        <div id="sector-glyphs-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+        </div>
+        <div id="sector-content-container" class="mt-10 px-6 max-w-6xl mx-auto"></div>
+    </section>
+    <section id="treaty" class="py-16 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6" data-i18n="treatySystemHeading">📜 Treaty System™</h2>
+        <p class="max-w-2xl mx-auto text-lg mb-8" data-i18n="treatyParagraph1">The FAA™ Treaty Layer binds interface to intention. This is not UI. This is glyph-encoded law.</p>
+        <blockquote class="text-2xl italic font-semibold" data-i18n="treatyQuote">"FAA™ isn't a site. It's the shape of alignment — and 🦍 holds the flame."</blockquote>
+    </section>
+    <section class="py-10 text-xs text-center signal-packet-section">
+        <pre class="max-w-2xl mx-auto p-4 rounded-lg overflow-auto"><code>{
     "signal": "omnidrop",
     "origin": "If you dont like the fruits you are growing, change the seed™ / FAA Vault Layer",
     "payload": {
@@ -1420,104 +1231,74 @@
         "value": "homepage + VaultRouter + all terminal iframe buttons live + Treaty Grid"
     }
 }</code></pre>
-        </section>
-
-        <section id="vaultmesh" class="py-20 px-6">
-            <div class="max-w-4xl mx-auto text-left space-y-6">
-
-                <h2 class="text-4xl font-bold text-purple-400" data-i18n="vaultmeshSummaryHeading">🧠 VaultMesh™: Executive Summary</h2>
-
-                <p data-i18n="vaultmeshSummaryP1">VaultMesh™ is an intelligent data orchestration framework designed for the segmentation, synchronization, and secure deployment of high-value digital assets—referred to as scrolls—across decentralized and permissioned networks such as FAA.Zone™.</p>
-
-                <ul class="list-disc ml-6 space-y-2">
-                    <li data-i18n="vaultmeshSummaryLi1">Captures metadata-rich content streams (chats, code, brands, assets)</li>
-                    <li data-i18n="vaultmeshSummaryLi2">Assigns them to programmable claim structures (ScrollClaims™)</li>
-                    <li data-i18n="vaultmeshSummaryLi3">Secures their lineage using OmniSignal™, PulseGrid™, and GhostTrace™ layers</li>
-                    <li data-i18n="vaultmeshSummaryLi4">Enforces royalty logic, scroll integrity, and traceability on-chain and off-grid</li>
-                </ul>
-
-                <p data-i18n="vaultmeshSummaryP2">VaultMesh™ powers high-tier operations like HSOMNI9000™, enabling Diamond-tier deployments, cross-sector scroll claims, and enterprise-scale content monetization with full compliance and provenance.</p>
-
-                <p data-i18n="vaultmeshSummaryP3">The framework is deeply integrated with platforms suchs as `vault.faa.zone™`, where scrolls tied to brands like Fruitful Global Planet™ are securely hosted, organized into structured sectors, and deployed through FAA.Zone™-compliant channels.</p>
-
-                <p data-i18n="vaultmeshSummaryP4">A critical operator in this ecosystem is HSOMNI9000™, the certified scroll class which governs Diamond-tier logic, enforces 10–11% royalty triggers, and auto-deploys ScrollClaims™ with real-time ClaimRoot™ verification.</p>
-
-                <h3 class="text-2xl font-semibold mt-10" data-i18n="vaultmeshIndexHeading">📖 VaultMesh™ Index</h3>
-                <!-- Modified to use a grid of clickable cards -->
-                <div id="vaultmesh-index-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-                    <!-- These will be populated by JS -->
-                </div>
-                <!-- Container for dynamically loaded content -->
-                <div id="vaultmesh-index-details-container" class="max-w-4xl mx-auto mt-8 hidden">
-                    <!-- Content will be loaded here -->
-                </div>
+    </section>
+    <section id="vaultmesh" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto text-left space-y-6">
+            <h2 class="text-4xl font-bold text-purple-400" data-i18n="vaultmeshSummaryHeading">🧠 VaultMesh™: Executive Summary</h2>
+            <p data-i18n="vaultmeshSummaryP1">VaultMesh™ is an intelligent data orchestration framework designed for the segmentation, synchronization, and secure deployment of high-value digital assets—referred to as scrolls—across decentralized and permissioned networks such as FAA.Zone™.</p>
+            <ul class="list-disc ml-6 space-y-2">
+                <li data-i18n="vaultmeshSummaryLi1">Captures metadata-rich content streams (chats, code, brands, assets)</li>
+                <li data-i18n="vaultmeshSummaryLi2">Assigns them to programmable claim structures (ScrollClaims™)</li>
+                <li data-i18n="vaultmeshSummaryLi3">Secures their lineage using OmniSignal™, PulseGrid™, and GhostTrace™ layers</li>
+                <li data-i18n="vaultmeshSummaryLi4">Enforces royalty logic, scroll integrity, and traceability on-chain and off-grid</li>
+            </ul>
+            <p data-i18n="vaultmeshSummaryP2">VaultMesh™ powers high-tier operations like HSOMNI9000™, enabling Diamond-tier deployments, cross-sector scroll claims, and enterprise-scale content monetization with full compliance and provenance.</p>
+            <p data-i18n="vaultmeshSummaryP3">The framework is deeply integrated with platforms suchs as `vault.faa.zone™`, where scrolls tied to brands like Fruitful Global Planet™ are securely hosted, organized into structured sectors, and deployed through FAA.Zone™-compliant channels.</p>
+            <p data-i18n="vaultmeshSummaryP4">A critical operator in this ecosystem is HSOMNI9000™, the certified scroll class which governs Diamond-tier logic, enforces 10–11% royalty triggers, and auto-deploys ScrollClaims™ with real-time ClaimRoot™ verification.</p>
+            <h3 class="text-2xl font-semibold mt-10" data-i18n="vaultmeshIndexHeading">📖 VaultMesh™ Index</h3>
+            <div id="vaultmesh-index-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
+                <!-- These will be populated by JS -->
             </div>
-        </section>
-
-        <section id="about" class="py-16 md:py-24 px-6 md:px-12 text-center">
-            <div class="max-w-4xl mx-auto">
-                <h3 class="text-4xl font-bold mb-8" data-i18n="aboutFruitfulHeading">About Fruitful Innovations</h3>
-                <p class="text-lg leading-relaxed mb-6" data-i18n="aboutFruitfulP1">
-                    At Fruitful, we believe in a future where technology empowers positive change. Our platform is designed to break down traditional barriers, fostering a collaborative ecosystem where businesses and individuals can thrive while making a meaningful impact on the world.
-                </p>
-                <p class="text-lg leading-relaxed" data-i18n="aboutFruitfulP2">
-                    We are committed to transparency, sustainability, and innovation, driven by a powerful AI that ensures fairness, efficiency, and personalized experiences for every user. Join us in building a more fruitful planet.
-                </p>
+            <div id="vaultmesh-index-details-container" class="max-w-4xl mx-auto mt-8 hidden">
+                <!-- Content will be loaded here -->
             </div>
-        </section>
-
-        <section id="global-hubs" class="py-16 md:py-24 px-6 md:px-12 text-center">
-            <h3 class="text-4xl font-bold mb-12" data-i18n="globalHubsHeading">Our Global Hubs</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div>
-                    <h4 class="text-xl font-semibold mb-4" data-i18n="mapLocationJHB">Johannesburg, South Africa</h4>
-                    <div id="map-jhb" class="map-container"></div>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold mb-4" data-i18n="mapLocationCPT">Cape Town, South Africa</h4>
-                    <div id="map-cpt" class="map-container"></div>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold mb-4" data-i18n="mapLocationNYC">New York City, USA</h4>
-                    <div id="map-nyc" class="map-container"></div>
-                </div>
+        </div>
+    </section>
+    <section id="about" class="py-16 md:py-24 px-6 md:px-12 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-4xl font-bold mb-8" data-i18n="aboutFruitfulHeading">About Fruitful Innovations</h3>
+            <p class="text-lg leading-relaxed mb-6" data-i18n="aboutFruitfulP1">
+                At Fruitful, we believe in a future where technology empowers positive change. Our platform is designed to break down traditional barriers, fostering a collaborative ecosystem where businesses and individuals can thrive while making a meaningful impact on the world.
+            </p>
+            <p class="text-lg leading-relaxed" data-i18n="aboutFruitfulP2">
+                We are committed to transparency, sustainability, and innovation, driven by a powerful AI that ensures fairness, efficiency, and personalized experiences for every user. Join us in building a more fruitful planet.
+            </p>
+        </div>
+    </section>
+    <section id="global-hubs" class="py-16 md:py-24 px-6 md:px-12 text-center">
+        <h3 class="text-4xl font-bold mb-12" data-i18n="globalHubsHeading">Our Global Hubs</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div>
+                <h4 class="text-xl font-semibold mb-4" data-i18n="mapLocationJHB">Johannesburg, South Africa</h4>
+                <div id="map-jhb" class="map-container"></div>
             </div>
-        </section>
-
-        <section id="cta" class="py-16 md:py-24 px-6 md:px-12 text-center">
-            <div class="max-w-3xl mx-auto">
-                <h3 class="text-4xl font-extrabold mb-8 leading-tight" data-i18n="ctaHeading">
-                    Ready to Transform Your Future?
-                </h3>
-                <p class="text-xl mb-10" data-i18n="ctaParagraph">
-                    Join the Fruitful community today and start your journey towards innovation, connection, and a sustainable tomorrow.
-                </p>
-                <a href="https://seedwave.faa.zone/signup.html" class="cta-button" data-i18n="ctaSignupBtn">
-                    Sign Up Now
-                </a>
+            <div>
+                <h4 class="text-xl font-semibold mb-4" data-i18n="mapLocationCPT">Cape Town, South Africa</h4>
+                <div id="map-cpt" class="map-container"></div>
             </div>
-        </section>
-
-        <footer class="py-8 px-6 md:px-12 text-center">
-            <span data-i18n="footerText">© 2025 FAA™ Treaty System™. All Rights Reserved. Powered by 🦍 glyphs + Vault API. Synced with Seedwave™.</span>
-        </footer>
-    </div>
-
+            <div>
+                <h4 class="text-xl font-semibold mb-4" data-i18n="mapLocationNYC">New York City, USA</h4>
+                <div id="map-nyc" class="map-container"></div>
+            </div>
+        </div>
+    </section>
+    <section id="cta" class="py-16 md:py-24 px-6 md:px-12 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h3 class="text-4xl font-extrabold mb-8 leading-tight" data-i18n="ctaHeading">
+                Ready to Transform Your Future?
+            </h3>
+            <p class="text-xl mb-10" data-i18n="ctaParagraph">
+                Join the Fruitful community today and start your journey towards innovation, connection, and a sustainable tomorrow.
+            </p>
+            <a href="https://seedwave.faa.zone/signup.html" class="cta-button" data-i18n="ctaSignupBtn">
+                Sign Up Now
+            </a>
+        </div>
+    </section>
+    <footer class="py-8 px-6 md:px-12 text-center">
+        <span data-i18n="footerText">© 2025 FAA™ Treaty System™. All Rights Reserved. Powered by 🦍 glyphs + Vault API. Synced with Seedwave™.</span>
+    </footer>
     <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import {
-            getAuth,
-            createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
-            signOut,
-            onAuthStateChanged,
-            updateProfile,
-            signInAnonymously,
-            signInWithCustomToken
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
         // WARNING: Storing API keys directly in client-side JavaScript (even in a separate object)
         // is generally INSECURE for production environments, especially for sensitive keys (like Xero Client Secret, PayPal API keys that grant direct account access).
         // For a real-world application, these keys should be handled server-side and exposed only when necessary,
@@ -1544,268 +1325,15 @@
                 "webhookKey": "2fd5LQV0TQDI3572Er/sg66zqEbl8mFWRyfX3XkoKFZGRLK2cZPGpWV/j4yMTU7aUpbgBCfeZkuHnQIwD/0igw=="
             }
         };
-
-        // --- Firebase Configuration and Initialization ---
-        // This is your FAA Nexus Firebase project configuration.
-        // IMPORTANT: Replace these placeholder values with your ACTUAL Firebase project configuration from the Firebase Console.
-        // Go to Firebase Console -> Project settings (gear icon) -> Your apps -> Web app -> Config
-        const faaNexusFirebaseConfig = {
-            apiKey: "AIzaSyCR3mbgoiiCkRyaAm5BSWBWBFwut0MDCW8",
-            authDomain: "faa-nexus.firebaseapp.com",
-            projectId: "faa-nexus",
-            storageBucket: "faa-nexus.appspot.com",
-            messagingSenderId: "459816542686",
-            appId: "1:459816542686:web:YOUR_WEB_APP_ID" // Corrected placeholder format
-        };
-
-        // Determine which Firebase config to use:
-        // If __firebase_config is provided by the Canvas environment, use it.
-        // Otherwise, fall back to the hardcoded faaNexusFirebaseConfig for live deployment.
-        const firebaseConfig = (typeof __firebase_config !== 'undefined' && Object.keys(JSON.parse(__firebase_config)).length > 0)
-            ? JSON.parse(__firebase_config)
-            : faaNexusFirebaseConfig;
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        // Log the Firebase config for debugging
-        console.log("Firebase Config in use:", firebaseConfig);
-
-        // Initialize Firebase app
-        const app = initializeApp(firebaseConfig);
-        // Get Firebase Auth and Firestore instances
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // --- DOM Elements for Auth Overlay ---
-        const authOverlay = document.getElementById('authOverlay');
-        const authSection = document.getElementById('authSection');
-        const signUpForm = document.getElementById('signUpForm');
-        const signInForm = document.getElementById('signInForm');
-        const dashboardSection = document.getElementById('dashboardSection');
-
-        const signUpDisplayNameInput = document.getElementById('signUpDisplayName');
-        const signUpEmailInput = document.getElementById('signUpEmail');
-        const signUpPasswordInput = document.getElementById('signUpPassword');
-        const signUpButton = document.getElementById('signUpButton');
-
-        const signInEmailInput = document.getElementById('signInEmail');
-        const signInPasswordInput = document.getElementById('signInPassword');
-        const signInButton = document.getElementById('signInButton');
-
-        const signOutButton = document.getElementById('signOutButton');
-        const userNameDisplay = document.getElementById('userName');
-        const userEmailDisplay = document.getElementById('userEmail');
-        const userIdDisplay = document.getElementById('userIdDisplay');
-
-        const showSignInLink = document.getElementById('showSignIn');
-        const showSignUpLink = document.getElementById('showSignUp');
-
-        const messageBox = document.getElementById('messageBox');
-        const successBox = document.getElementById('successBox');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const loadingMessage = document.getElementById('loadingMessage');
-
-        // --- DOM Element for Main Content ---
-        const mainContent = document.getElementById('mainContent');
-
-        // --- Helper Functions for UI Messages ---
-        function showMessage(element, message, isError = true) {
-            element.textContent = message;
-            element.style.display = 'block';
-            if (isError) {
-                element.classList.remove('success-box');
-                element.classList.add('message-box');
-            } else {
-                element.classList.remove('message-box');
-                element.classList.add('success-box');
-            }
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                element.style.display = 'none';
-                element.textContent = '';
-            }, 5000);
-        }
-
-        // --- Event Listeners for Auth Forms ---
-
-        // Toggle between Sign Up and Sign In forms
-        showSignInLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            signUpForm.classList.add('hidden');
-            signInForm.classList.remove('hidden');
-            messageBox.style.display = 'none'; // Clear messages
-            successBox.style.display = 'none';
-        });
-
-        showSignUpLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            signInForm.classList.add('hidden');
-            signUpForm.classList.remove('hidden');
-            messageBox.style.display = 'none'; // Clear messages
-            successBox.style.display = 'none';
-        });
-
-        // Sign Up Button Click Handler
-        signUpButton.addEventListener('click', async () => {
-            const displayName = signUpDisplayNameInput.value.trim();
-            const email = signUpEmailInput.value.trim();
-            const password = signUpPasswordInput.value.trim();
-
-            if (!displayName || !email || !password) {
-                showMessage(messageBox, 'Please fill in all fields.');
-                return;
-            }
-
-            if (password.length < 6) {
-                showMessage(messageBox, 'Password should be at least 6 characters.');
-                return;
-            }
-
-            try {
-                // Create user with email and password
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Update user profile with display name
-                await updateProfile(user, { displayName: displayName });
-
-                showMessage(successBox, 'Account created successfully! Welcome ' + displayName + '.', false);
-                // The onAuthStateChanged listener will handle UI update to dashboard
-            } catch (error) {
-                console.error("Sign up error:", error.code, error.message);
-                let errorMessage = 'An unknown error occurred during sign up.';
-                switch (error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage = 'This email is already in use.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'The email address is not valid.';
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = 'The password is too weak.';
-                        break;
-                    default:
-                        errorMessage = error.message;
-                }
-                showMessage(messageBox, errorMessage);
-            }
-        });
-
-        // Sign In Button Click Handler
-        signInButton.addEventListener('click', async () => {
-            const email = signInEmailInput.value.trim();
-            const password = signInPasswordInput.value.trim();
-
-            if (!email || !password) {
-                showMessage(messageBox, 'Please fill in all fields.');
-                return;
-            }
-
-            try {
-                // Sign in user with email and password
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                showMessage(successBox, 'Signed in successfully! Welcome back ' + (user.displayName || user.email) + '.', false);
-                // The onAuthStateChanged listener will handle UI update to dashboard
-            } catch (error) {
-                console.error("Sign in error:", error.code, error.message);
-                let errorMessage = 'An unknown error occurred during sign in.';
-                switch (error.code) {
-                    case 'auth/invalid-email':
-                        errorMessage = 'The email address is not valid.';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage = 'This user account has been disabled.';
-                        break;
-                    case 'auth/user-not-found':
-                    case 'auth/wrong-password':
-                        errorMessage = 'Invalid email or password.';
-                        break;
-                    default:
-                        errorMessage = error.message;
-                }
-                showMessage(messageBox, errorMessage);
-            }
-        });
-
-        // Sign Out Button Click Handler
-        signOutButton.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                showMessage(successBox, 'You have been signed out.', false);
-                // The onAuthStateChanged listener will handle UI update to forms
-            } catch (error) {
-                console.error("Sign out error:", error.code, error.message);
-                showMessage(messageBox, 'Error signing out: ' + error.message);
-            }
-        });
-
-        // --- Firebase Auth State Listener ---
-        // This listener runs whenever the user's sign-in state changes.
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                authOverlay.classList.add('hidden'); // Hide auth overlay
-                mainContent.classList.remove('hidden'); // Show main content
-                userNameDisplay.textContent = user.displayName || 'No Display Name';
-                userEmailDisplay.textContent = user.email;
-                userIdDisplay.textContent = `User ID: ${user.uid}`;
-                messageBox.style.display = 'none'; // Clear any lingering error messages
-                loadingSpinner.classList.add('hidden'); // Hide loading spinner
-                loadingMessage.classList.add('hidden'); // Hide loading message
-
-                // Initialize other page components after successful login
-                updateSeedwaveMetrics();
-                updateSharePrice();
-                // initMap is called by Google Maps API script directly via callback=initMap
-            } else {
-                // User is signed out
-                authOverlay.classList.remove('hidden'); // Show auth overlay
-                mainContent.classList.add('hidden'); // Hide main content
-                // Ensure sign-up form is visible by default when signed out
-                signInForm.classList.add('hidden');
-                signUpForm.classList.remove('hidden');
-                dashboardSection.classList.add('hidden'); // Hide dashboard
-                authSection.classList.remove('hidden'); // Show auth forms
-                loadingSpinner.classList.add('hidden'); // Hide loading spinner
-                loadingMessage.classList.add('hidden'); // Hide loading message
-            }
-        });
-
-        // --- Initial Authentication ---
-        // Attempt to sign in with the custom token provided by the environment.
-        // If no token, sign in anonymously to ensure Firebase is ready.
-        window.onload = async () => {
-            try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                console.log("Firebase authentication initialized.");
-            } catch (error) {
-                console.error("Error during initial Firebase authentication:", error);
-                showMessage(messageBox, 'Failed to initialize authentication. Please try again later.');
-                loadingSpinner.classList.add('hidden');
-                loadingMessage.classList.add('hidden');
-                authSection.classList.remove('hidden'); // Show auth forms even on error
-            }
-        };
-
-        // Function to load terminal content into the iframe
         function loadTerminal(url) {
             const vaultFrame = document.getElementById('vault-frame');
             vaultFrame.src = url;
-            // Remove ring from all buttons and add to the clicked one
             document.querySelectorAll('.terminal-btn').forEach(btn => btn.classList.remove('ring', 'ring-blue-500'));
-            // Use event.currentTarget to ensure the clicked button is targeted
             if (event && event.currentTarget) {
                 event.currentTarget.classList.add('ring', 'ring-blue-500');
             }
             console.log("🧬 Terminal loaded:", url);
         }
-
         // Script for Share Signal (mock price update)
         function updateSharePrice() {
             const mockPrice = (80 + Math.random() * 10).toFixed(2);
@@ -1816,29 +1344,23 @@
         setInterval(updateSharePrice, 9000);
         // Initial call to display price immediately
         // updateSharePrice(); // Moved to onAuthStateChanged
-
         // Seedwave Growth Metrics (updated)
         const seedwaveMetrics = {
             goal: 9000,
             inDev: 7038,
             deployed: 1172
         };
-
         function updateSeedwaveMetrics() {
             document.getElementById('seedwave-goal').innerText = seedwaveMetrics.goal.toLocaleString();
             document.getElementById('seedwave-in-dev').innerText = seedwaveMetrics.inDev.toLocaleString();
             document.getElementById('seedwave-deployed').innerText = seedwaveMetrics.deployed.toLocaleString();
-
             const progressBar = document.getElementById('seedwave-progress-bar');
             const progressPercentage = (seedwaveMetrics.deployed / seedwaveMetrics.goal) * 100;
             progressBar.style.width = `${progressPercentage.toFixed(1)}%`;
             progressBar.innerText = `${progressPercentage.toFixed(1)}%`;
         }
-
         // Run on DOM content loaded - now triggered by auth state change
         // document.addEventListener('DOMContentLoaded', updateSeedwaveMetrics);
-
-
         // Define the comprehensive sectorList from admin-portal for consistent slugs and display names
         const sectorList = {
             "agriculture": "🌱 Agriculture & Biotech",
@@ -1874,8 +1396,6 @@
             "admin": "⚙️ Admin & Manual Sync Panel",
             "global-index": "🌐 Global Brand Index"
         };
-
-
         // Dynamically generate the sectorMap based on the comprehensive sectorList
         const sectorMap = {};
         for (const slug in sectorList) {
@@ -1886,13 +1406,11 @@
                 sectorMap[slug] = `/public/sectors/${slug}/${fileName}`;
             }
         }
-
         // Get the container for sector glyphs
         const sectorGlyphsContainer = document.getElementById('sector-glyphs-container');
         if (sectorGlyphsContainer) {
             // Clear existing hardcoded glyphs
             sectorGlyphsContainer.innerHTML = '';
-
             // Sort sectors alphabetically by their display name for consistent order
             const sortedSectorSlugs = Object.keys(sectorList).filter(slug =>
                 slug !== 'admin' && slug !== 'global-index'
@@ -1904,25 +1422,21 @@
                 if (b === 'admin' || b === 'global-index') return -1;
                 return nameA.localeCompare(nameB);
             });
-
             sortedSectorSlugs.forEach(slug => {
                 // Only render public sectors (not admin or global-index)
                 if (slug !== 'admin' && slug !== 'global-index') {
                     const display = sectorList[slug];
                     const url = sectorMap[slug];
-
                     const glyphLink = document.createElement('a');
                     glyphLink.href = url;
                     glyphLink.className = "glyph";
                     glyphLink.setAttribute('data-vault', slug);
                     glyphLink.innerHTML = display; // display includes the emoji and text
-
                     glyphLink.addEventListener('click', (e) => {
                         e.preventDefault();
                         const clickedSectorSlug = e.currentTarget.getAttribute('data-vault');
                         const iframeUrl = sectorMap[clickedSectorSlug];
                         const sectorContentContainer = document.getElementById('sector-content-container');
-
                         if (iframeUrl) {
                             // Extract display name from sectorList for the loading message
                             const loadingMessageText = sectorList[clickedSectorSlug] || clickedSectorSlug.charAt(0).toUpperCase() + clickedSectorSlug.slice(1).replace('-', ' ');
@@ -1938,7 +1452,6 @@
                 }
             });
         }
-
         // Rhythmic Canvas Logic (Pulse bar with hacking game)
         document.addEventListener('DOMContentLoaded', function() {
             const rhythmicCanvas = document.getElementById('rhythmicCanvas');
@@ -1946,11 +1459,9 @@
                 console.error("Rhythmic canvas element not found!");
                 return;
             }
-
             const ctx = rhythmicCanvas.getContext('2d');
             let animationFrameId;
             let lineAmplitude;
-
             const resizeCanvas = () => {
                 rhythmicCanvas.width = rhythmicCanvas.offsetWidth;
                 rhythmicCanvas.height = rhythmicCanvas.offsetHeight;
@@ -1958,13 +1469,11 @@
             };
             window.addEventListener('resize', resizeCanvas, false);
             resizeCanvas();
-
             let time = 0;
             const numLines = 30;
             const lineFrequency = 0.02;
             const lineSpeed = 0.003;
             const colorSpeed = 50;
-
             let gameState = 'normal'; // 'normal', 'hackable', 'success', 'failed'
             let hackStartTime = 0;
             const HACK_WINDOW_DURATION = 3000; // 3 seconds for hacking
@@ -1972,14 +1481,11 @@
             let nextHackTime = Date.now() + HACK_INTERVAL;
             let messageTimer = 0;
             const MESSAGE_DISPLAY_DURATION = 2000; // How long success/fail messages display
-
             function drawGlyph() {
                 ctx.clearRect(0, 0, rhythmicCanvas.width, rhythmicCanvas.height);
                 time += lineSpeed;
-
                 const currentTime = Date.now();
                 const isHyperMode = document.body.classList.contains('hyper-mode');
-
                 // --- State Transition Logic ---
                 if (gameState === 'normal' && currentTime >= nextHackTime) {
                     gameState = 'hackable';
@@ -1987,11 +1493,9 @@
                     messageTimer = currentTime; // Start message timer
                     console.log("Entering hackable state!");
                 }
-
                 if (gameState === 'hackable') {
                     const timeLeft = Math.max(0, HACK_WINDOW_DURATION - (currentTime - hackStartTime));
                 }
-
                 // Logic to clear success/failed states and return to normal after message duration
                 if ((gameState === 'success' || gameState === 'failed') && (currentTime - messageTimer > MESSAGE_DISPLAY_DURATION)) {
                     gameState = 'normal';
@@ -2001,7 +1505,6 @@
                     }
                     console.log("Message ended, returning to normal.");
                 }
-
                 // --- Drawing Logic based on State ---
                 for (let i = 0; i < numLines; i++) {
                     ctx.beginPath();
@@ -2012,7 +1515,6 @@
                     let saturation = 70;
                     let lightness = 50;
                     let lineWidth = 1.5;
-
                     if (gameState === 'hackable') {
                         const progress = (currentTime - hackStartTime) / HACK_WINDOW_DURATION; // 0 to 1
                         // Transition from red (0) towards cyan (180) or a techier blue in hyper mode
@@ -2021,7 +1523,6 @@
                         lightness = isHyperMode ? 60 : 50; // Slightly brighter in hyper
                         strokeAlpha = 0.8;
                         lineWidth = 2.5;
-
                         // Make lines converge towards a single pulse as time passes
                         currentLineAmplitude = lineAmplitude * (1 - 0.8 * progress); // Reduce amplitude to converge
                         offset = 0; // All lines align to a single phase for the "security code" look
@@ -2068,10 +1569,8 @@
                         strokeAlpha = 0.2;
                         lineWidth = 1.5;
                     }
-
                     ctx.strokeStyle = `hsla(${colorHue}, ${saturation}%, ${lightness}%, ${strokeAlpha})`;
                     ctx.lineWidth = lineWidth;
-
                     for (let x = 0; x <= rhythmicCanvas.width; x += 10) {
                         const y = Math.sin(x * lineFrequency + time + offset) * currentLineAmplitude + rhythmicCanvas.height * 0.25;
                         if (x === 0) {
@@ -2082,10 +1581,8 @@
                     }
                     ctx.stroke();
                 }
-
                 animationFrameId = requestAnimationFrame(drawGlyph);
             }
-
             // Canvas click handler for hacking attempt
             rhythmicCanvas.addEventListener('click', () => {
                 const currentTime = Date.now();
@@ -2102,31 +1599,26 @@
                     console.log("Clicked too early/late, hack failed.");
                 }
             });
-
             // Start the animation loop
             drawGlyph();
+            updateSeedwaveMetrics();
+            updateSharePrice();
+            // initMap is called by Google Maps API script directly via callback=initMap
         });
-
-        // --- Theme Switching Logic ---
         const themeToggle = document.getElementById('theme-toggle');
         const hyperToggle = document.getElementById('hyper-toggle');
         const currentTheme = localStorage.getItem('theme');
         const currentHyperMode = localStorage.getItem('hyper-mode');
-
         function applyThemeClasses() {
             document.body.classList.remove('light-mode', 'dark-mode', 'hyper-mode');
             const savedTheme = localStorage.getItem('theme') || 'light-mode';
             document.body.classList.add(savedTheme);
-
             const savedHyperMode = localStorage.getItem('hyper-mode');
             if (savedHyperMode === 'active') {
                 document.body.classList.add('hyper-mode');
             }
         }
-
-        // Initialize themes on load
         applyThemeClasses();
-
         themeToggle.addEventListener('click', () => {
             if (document.body.classList.contains('dark-mode')) {
                 localStorage.setItem('theme', 'light-mode');
@@ -2136,7 +1628,6 @@
             applyThemeClasses(); // Re-apply all theme classes
             applyTranslations(languageSelect.value); // Re-apply translations after theme change
         });
-
         hyperToggle.addEventListener('click', () => {
             if (document.body.classList.contains('hyper-mode')) {
                 localStorage.setItem('hyper-mode', 'inactive');
@@ -2146,9 +1637,6 @@
             applyThemeClasses(); // Re-apply all theme classes
             applyTranslations(languageSelect.value); // Re-apply translations after theme change
         });
-
-
-        // --- Language Switching Logic ---
         const translations = {
             en: {
                 pageTitle: "🌐 VaultMesh™ by Fruitful",
@@ -2169,26 +1657,27 @@
                 themeToggleLabel: "Theme",
                 hyperToggleLabel: "Hyper",
                 heroHeading: "Welcome to <span class=\"text-blue-600\">VaultMesh™</span>",
-                heroBtnExplore: "Explore Ecosystem",
-                heroBtnFruitful: "Fruitful™",
-                heroBtnBaobab: "Baobab Network",
-                heroBtnCrateDance: "Fruitful Crate Dance",
-                "heroBtnGlobalPackages": "🌐Global 💰 Packages", // Quoted key
-                heroBtnEcosystemDashboard: "Ecosystem dashboard",
-                heroBtnTakealot: "Takealot Seller",
-                heroBtnVaultEmail: "Vault Email",
-                heroBtnPaypalAccess: "Paypal Access",
-                heroBtnVercelAccess: "Vercel Access",
+                heroBtnExplore: "🌐Explore Omnigrid",
+                heroBtnFruitful: "🌐Fruitful™",
+                heroBtnBaobab: "🌐Baobab Network",
+                heroBtnCrateDance: "🐑Fruitful Crate Dance",
+                heroBtnGlobalPackages: "🌐Global 💰 Packages",
+                heroBtnEcosystemDashboard: "🌐Ecosystem dashboard",
+                heroBtnTakealot: "🔒Takealot Seller",
+                heroBtnVaultEmail: "🔒Vault Email",
+                heroBtnPaypalAccess: "🔒Paypal Access",
+                heroBtnVercelAccess: "🔒Vecel Access",
                 heroBtnGithubAccess: "🔒Github Access",
-                heroBtnCloudflareAccess: "Cloudflare Access",
+                heroBtnCloudflareAccess: "Cloudfare Access",
                 heroBtnHetznerCloud: "🔒Hetzner Cloud",
-                heroBtnLegalAccess: "Legal Access",
-                heroBtnSageAccess: "Sage Access",
-                heroBtnAlibabaAccount: "Alibaba Account",
+                heroBtnLegalAccess: "🌐Legal Access",
+                heroBtnSageAccess: "🔒Sage Access",
+                heroBtnAlibabaAccount: "🔒Alibaba Account",
+                heroBtnHomemart: "🌐Homemart.Africa",
                 heroBtnGemini: "🔒Gemini",
-                "heroBtnBanimal™:": "🐑Banimal™:", // Quoted key
-                "heroBtnSeedwave™:": "🌱Seedwave Global™:", // Quoted key
-                "heroBtnRespitories™:": "🌱Respitories Global™:", // Quoted key
+                "heroBtnBanimal™:": "🐑Banimal™:",
+                "heroBtnSeedwave™:": "🌱Seedwave Global™:",
+                "heroBtnRespitories™:": "🌱Respitories Global™:",
                 featuresHeading: "Unlock Your Potential with Our Core Features",
                 feature1Title: "AI-Powered Insights",
                 feature1Desc: "Leverage advanced AI to gain deep insights, optimize operations, and make smarter decisions.",
@@ -2253,46 +1742,47 @@
                 introVaultmeshHeading: "☑️ 1. Introduction to VaultMesh™",
                 introVaultmeshP: "VaultMesh™ transforms disorganized digital content into claimable, trackable assets. It bridges enterprise content systems, decentralized data vaults, and monetization layers through FAA-compliant infrastructure.",
                 coreComponentsHeading: "⚒️ 2. Kernstelselkomponente",
-                coreComponentsLi1: "VaultDNA™: Immutable identifiseerders vir rolinhoud",
-                coreComponentsLi2: "ClaimRoot™: Oorsprong anker & tydstempel",
-                coreComponentsLi3: "Rolleis™ Kontrakte: Programmeerbare omhulsels",
-                coreComponentsLi4: "PulseGrid™ Sinkronisasie: Intydse rol-teenwoordigheid & sinkronisasie",
-                coreComponentsLi5: "OmniSignal™: Globale rol-verifikasie",
-                coreComponentsLi6: "GhostTrace™ Gen2: Rol-interaksie terugspoor",
+                coreComponentsLi1: "A new source of API endpoint",
+                coreComponentsLi2: "A new optional key in the JSON body",
+                coreComponentsLi3: "A new key returned in the JSON body",
+                coreComponentsLi4: "The Minor version will be updated for any functionality or changes that are beneficial to you, but will not break your integration with the API. The Patch version will be updated for bug fixes.",
+                coreComponentsLi5: "Takealot considers the following to constitute a non-breaking change:",
+                coreComponentsLi6: "A new resource or API endpoint",
                 scrollClaimInfrastructureHeading: "🛠️ 3. Rolleis™ Infrastruktuur",
-                scrollClaimInfrastructureLi1: "Set tier access (e.g., Diamond)",
-                scrollClaimInfrastructureLi2: "Definieer tantième logika (10–11%)",
-                scrollClaimInfrastructureLi3: "Sluit rolle met PulseGrid™ sinkronisasie en OmniSignal™",
-                scrollClaimInfrastructureLi4: "Ontplooi via FAA.Zone™ met voldoenende ZIP-bundels",
+                scrollClaimInfrastructureLi1: "Will current be able to automate updates of your:",
+                scrollClaimInfrastructureLi2: "Selling price",
+                scrollClaimInfrastructureLi3: "Recommended Retail Price (RRP)",
+                scrollClaimInfrastructureLi4: "Leadtime days",
+                scrollClaimInfrastructureLi5: "Leadtime Soft and status (active/inactive)",
                 dataFlowHeading: "📀 4. Datavloei en Eis Lewensiklus",
-                dataFlowLi1: "Ingest — content enters VaultMesh™",
-                dataFlowLi2: "Encode — metadata & VaultDNA™ attached",
-                dataFlowLi3: "Wrap — ScrollClaim™ smart-wrapped",
-                dataFlowLi4: "Deploy — FAA.Zone™ push (ZIP, manifest, HTML)",
-                dataFlowLi5: "Sync — PulseGrid™ status & OmniSignal™ locked",
-                dataFlowLi6: "Enforce — Royalties, access & scroll activity logged via GhostTrace™",
+                dataFlowLi1: "Product Offer",
+                dataFlowLi2: "Sale Status",
+                dataFlowLi3: "Order Item ID",
+                dataFlowLi4: "Order ID",
+                dataFlowLi5: "Takealot Product Display Page URL (for Mobile site)",
+                dataFlowLi6: "SKU",
                 tieringRoyaltiesHeading: "💸 5. Vlakke, Tantième, en Voldoening",
-                tieringRoyaltiesLi1: "Diamond Tier: 10–11% royalty enforced",
-                tieringRoyaltiesLi2: "SmartWallet Integration: Rolleis™ betalings en oordragte",
-                tieringRoyaltiesLi3: "VaultPay™ Vlak III: Vereis vir kommersiële ontplooiings",
-                tieringRoyaltiesLi4: "Compliance: FAA rol ID, ClaimRoot™ hash, en royalty schema",
+                tieringRoyaltiesLi1: "TSN ID",
+                tieringRoyaltiesLi2: "Offer ID",
+                tieringRoyaltiesLi3: "Quantity",
+                tieringRoyaltiesLi4: "Selling Price",
                 integrationFAAHeading: "📡 6. Integrasie met FAA.Zone™",
-                integrationFAALi1: "Inheemse ondersteuning vir /public/diamond/ struktuur",
-                integrationFAALi2: "ZIP, HTML, Manifes ontplooiingsbundels",
-                integrationFAALi3: "ClaimRoot™ tydstempel validering",
-                integrationFAALi4: "Naatlose PulseGrid™ outo-sinkronisasie vir lewende eisstaat",
-                integrationFAALi5: "Brand hosting via vault.faa.zone™",
+                integrationFAALi1: "Have any further questions? Click here for more details.",
+                integrationFAALi2: "Hi Developer",
+                integrationFAALi3: "The Seller API can currently be used to:",
+                integrationFAALi4: "Retrieve Seller Product Offer information selling price, RRP, leadtime days, leadtime Soft and status) using the Get an Offer or Get Offers endpoint",
+                integrationFAALi5: "Add Product Offers to Seller Account for products that already exist in Takealot's Catalogue using the Create an Offer endpoint - the product's TIN (manufacturer barcode appearing on the product/packaging) is needed to match the product to Takealot's existing catalogue",
                 marketSegmentsHeading: "🏢 7. Marksegmente & Gebruiksgevalle",
-                marketSegmentsLi1: "GPT Gesprekke & Deskundige Drade",
-                marketSegmentsLi2: "Kennis/Opleiding Argiewe",
-                marketSegmentsLi3: "Kreatiewe IP Rolle (musiek, literatuur, visuele elemente)",
-                marketSegmentsLi4: "GeoSektor Ontplooiingsargiewe",
-                marketSegmentsLi5: "Onderneming Rol Logboeke & Ouditspore",
+                marketSegmentsLi1: "Update Product Offer information for an Offer endpoint - the product's TIN (manufacturer barcode appearing on the product/packaging) is needed to match the product to Takealot's existing catalogue",
+                marketSegmentsLi2: "One of the above can be done in bulk by creating a batch using the Create a Batch endpoint - please note if there is a GTIN in the batch for a product that the Seller does not yet have a Product Offer for a Product Offer will be created for the file i.e. batches can be used for Product Offer creation",
+                marketSegmentsLi3: "Retrieve information",
+                marketSegmentsLi4: "All the retrieved information can be found below. Once you have reviewed the information, you can generate your API Authentication Key in the Authentication section of this page.",
+                marketSegmentsLi5: "Retrieve Seller Product Offer information selling price, RRP, leadtime days, leadtime Soft and status) using the Get an Offer or Get Offers endpoint",
                 revenueStreamsHeading: "💰 8. Inkomstestrome & Monetisering",
-                revenueStreamsLi1: "Diamond Royalties (10–11%)",
-                revenueStreamsLi2: "Scroll Packaging Fees",
-                revenueStreamsLi3: "VaultMesh™ API Subskripsies",
-                revenueStreamsLi4: "PulseGrid™ en OmniSignal™ Lisensiëring",
+                revenueStreamsLi1: "Add Product Offers to Seller Account for products that already exist in Takealot's Catalogue using the Create an Offer endpoint - the product's TIN (manufacturer barcode appearing on the product/packaging) is needed to match the product to Takealot's existing catalogue",
+                revenueStreamsLi2: "Update Product Offer information for an Offer endpoint - the product's TIN (manufacturer barcode appearing on the product/packaging) is needed to match the product to Takealot's existing catalogue",
+                revenueStreamsLi3: "One of the above can be done in bulk by creating a batch using the Create a Batch endpoint - please note if there is a GTIN in the batch for a product that the Seller does not yet have a Product Offer for a Product Offer will be created for the file i.e. batches can be used for Product Offer creation",
+                revenueStreamsLi4: "Retrieve information",
                 techRoadmapHeading: "⚖️ 9. Tegnologiepadkaart",
                 techRoadmapLi1: "K2 2025: Rolleis™ v2.2 met multi-eis staking",
                 techRoadmapLi2: "K3 2025: GhostTrace™ Gen3 met forensiese terugspoor gereedskap",
@@ -2303,24 +1793,21 @@
                 teamGovernanceLi2: "Rol Ministers: Voldoening + vlakke",
                 teamGovernanceLi3: "Kluis Admins: Metadata + ClaimRoot™ afdwinging",
                 teamGovernanceLi4: "HSOMNI9000™ Operateurs: Diamant-vlak uitvoeringsagente",
-                exportNote: "📎 This plan can now be exported as HTML, PDF, or ZIP.",
                 aboutFruitfulHeading: "Oor Fruitful Innovasies",
-                aboutFruitfulP1: "At Fruitful, we believe in a future where technology empowers positive change. Our platform is designed to break down traditional barriers, fostering a collaborative ecosystem where businesses and individuals can thrive while making a meaningful impact on the world.",
-                aboutFruitfulP2: "We are committed to transparency, sustainability, and innovation, driven by a powerful AI that ensures fairness, efficiency, and personalized experiences for every user. Join us in building a more fruitful planet.",
+                aboutFruitfulP1: "By Fruitful glo ons in 'n toekoms waar tegnologie positiewe verandering bemagtig. Ons platform is ontwerp om tradisionele hindernisse af te breek, 'n samewerkende ekosisteem te bevorder waar besighede en individue kan floreer terwyl hulle 'n betekenisvolle impak op die wêreld maak.",
+                aboutFruitfulP2: "Ons is verbind tot deursigtigheid, volhoubaarheid en innovasie, gedryf deur 'n kragtige KI wat regverdigheid, doeltreffendheid en gepersonaliseerde ervarings vir elke gebruiker verseker. Sluit by ons aan om 'n meer vrugbare planeet te bou.",
                 globalHubsHeading: "Ons Globale Spilpunte",
                 mapLocationJHB: "Johannesburg, Suid-Afrika",
                 mapLocationCPT: "Kaapstad, Suid-Afrika",
-                mapLocationNYC: "New York City, USA",
+                mapLocationNYC: "New York City, VSA",
                 ctaHeading: "Gereed om Jou Toekoms te Transformeer?",
                 ctaParagraph: "Sluit vandag aan by die Fruitful-gemeenskap en begin jou reis na innovasie, konneksie en 'n volhoubare môre.",
-                ctaSignupBtn: "Teken Nou In",
-                footerText: "© 2025 FAA™ Treaty System™. Alle Regte Voorbehou. Aangedryf deur 🦍 gliewe + Kluis API. Gesinchroniseer met Seedwave™."
+                ctaSignupBtn: "Teken Nou Aan",
+                footerText: "© 2025 FAA™ Verdragstelsel™. Alle Regte Voorbehou. Aangedryf deur 🦍 gliewe + Kluis API. Gesinchroniseer met Seedwave™."
             }
         };
-
         const languageSelect = document.getElementById('language-select');
         const currentLanguage = localStorage.getItem('language') || 'en'; // Default to English
-
         // Function to apply translations
         function applyTranslations(lang) {
             document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -2335,18 +1822,15 @@
                 pageTitleElement.innerText = translations[lang][pageTitleElement.getAttribute('data-i18n')].replace(/<[^>]*>/g, ''); // Remove HTML for title text
             }
         }
-
         // Set initial language on load
         languageSelect.value = currentLanguage;
         applyTranslations(currentLanguage);
-
         // Event listener for language change
         languageSelect.addEventListener('change', (event) => {
             const selectedLang = event.target.value;
             localStorage.setItem('language', selectedLang);
             applyTranslations(selectedLang);
         });
-
         // --- Google Maps Integration ---
         function initMap() {
             // Johannesburg
@@ -2355,27 +1839,22 @@
                 zoom: 12,
                 mapTypeId: 'roadmap'
             });
-
             // Cape Town
             new google.maps.Map(document.getElementById('map-cpt'), {
                 center: { lat: -33.9249, lng: 18.4241 }, // Coordinates for Cape Town
                 zoom: 12,
                 mapTypeId: 'roadmap'
             });
-
             // New York City
             new google.maps.Map(document.getElementById('map-nyc'), {
                 center: { lat: 40.7128, lng: -74.0060 }, // Coordinates for New York City
                 zoom: 12,
                 mapTypeId: 'roadmap'
             });
-
             console.log("📍 Google Maps initialized for global hubs.");
         }
-
         // Attach initMap to window to ensure it's callable by the Google Maps API script
         window.initMap = initMap;
-
         // --- VaultMesh Index Dynamic Content Logic ---
         const vaultMeshIndexContent = {
             "intro": {
@@ -2494,16 +1973,14 @@
                     <ul>
                         <li data-i18n="teamGovernanceLi1">FAA-certified engineers (scroll claimers)</li>
                         <li data-i18n="teamGovernanceLi2">Scroll Ministers: Compliance + tiering</li>
-                        <li data-i18n="teamComponentsLi3">Vault Admins: Metadata + ClaimRoot™ enforcement</li>
+                        <li data-i18n="teamGovernanceLi3">Vault Admins: Metadata + ClaimRoot™ enforcement</li>
                         <li data-i18n="teamGovernanceLi4">HSOMNI9000™ Operators: Diamond-tier execution agents</li>
                     </ul>
                 `
             }
         };
-
         const vaultmeshIndexCardsContainer = document.getElementById('vaultmesh-index-cards');
         const vaultmeshIndexDetailsContainer = document.getElementById('vaultmesh-index-details-container');
-
         // Dynamically create the index cards
         if (vaultmeshIndexCardsContainer) {
             // Map the order of items from translations to ensure consistent display
@@ -2511,7 +1988,6 @@
                 "intro", "components", "infrastructure", "dataflow", "royalties",
                 "integration", "segments", "revenue", "roadmap", "governance"
             ];
-
             orderedIndexKeys.forEach(key => {
                 const item = vaultMeshIndexContent[key];
                 const card = document.createElement('div');
@@ -2522,12 +1998,10 @@
                     <span class="title" data-i18n="vaultmeshIndexLi${orderedIndexKeys.indexOf(key) + 1}">${item.title}</span>
                 `;
                 vaultmeshIndexCardsContainer.appendChild(card);
-
                 card.addEventListener('click', () => {
                     const selectedKey = card.getAttribute('data-index-key');
                     const content = vaultMeshIndexContent[selectedKey].content;
                     const title = vaultMeshIndexContent[selectedKey].title;
-
                     vaultmeshIndexDetailsContainer.innerHTML = `
                         <h4>${title}</h4>
                         ${content}
@@ -2535,13 +2009,11 @@
                     vaultmeshIndexDetailsContainer.classList.remove('hidden');
                     // Scroll to the displayed content for better UX
                     vaultmeshIndexDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
                     // Re-apply translations for the dynamically loaded content
                     applyTranslations(languageSelect.value);
                 });
             });
         }
     </script>
-
 </body>
 </html>
