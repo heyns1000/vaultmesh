@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 VaultMesh™ by Fruitful - Secure Financial Platform</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'vault-blue': '#0071e3',
+                    'vault-cyan': '#00bcd4',
+                    'vault-orange': '#ff9800',
+                    'vault-dark': '#1a202c',
+                    'vault-gray': '#2d3748'
+                }
+            }
+        }
+    };
+    </script>
+
+    <style>
+        /* CSS Variables for Advanced Theming */
+        :root {
+            /* Light Theme Defaults */
+            --bg-color-primary: #f5f5f7;
+            --text-color-primary: #1d1d1f;
+            --text-color-secondary: #424245;
+            --primary-blue: #0071e3;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --header-border: #e8e8ed;
+            --card-bg: white;
+            --card-border: #e8e8ed;
+            --muted-text: #6e6e73;
+            --code-bg: #f0f0f0;
+            --code-text: #1d1d1f;
+            --button-secondary-bg: #f0f0f0;
+            --button-secondary-border: #dcdcdc;
+            --button-secondary-hover-bg: #e8e8ed;
+            --button-secondary-hover-text: #1d1d1f;
+            --hero-h2-color: #1d1d1f;
+            --vault-cyan: #00bcd4;
+            --vault-orange: #ff9800;
+            --hyper-background-blend: rgba(0, 188, 212, 0.05);
+            --hyper-primary-color: #00bcd4;
+            --hyper-text-color: #00bcd4;
+        }
+
+        /* Dark Mode Overrides */
+        body.dark-mode {
+            --bg-color-primary: #1a202c;
+            --text-color-primary: #e2e8f0;
+            --text-color-secondary: #cbd5e0;
+            --primary-blue: #63b3ed;
+            --header-bg: rgba(26, 32, 44, 0.9);
+            --header-border: #2d3748;
+            --card-bg: #2d3748;
+            --card-border: #4a5568;
+            --muted-text: #a0aec0;
+            --code-bg: #0a0a0a;
+            --code-text: #00e393;
+            --button-secondary-bg: #4a5568;
+            --button-secondary-border: #718096;
+            --button-secondary-hover-bg: #5a67d8;
+            --button-secondary-hover-text: white;
+            --hero-h2-color: #e2e8f0;
+            --vault-cyan: #00e5ff;
+            --vault-orange: #ffb300;
+            --hyper-background-blend: rgba(0, 229, 255, 0.1);
+            --hyper-primary-color: #00e5ff;
+            --hyper-text-color: #00e5ff;
+        }
+
+        /* Hyper Mode Overrides */
+        body.hyper-mode {
+            background-color: var(--bg-color-primary);
+            background-image: linear-gradient(rgba(0,0,0,0.01), var(--hyper-background-blend));
+            --text-color-primary: var(--hyper-text-color);
+            --text-color-secondary: var(--hyper-text-color);
+            --primary-blue: var(--hyper-primary-color);
+            --header-bg: rgba(0, 188, 212, 0.1);
+            --header-border: var(--hyper-primary-color);
+            --card-bg: rgba(0, 188, 212, 0.05);
+            --card-border: var(--hyper-primary-color);
+            --muted-text: var(--hyper-text-color);
+            --button-secondary-bg: rgba(0, 188, 212, 0.1);
+            --button-secondary-border: var(--hyper-primary-color);
+            --button-secondary-hover-bg: rgba(0, 188, 212, 0.2);
+            --button-secondary-hover-text: white;
+            --hero-h2-color: var(--hyper-text-color);
+        }
+
+        body.dark-mode.hyper-mode {
+            --header-bg: rgba(0, 229, 255, 0.1);
+            --card-bg: rgba(0, 229, 255, 0.05);
+            --button-secondary-hover-bg: rgba(0, 229, 255, 0.2);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color-primary);
+            color: var(--text-color-primary);
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+        }
+
+        /* Authentication Modal */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .auth-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--header-border);
+            padding: 1rem 0;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-brand {
+            color: var(--text-color-primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--text-color-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-blue);
+            background-color: rgba(0, 113, 227, 0.1);
+        }
+
+        .theme-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .hyper-toggle {
+            cursor: pointer;
+            width: 40px;
+            height: 22px;
+            background-color: var(--button-secondary-border);
+            border-radius: 11px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-toggle::before, .hyper-toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background-color: var(--primary-blue);
+        }
+
+        body.dark-mode .theme-toggle::before {
+            transform: translateX(18px);
+            background-color: var(--text-color-primary);
+        }
+
+        body.hyper-mode .hyper-toggle {
+            background-color: var(--hyper-primary-color);
+        }
+
+        body.hyper-mode .hyper-toggle::before {
+            transform: translateX(18px);
+            background-color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            flex: 1;
+        }
+
+        /* Page Content Areas */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: var(--card-bg);
+            min-height: 80vh;
+            padding: 6rem 2rem;
+            color: var(--text-color-primary);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            cursor: pointer;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--hero-h2-color);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title .highlight {
+            color: var(--primary-blue);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 0.8rem 1.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-button-primary {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 113, 227, 0.3);
+        }
+
+        .cta-button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 113, 227, 0.4);
+        }
+
+        .cta-button-secondary {
+            background-color: var(--button-secondary-bg);
+            color: var(--text-color-secondary);
+            border: 1px solid var(--button-secondary-border);
+        }
+
+        .cta-button-secondary:hover {
+            background-color: var(--button-secondary-hover-bg);
+            color: var(--button-secondary-hover-text);
+        }
+
+        /* Feature Cards */
+        .features-section {
+            padding: 8rem 2rem;
+            background-color: var(--bg-color-primary);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            transition: all 0.2s ease-in-out;
+            text-align: left;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text-color-secondary);
+            line-height: 1.6;
+        }
+
+        /* Financial Dashboard */
+        .dashboard-section {
+            padding: 4rem 2rem;
+            background-color: var(--card-bg);
+        }
+
+        .dashboard-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .metric-card {
+            background-color: var(--bg-color-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-color-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .metric-change {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric-change.positive {
+            color: #10b981;
+        }
+
+        .metric-change.negative {
+            color: #ef4444;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Terminal Section */
+        .terminal-section {
+            padding: 4rem 2rem;
+            background-color: var(--bg-color-primary);
+        }
+
+        .terminal-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--code-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            background-color: var(--card-border);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background-color: #ff5f56; }
+        .terminal-dot.yellow { background-color: #ffbd2e; }
+        .terminal-dot.green { background-color: #27ca3f; }
+
+        .terminal-body {
+            padding: 2rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: var(--code-text);
+            background-color: var(--code-bg);
+            min-height: 300px;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--vault-cyan);
+        }
+
+        /* Maps Section */
+        .maps-section {
+            padding: 4rem 2rem;
+            background-color: var(--card-bg);
+        }
+
+        .map-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            border: 3px solid var(--card-border);
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Utility Classes */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-color-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-color-secondary);
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="auth-modal">
+        <div class="auth-content">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold mb-2" style="color: var(--text-color-primary);">🌐 VaultMesh™ Access</h2>
+                <p style="color: var(--text-color-secondary);">Secure authentication required</p>
+            </div>
+            
+            <form id="authForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2" style="color: var(--text-color-primary);">
+                        <i class="fas fa-user mr-2"></i>Username
+                    </label>
+                    <input type="text" id="username" class="w-full px-4 py-3 rounded-lg border transition-all duration-200" 
+                           style="background-color: var(--bg-color-primary); border-color: var(--card-border); color: var(--text-color-primary);"
+                           placeholder="Enter your username" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2" style="color: var(--text-color-primary);">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    <input type="password" id="password" class="w-full px-4 py-3 rounded-lg border transition-all duration-200"
+                           style="background-color: var(--bg-color-primary); border-color: var(--card-border); color: var(--text-color-primary);"
+                           placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200"
+                        style="background-color: var(--primary-blue); color: white;">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Access VaultMesh™
+                </button>
+            </form>
+            
+            <div class="text-center mt-4 text-sm" style="color: var(--muted-text);">
+                Demo credentials: admin / password
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="header-brand">🌐 VaultMesh™</a>
+            
+            <nav class="header-nav">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                </a>
+                <a href="#" class="nav-link" data-page="packages">
+                    <i class="fas fa-chart-line mr-2"></i>Global Packages
+                </a>
+                <a href="#" class="nav-link" data-page="terminal">
+                    <i class="fas fa-terminal mr-2"></i>Terminal
+                </a>
+                <a href="#" class="nav-link" data-page="analytics">
+                    <i class="fas fa-analytics mr-2"></i>Analytics
+                </a>
+                
+                <div class="theme-controls">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-sun text-sm"></i>
+                        <div class="theme-toggle" id="themeToggle"></div>
+                        <i class="fas fa-moon text-sm"></i>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs">HYPER</span>
+                        <div class="hyper-toggle" id="hyperToggle"></div>
+                    </div>
+                    
+                    <button id="logoutBtn" class="nav-link">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="page-content active">
+            <!-- Hero Section with Interactive Canvas -->
+            <section class="hero-section">
+                <canvas id="heroCanvas" class="hero-canvas"></canvas>
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Next-Gen <span class="highlight">Financial</span><br>
+                        Intelligence Platform
+                    </h1>
+                    <p class="hero-subtitle">
+                        Advanced analytics, real-time data visualization, and secure terminal access for professional trading and financial management.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="#" class="cta-button cta-button-primary">
+                            <i class="fas fa-rocket mr-2"></i>Launch Platform
+                        </a>
+                        <a href="#" class="cta-button cta-button-secondary">
+                            <i class="fas fa-play mr-2"></i>Watch Demo
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2 class="section-title">Platform Features</h2>
+                <p class="section-subtitle">
+                    Comprehensive financial tools designed for professionals who demand precision and reliability.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="feature-title">Real-Time Analytics</h3>
+                        <p class="feature-description">
+                            Advanced charting and data visualization with live market feeds and custom indicators.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Bank-Grade Security</h3>
+                        <p class="feature-description">
+                            Multi-layered encryption and authentication ensuring your data and transactions are protected.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-terminal"></i>
+                        </div>
+                        <h3 class="feature-title">Terminal Access</h3>
+                        <p class="feature-description">
+                            Direct command-line interface for advanced users and automated trading strategies.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="feature-title">Global Markets</h3>
+                        <p class="feature-description">
+                            Access to international markets with real-time data from major exchanges worldwide.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="feature-title">AI-Powered Insights</h3>
+                        <p class="feature-description">
+                            Machine learning algorithms provide market predictions and trading recommendations.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Mobile Ready</h3>
+                        <p class="feature-description">
+                            Responsive design ensures full functionality across all devices and platforms.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Metrics -->
+            <section class="dashboard-section">
+                <h2 class="section-title">Live Market Overview</h2>
+                
+                <div class="dashboard-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="portfolioValue">$2,456,789</div>
+                        <div class="metric-label">Portfolio Value</div>
+                        <div class="metric-change positive">+5.2% Today</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value" id="marketCap">$1.2T</div>
+                        <div class="metric-label">Market Cap</div>
+                        <div class="metric-change positive">+2.8% 24h</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value" id="activePositions">47</div>
+                        <div class="metric-label">Active Positions</div>
+                        <div class="metric-change neutral">Stable</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value" id="dailyVolume">$856.4M</div>
+                        <div class="metric-label">Daily Volume</div>
+                        <div class="metric-change negative">-1.4% vs avg</div>
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="portfolioChart" width="400" height="200"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <!-- Global Packages Page -->
+        <div id="packagesPage" class="page-content">
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Global <span class="highlight">💰 Packages</span><br>
+                        Investment Platform
+                    </h1>
+                    <p class="hero-subtitle">
+                        Diversified investment packages with real-time tracking and advanced portfolio management.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Share Price Section -->
+            <section class="dashboard-section">
+                <h2 class="section-title">Share Price Monitor</h2>
+                
+                <div class="dashboard-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" style="color: var(--vault-cyan);">$847.32</div>
+                        <div class="metric-label">Current Share Price</div>
+                        <div class="metric-change positive">+12.4% This Week</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">$3.2B</div>
+                        <div class="metric-label">Total AUM</div>
+                        <div class="metric-change positive">+8.7% QoQ</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">1,247</div>
+                        <div class="metric-label">Active Investors</div>
+                        <div class="metric-change positive">+23 New</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">18.6%</div>
+                        <div class="metric-label">YTD Return</div>
+                        <div class="metric-change positive">Above Target</div>
+                    </div>
+                </div>
+
+                <!-- Seedwave Growth Chart -->
+                <div class="chart-container">
+                    <h3 style="color: var(--text-color-primary); margin-bottom: 1rem;">Seedwave Growth Analysis</h3>
+                    <canvas id="seedwaveChart" width="400" height="200"></canvas>
+                </div>
+            </section>
+
+            <!-- Investment Packages Grid -->
+            <section class="features-section">
+                <h2 class="section-title">Investment Packages</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="color: var(--vault-cyan);">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="feature-title">Green Energy Package</h3>
+                        <p class="feature-description">
+                            Sustainable energy investments with 15.2% average annual returns.
+                        </p>
+                        <div class="metric-change positive">+22.1% YTD</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon" style="color: var(--vault-orange);">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3 class="feature-title">Tech Innovation Fund</h3>
+                        <p class="feature-description">
+                            Cutting-edge technology companies and emerging market leaders.
+                        </p>
+                        <div class="metric-change positive">+28.7% YTD</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="feature-title">Healthcare Futures</h3>
+                        <p class="feature-description">
+                            Pharmaceutical and biotech investments with strong growth potential.
+                        </p>
+                        <div class="metric-change positive">+19.4% YTD</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon" style="color: var(--vault-cyan);">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="feature-title">Real Estate Portfolio</h3>
+                        <p class="feature-description">
+                            Diversified real estate investments across global markets.
+                        </p>
+                        <div class="metric-change positive">+11.8% YTD</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Terminal Page -->
+        <div id="terminalPage" class="page-content">
+            <section class="terminal-section">
+                <h2 class="section-title">VaultMesh Terminal</h2>
+                <p class="section-subtitle">
+                    Direct command-line access to trading systems and market data APIs.
+                </p>
+                
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                        <span style="color: var(--text-color-secondary); margin-left: 1rem; font-size: 0.9rem;">
+                            VaultMesh Terminal v2.1.4
+                        </span>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">vault@mesh:~$</span> system status
+                        </div>
+                        <div class="terminal-line">✓ Market data feeds: ACTIVE</div>
+                        <div class="terminal-line">✓ Trading engine: ONLINE</div>
+                        <div class="terminal-line">✓ Risk management: ENABLED</div>
+                        <div class="terminal-line">✓ Encryption: AES-256</div>
+                        <div class="terminal-line"><br></div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">vault@mesh:~$</span> portfolio summary
+                        </div>
+                        <div class="terminal-line">Portfolio Value: $2,456,789.12</div>
+                        <div class="terminal-line">Available Cash: $345,678.90</div>
+                        <div class="terminal-line">Open Positions: 47</div>
+                        <div class="terminal-line">P&L Today: +$23,456.78 (+0.96%)</div>
+                        <div class="terminal-line"><br></div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">vault@mesh:~$</span> <span class="cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analyticsPage" class="page-content">
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Advanced <span class="highlight">Analytics</span><br>
+                        & Market Intelligence
+                    </h1>
+                </div>
+            </section>
+
+            <!-- Maps Section -->
+            <section class="maps-section">
+                <h2 class="section-title">Global Market Presence</h2>
+                <div class="map-container">
+                    <div id="globalMap" style="width: 100%; height: 100%; background: linear-gradient(45deg, var(--card-bg) 0%, var(--bg-color-primary) 100%); display: flex; align-items: center; justify-content: center; color: var(--text-color-secondary);">
+                        <div class="text-center">
+                            <i class="fas fa-globe fa-3x mb-4"></i>
+                            <p>Interactive Global Markets Map</p>
+                            <p class="text-sm">Real-time trading activity across 50+ countries</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Charts -->
+            <section class="dashboard-section">
+                <h2 class="section-title">Market Analytics</h2>
+                
+                <div class="chart-container">
+                    <h3 style="color: var(--text-color-primary); margin-bottom: 1rem;">Sector Performance Analysis</h3>
+                    <canvas id="sectorChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3 style="color: var(--text-color-primary); margin-bottom: 1rem;">Risk Assessment Matrix</h3>
+                    <canvas id="riskChart" width="400" height="200"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Global state management
+        const AppState = {
+            isAuthenticated: false,
+            currentUser: null,
+            currentPage: 'dashboard',
+            theme: 'light',
+            hyperMode: false
+        };
+
+        // Authentication system
+        const AuthSystem = {
+            init() {
+                const authForm = document.getElementById('authForm');
+                const authModal = document.getElementById('authModal');
+                
+                authForm.addEventListener('submit', this.handleLogin.bind(this));
+                
+                // Check if user is already authenticated
+                const savedAuth = localStorage.getItem('vaultmesh_auth');
+                if (savedAuth) {
+                    const authData = JSON.parse(savedAuth);
+                    if (this.validateSession(authData)) {
+                        this.completeLogin(authData.user);
+                        return;
+                    }
+                }
+                
+                // Show auth modal if not authenticated
+                authModal.style.display = 'flex';
+            },
+
+            handleLogin(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Demo authentication - replace with real auth
+                if (username === 'admin' && password === 'password') {
+                    const userData = { 
+                        username, 
+                        loginTime: Date.now(),
+                        sessionId: Math.random().toString(36)
+                    };
+                    
+                    localStorage.setItem('vaultmesh_auth', JSON.stringify(userData));
+                    this.completeLogin(userData);
+                } else {
+                    alert('Invalid credentials. Use admin/password for demo.');
+                }
+            },
+
+            completeLogin(userData) {
+                AppState.isAuthenticated = true;
+                AppState.currentUser = userData;
+                document.getElementById('authModal').style.display = 'none';
+                
+                // Initialize the application
+                App.init();
+            },
+
+            logout() {
+                localStorage.removeItem('vaultmesh_auth');
+                AppState.isAuthenticated = false;
+                AppState.currentUser = null;
+                location.reload();
+            },
+
+            validateSession(authData) {
+                // Simple session validation - enhance for production
+                const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+                return authData && (Date.now() - authData.loginTime) < maxAge;
+            }
+        };
+
+        // Theme management system
+        const ThemeManager = {
+            init() {
+                const themeToggle = document.getElementById('themeToggle');
+                const hyperToggle = document.getElementById('hyperToggle');
+                
+                themeToggle.addEventListener('click', this.toggleTheme.bind(this));
+                hyperToggle.addEventListener('click', this.toggleHyperMode.bind(this));
+                
+                // Load saved theme preferences
+                const savedTheme = localStorage.getItem('vaultmesh_theme') || 'light';
+                const savedHyper = localStorage.getItem('vaultmesh_hyper') === 'true';
+                
+                if (savedTheme === 'dark') {
+                    this.toggleTheme();
+                }
+                if (savedHyper) {
+                    this.toggleHyperMode();
+                }
+            },
+
+            toggleTheme() {
+                const body = document.body;
+                body.classList.toggle('dark-mode');
+                AppState.theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+                localStorage.setItem('vaultmesh_theme', AppState.theme);
+                
+                // Update charts with new theme
+                ChartsManager.updateTheme();
+            },
+
+            toggleHyperMode() {
+                const body = document.body;
+                body.classList.toggle('hyper-mode');
+                AppState.hyperMode = body.classList.contains('hyper-mode');
+                localStorage.setItem('vaultmesh_hyper', AppState.hyperMode);
+                
+                // Update charts with hyper mode
+                ChartsManager.updateTheme();
+            }
+        };
+
+        // Navigation system
+        const NavigationManager = {
+            init() {
+                const navLinks = document.querySelectorAll('[data-page]');
+                const logoutBtn = document.getElementById('logoutBtn');
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.navigateToPage(link.dataset.page);
+                    });
+                });
+                
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    AuthSystem.logout();
+                });
+            },
+
+            navigateToPage(pageId) {
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+                
+                // Show target page
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(`${pageId}Page`).classList.add('active');
+                
+                AppState.currentPage = pageId;
+                
+                // Initialize page-specific content
+                this.initializePageContent(pageId);
+            },
+
+            initializePageContent(pageId) {
+                switch(pageId) {
+                    case 'dashboard':
+                        ChartsManager.initPortfolioChart();
+                        HeroCanvas.init();
+                        break;
+                    case 'packages':
+                        ChartsManager.initSeedwaveChart();
+                        break;
+                    case 'terminal':
+                        TerminalManager.init();
+                        break;
+                    case 'analytics':
+                        ChartsManager.initSectorChart();
+                        ChartsManager.initRiskChart();
+                        break;
+                }
+            }
+        };
+
+        // Charts and data visualization
+        const ChartsManager = {
+            charts: {},
+
+            init() {
+                this.initPortfolioChart();
+            },
+
+            initPortfolioChart() {
+                const ctx = document.getElementById('portfolioChart');
+                if (!ctx) return;
+
+                if (this.charts.portfolio) {
+                    this.charts.portfolio.destroy();
+                }
+
+                const isDark = document.body.classList.contains('dark-mode');
+                const textColor = isDark ? '#e2e8f0' : '#1d1d1f';
+                const gridColor = isDark ? '#4a5568' : '#e8e8ed';
+
+                this.charts.portfolio = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Portfolio Value',
+                            data: [1200000, 1350000, 1280000, 1450000, 1380000, 1620000],
+                            borderColor: '#0071e3',
+                            backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: textColor }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: textColor },
+                                grid: { color: gridColor }
+                            },
+                            y: {
+                                ticks: { 
+                                    color: textColor,
+                                    callback: function(value) {
+                                        return '$' + (value / 1000000).toFixed(1) + 'M';
+                                    }
+                                },
+                                grid: { color: gridColor }
+                            }
+                        }
+                    }
+                });
+            },
+
+            initSeedwaveChart() {
+                const ctx = document.getElementById('seedwaveChart');
+                if (!ctx) return;
+
+                if (this.charts.seedwave) {
+                    this.charts.seedwave.destroy();
+                }
+
+                const isDark = document.body.classList.contains('dark-mode');
+                const textColor = isDark ? '#e2e8f0' : '#1d1d1f';
+
+                this.charts.seedwave = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Green Energy', 'Tech Innovation', 'Healthcare', 'Real Estate'],
+                        datasets: [{
+                            data: [35, 28, 22, 15],
+                            backgroundColor: ['#00bcd4', '#ff9800', '#4caf50', '#9c27b0'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            },
+
+            initSectorChart() {
+                const ctx = document.getElementById('sectorChart');
+                if (!ctx) return;
+
+                if (this.charts.sector) {
+                    this.charts.sector.destroy();
+                }
+
+                const isDark = document.body.classList.contains('dark-mode');
+                const textColor = isDark ? '#e2e8f0' : '#1d1d1f';
+                const gridColor = isDark ? '#4a5568' : '#e8e8ed';
+
+                this.charts.sector = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Technology', 'Healthcare', 'Finance', 'Energy', 'Consumer'],
+                        datasets: [{
+                            label: 'Performance %',
+                            data: [15.2, 12.8, 9.4, 18.6, 11.3],
+                            backgroundColor: ['#00bcd4', '#4caf50', '#ff9800', '#9c27b0', '#f44336']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: textColor }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: textColor },
+                                grid: { color: gridColor }
+                            },
+                            y: {
+                                ticks: { color: textColor },
+                                grid: { color: gridColor }
+                            }
+                        }
+                    }
+                });
+            },
+
+            initRiskChart() {
+                const ctx = document.getElementById('riskChart');
+                if (!ctx) return;
+
+                if (this.charts.risk) {
+                    this.charts.risk.destroy();
+                }
+
+                const isDark = document.body.classList.contains('dark-mode');
+                const textColor = isDark ? '#e2e8f0' : '#1d1d1f';
+
+                this.charts.risk = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Volatility', 'Liquidity', 'Credit Risk', 'Market Risk', 'Operational Risk'],
+                        datasets: [{
+                            label: 'Current Portfolio',
+                            data: [65, 85, 40, 55, 30],
+                            borderColor: '#00bcd4',
+                            backgroundColor: 'rgba(0, 188, 212, 0.2)',
+                            pointBackgroundColor: '#00bcd4'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: textColor }
+                            }
+                        },
+                        scales: {
+                            r: {
+                                ticks: { color: textColor },
+                                grid: { color: isDark ? '#4a5568' : '#e8e8ed' },
+                                pointLabels: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            },
+
+            updateTheme() {
+                Object.values(this.charts).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+                this.charts = {};
+                
+                // Reinitialize charts with new theme
+                setTimeout(() => {
+                    if (AppState.currentPage === 'dashboard') {
+                        this.initPortfolioChart();
+                    } else if (AppState.currentPage === 'packages') {
+                        this.initSeedwaveChart();
+                    } else if (AppState.currentPage === 'analytics') {
+                        this.initSectorChart();
+                        this.initRiskChart();
+                    }
+                }, 100);
+            }
+        };
+
+        // Hero canvas animation
+        const HeroCanvas = {
+            canvas: null,
+            ctx: null,
+            particles: [],
+
+            init() {
+                this.canvas = document.getElementById('heroCanvas');
+                if (!this.canvas) return;
+
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                this.createParticles();
+                this.animate();
+
+                window.addEventListener('resize', this.resize.bind(this));
+                this.canvas.addEventListener('click', this.handleClick.bind(this));
+            },
+
+            resize() {
+                this.canvas.width = this.canvas.offsetWidth;
+                this.canvas.height = this.canvas.offsetHeight;
+            },
+
+            createParticles() {
+                this.particles = [];
+                const particleCount = 50;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        radius: Math.random() * 2 + 1
+                    });
+                }
+            },
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Update and draw particles
+                this.particles.forEach(particle => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Bounce off edges
+                    if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+                    
+                    // Draw particle
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--primary-blue') || '#0071e3';
+                    this.ctx.globalAlpha = 0.6;
+                    this.ctx.fill();
+                });
+                
+                // Draw connections
+                this.particles.forEach((p1, i) => {
+                    this.particles.slice(i + 1).forEach(p2 => {
+                        const distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+                        
+                        if (distance < 100) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(p1.x, p1.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.strokeStyle = getComputedStyle(document.documentElement)
+                                .getPropertyValue('--primary-blue') || '#0071e3';
+                            this.ctx.globalAlpha = 0.3 * (1 - distance / 100);
+                            this.ctx.stroke();
+                        }
+                    });
+                });
+                
+                requestAnimationFrame(this.animate.bind(this));
+            },
+
+            handleClick(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Add ripple effect
+                for (let i = 0; i < 10; i++) {
+                    this.particles.push({
+                        x: x + (Math.random() - 0.5) * 50,
+                        y: y + (Math.random() - 0.5) * 50,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        radius: Math.random() * 3 + 2
+                    });
+                }
+            }
+        };
+
+        // Terminal management
+        const TerminalManager = {
+            init() {
+                // TODO: Implement terminal functionality
+                // This would include command processing, real-time data feeds, etc.
+                console.log('Terminal initialized');
+            }
+        };
+
+        // Data management system
+        const DataManager = {
+            init() {
+                this.startRealTimeUpdates();
+            },
+
+            startRealTimeUpdates() {
+                // Simulate real-time data updates
+                setInterval(() => {
+                    this.updateMetrics();
+                }, 5000);
+            },
+
+            updateMetrics() {
+                // TODO: Implement real-time data updates
+                // This would connect to actual market data APIs
+                
+                const portfolioValue = document.getElementById('portfolioValue');
+                if (portfolioValue) {
+                    const currentValue = parseFloat(portfolioValue.textContent.replace(/[$,]/g, ''));
+                    const variation = (Math.random() - 0.5) * 10000;
+                    const newValue = currentValue + variation;
+                    portfolioValue.textContent = '$' + newValue.toLocaleString();
+                }
+            }
+        };
+
+        // Main application controller
+        const App = {
+            init() {
+                console.log('🌐 VaultMesh™ Platform Initialized');
+                
+                // Initialize all systems
+                ThemeManager.init();
+                NavigationManager.init();
+                ChartsManager.init();
+                DataManager.init();
+                
+                // Initialize current page content
+                NavigationManager.initializePageContent(AppState.currentPage);
+                
+                console.log('✓ All systems online');
+            }
+        };
+
+        // Initialize authentication on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            AuthSystem.init();
+        });
+    </script>
+</body>
+</html>

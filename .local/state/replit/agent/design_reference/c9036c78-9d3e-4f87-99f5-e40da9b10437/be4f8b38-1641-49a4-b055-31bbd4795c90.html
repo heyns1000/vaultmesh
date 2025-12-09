@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">🌐 VaultMesh™ by Fruitful</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Maps API script -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPG8dG29cl0TvYRGyLozejGed5Wj5Ab80&callback=initMap"></script>
+
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            /* Light Theme Defaults */
+            --bg-color-primary: #f5f5f7;
+            --text-color-primary: #1d1d1f;
+            --text-color-secondary: #424245;
+            --primary-blue: #0071e3;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --header-border: #e8e8ed;
+            --card-bg: white;
+            --card-border: #e8e8ed;
+            --muted-text: #6e6e73;
+            --code-bg: #f0f0f0;
+            --code-text: #1d1d1f;
+            --button-secondary-bg: #f0f0f0;
+            --button-secondary-border: #dcdcdc;
+            --button-secondary-hover-bg: #e8e8ed;
+            --button-secondary-hover-text: #1d1d1f;
+            --hero-h2-color: #1d1d1f;
+            --vault-cyan: #00bcd4;
+            --vault-orange: #ff9800;
+            --success-green: #10b981;
+            --error-red: #ef4444;
+            /* Hyper Mode Specific Colors (Light Mode Influence) */
+            --hyper-background-blend: rgba(0, 188, 212, 0.05);
+            --hyper-primary-color: #00bcd4;
+            --hyper-text-color: #00bcd4;
+        }
+
+        /* Dark Mode Overrides */
+        body.dark-mode {
+            --bg-color-primary: #1a202c;
+            --text-color-primary: #e2e8f0;
+            --text-color-secondary: #cbd5e0;
+            --primary-blue: #63b3ed;
+            --header-bg: rgba(26, 32, 44, 0.9);
+            --header-border: #2d3748;
+            --card-bg: #2d3748;
+            --card-border: #4a5568;
+            --muted-text: #a0aec0;
+            --code-bg: #0a0a0a;
+            --code-text: #00e393;
+            --button-secondary-bg: #4a5568;
+            --button-secondary-border: #718096;
+            --button-secondary-hover-bg: #5a67d8;
+            --button-secondary-hover-text: white;
+            --hero-h2-color: #e2e8f0;
+            --vault-cyan: #00e5ff;
+            --vault-orange: #ffb300;
+            --success-green: #34d399;
+            --error-red: #f87171;
+            /* Hyper Mode Specific Colors (Dark Mode Influence) */
+            --hyper-background-blend: rgba(0, 229, 255, 0.1);
+            --hyper-primary-color: #00e5ff;
+            --hyper-text-color: #00e5ff;
+        }
+
+        /* Hyper Mode Overrides */
+        body.hyper-mode {
+            background-color: var(--bg-color-primary);
+            background-image: linear-gradient(rgba(0,0,0,0.01), var(--hyper-background-blend));
+            --text-color-primary: var(--hyper-text-color);
+            --text-color-secondary: var(--hyper-text-color);
+            --primary-blue: var(--hyper-primary-color);
+            --header-bg: rgba(0, 188, 212, 0.1);
+            --header-border: var(--hyper-primary-color);
+            --card-bg: rgba(0, 188, 212, 0.05);
+            --card-border: var(--hyper-primary-color);
+            --muted-text: var(--hyper-text-color);
+            --button-secondary-bg: rgba(0, 188, 212, 0.1);
+            --button-secondary-border: var(--hyper-primary-color);
+            --button-secondary-hover-bg: rgba(0, 188, 212, 0.2);
+            --button-secondary-hover-text: white;
+            --hero-h2-color: var(--hyper-text-color);
+        }
+
+        body.dark-mode.hyper-mode {
+            --header-bg: rgba(0, 229, 255, 0.1);
+            --card-bg: rgba(0, 229, 255, 0.05);
+            --button-secondary-hover-bg: rgba(0, 229, 255, 0.2);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color-primary);
+            color: var(--text-color-primary);
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 5rem;
+            transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--header-border);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: var(--text-color-primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        header nav a {
+            color: var(--text-color-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        header nav a:hover {
+            color: var(--primary-blue);
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        body.dark-mode header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        header nav a.button-style-original {
+            background-color: transparent;
+            color: var(--text-color-secondary);
+            font-weight: 600;
+            border: 1px solid var(--button-secondary-border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: none;
+        }
+
+        header nav a.button-style-original:hover {
+            background-color: var(--button-secondary-hover-bg);
+            color: var(--button-secondary-hover-text);
+            transform: none;
+            box-shadow: none;
+        }
+
+        header nav a.button-style-main {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        header nav a.button-style-main:hover {
+            background-color: var(--primary-blue);
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* Authentication Styles */
+        .auth-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-modal {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--card-border);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            color: var(--text-color-primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        .auth-button {
+            width: 100%;
+            background-color: var(--success-green);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .auth-button:hover {
+            background-color: var(--success-green);
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .user-profile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .user-profile:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .user-profile:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-blue);
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: var(--text-color-primary);
+            font-size: 0.9rem;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            min-width: 180px;
+            display: none;
+            z-index: 100;
+        }
+
+        .user-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-color-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--button-secondary-hover-bg);
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            color: var(--muted-text);
+        }
+
+        .theme-language-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 1rem;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle, .hyper-toggle {
+            cursor: pointer;
+            width: 40px;
+            height: 22px;
+            background-color: var(--button-secondary-border);
+            border-radius: 11px;
+            position: relative;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle::before, .hyper-toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background-color: var(--primary-blue);
+        }
+
+        body.dark-mode .theme-toggle::before {
+            transform: translateX(18px);
+            background-color: var(--text-color-primary);
+        }
+
+        body.hyper-mode .hyper-toggle {
+            background-color: var(--hyper-primary-color);
+        }
+
+        body.hyper-mode .hyper-toggle::before {
+            transform: translateX(18px);
+            background-color: white;
+        }
+
+        .hyper-toggle {
+            background-color: var(--button-secondary-border);
+        }
+
+        .hyper-toggle::before {
+            background-color: white;
+        }
+
+        body.dark-mode .hyper-toggle {
+            background-color: var(--button-secondary-border);
+        }
+
+        body.dark-mode .hyper-toggle::before {
+            background-color: var(--text-color-primary);
+        }
+
+        .language-select {
+            background-color: var(--button-secondary-bg);
+            color: var(--text-color-secondary);
+            border: 1px solid var(--button-secondary-border);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .language-select:hover {
+            background-color: var(--button-secondary-hover-bg);
+            border-color: var(--primary-blue);
+        }
+
+        body.dark-mode .language-select {
+            background-color: var(--card-bg);
+            color: var(--text-color-primary);
+            border-color: var(--card-border);
+        }
+
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+            }
+            header nav {
+                gap: 0;
+            }
+            header nav a:not(.button-style-original):not(.button-style-main) {
+                margin-right: 1.5rem;
+            }
+            header nav a.login-button {
+                margin-left: auto;
+            }
+            header nav a.button-style-original {
+                margin-left: 1rem;
+                margin-right: 0.5rem;
+            }
+            header nav a.button-style-main {
+                margin-left: 0;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: var(--card-bg);
+            padding: 10rem 1.5rem;
+            color: var(--text-color-primary);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-section canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 0;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .hero-section h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--hero-h2-color);
+            line-height: 1.1;
+            margin-bottom: 6rem;
+        }
+
+        .hero-section h2 span {
+            background: linear-gradient(135deg, var(--vault-cyan), var(--vault-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            position: fixed;
+            top: 6rem;
+            right: 1rem;
+            background-color: var(--success-green);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 45;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .security-badge.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Workstation Access Panel */
+        .workstation-panel {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .workstation-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1rem;
+        }
+
+        .workstation-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .workstation-status {
+            background-color: var(--success-green);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h3 {
+            color: var(--text-color-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* Charts and Maps */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 1rem 0;
+        }
+
+        #map {
+            height: 400px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section h2 {
+                font-size: 2.5rem;
+            }
+            
+            .security-badge {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 1rem auto;
+                width: fit-content;
+            }
+            
+            .workstation-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--button-secondary-border);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Session Indicator */
+        .session-indicator {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--muted-text);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 40;
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="auth-container">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>🌐 Access VaultMesh™</h2>
+                <p>Secure authentication required for personal workstation access</p>
+            </div>
+            <button class="auth-button" onclick="authenticateUser()">
+                <i class="fas fa-shield-alt"></i>
+                Authenticate with Secure Login
+            </button>
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--muted-text);">
+                Your data and sessions are protected with enterprise-grade security
+            </p>
+        </div>
+    </div>
+
+    <!-- Security Badge -->
+    <div id="securityBadge" class="security-badge">
+        <i class="fas fa-lock"></i>
+        Authenticated Session
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>🌐 VaultMesh™ by Fruitful</h1>
+        <nav>
+            <a href="#overview" data-i18n="nav.overview">Overview</a>
+            <a href="#features" data-i18n="nav.features">Features</a>
+            <a href="#analytics" data-i18n="nav.analytics">Analytics</a>
+            <a href="#security" data-i18n="nav.security">Security</a>
+            <a href="#docs" data-i18n="nav.docs">Documentation</a>
+            
+            <!-- User Profile (Hidden initially) -->
+            <div id="userProfile" class="user-profile" style="display: none;">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=100&h=100&fit=crop&crop=face" alt="User Avatar" class="user-avatar">
+                <span class="user-name" data-mock="true">Alex Chen</span>
+                <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: var(--muted-text);"></i>
+                
+                <div id="userDropdown" class="user-dropdown">
+                    <a href="#profile" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile Settings</span>
+                    </a>
+                    <a href="#workstation" class="dropdown-item">
+                        <i class="fas fa-desktop"></i>
+                        <span>My Workstation</span>
+                    </a>
+                    <a href="#security" class="dropdown-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security Center</span>
+                    </a>
+                    <div style="border-top: 1px solid var(--card-border); margin: 0.5rem 0;"></div>
+                    <a href="#logout" class="dropdown-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Login Button (Shown initially) -->
+            <a href="#" id="loginButton" class="button-style-main" onclick="showAuthModal()">
+                <i class="fas fa-user"></i>
+                Sign In
+            </a>
+
+            <div class="theme-language-controls">
+                <div class="toggle-container">
+                    <label style="font-size: 0.8rem; color: var(--muted-text);">🌙</label>
+                    <div class="theme-toggle" onclick="toggleTheme()"></div>
+                </div>
+                <div class="toggle-container">
+                    <label style="font-size: 0.8rem; color: var(--muted-text);">⚡</label>
+                    <div class="hyper-toggle" onclick="toggleHyperMode()"></div>
+                </div>
+                <select class="language-select" onchange="changeLanguage(this.value)">
+                    <option value="en">🇺🇸 EN</option>
+                    <option value="es">🇪🇸 ES</option>
+                    <option value="fr">🇫🇷 FR</option>
+                    <option value="de">🇩🇪 DE</option>
+                    <option value="zh">🇨🇳 中文</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <canvas id="networkCanvas"></canvas>
+        <div class="hero-content">
+            <h2>
+                Next-Gen <span>Mesh Networking</span><br>
+                Security Platform
+            </h2>
+            <p data-i18n="hero.description">
+                Advanced cryptographic protocols, real-time threat detection, and quantum-resistant security architecture for the modern digital landscape.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Personal Workstation Access Panel -->
+        <div id="workstationPanel" class="workstation-panel" style="display: none;">
+            <div class="workstation-header">
+                <div class="workstation-title">
+                    <i class="fas fa-desktop"></i>
+                    Personal Workstation Access
+                </div>
+                <div class="workstation-status">SECURE</div>
+            </div>
+            <p style="color: var(--muted-text); margin-bottom: 1rem;">
+                Welcome back! Your secure VaultMesh workstation is ready with all your saved configurations and data.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="auth-button" style="width: auto;" onclick="accessWorkstation()">
+                    <i class="fas fa-play"></i>
+                    Access Workstation
+                </button>
+                <button class="button-style-original" style="background: transparent; border: 1px solid var(--button-secondary-border);" onclick="manageSettings()">
+                    <i class="fas fa-cog"></i>
+                    Manage Settings
+                </button>
+            </div>
+        </div>
+
+        <!-- Network Overview Section -->
+        <section id="overview" class="section">
+            <h3>🌐 Network Overview</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: linear-gradient(135deg, var(--vault-cyan), rgba(0, 188, 212, 0.8)); color: white; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">Active Nodes</h4>
+                    <div style="font-size: 2rem; font-weight: 700;" data-bind="stats.activeNodes">847</div>
+                </div>
+                <div style="background: linear-gradient(135deg, var(--success-green), rgba(16, 185, 129, 0.8)); color: white; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">Security Score</h4>
+                    <div style="font-size: 2rem; font-weight: 700;" data-bind="stats.securityScore">98.7%</div>
+                </div>
+                <div style="background: linear-gradient(135deg, var(--vault-orange), rgba(255, 152, 0, 0.8)); color: white; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">Threat Level</h4>
+                    <div style="font-size: 2rem; font-weight: 700;" data-bind="stats.threatLevel">LOW</div>
+                </div>
+                <div style="background: linear-gradient(135deg, var(--primary-blue), rgba(0, 113, 227, 0.8)); color: white; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">Data Throughput</h4>
+                    <div style="font-size: 2rem; font-weight: 700;" data-bind="stats.throughput">15.3 GB/s</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="networkChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Geographic Distribution -->
+        <section id="geographic" class="section">
+            <h3>🗺️ Geographic Distribution</h3>
+            <p style="color: var(--muted-text); margin-bottom: 1.5rem;">
+                Real-time visualization of global mesh network nodes and security incidents
+            </p>
+            <div id="map"></div>
+        </section>
+
+        <!-- Security Analytics -->
+        <section id="analytics" class="section">
+            <h3>🛡️ Security Analytics</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div>
+                    <h4 style="color: var(--text-color-primary); margin-bottom: 1rem;">Threat Detection Timeline</h4>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="threatChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color: var(--text-color-primary); margin-bottom: 1rem;">Encryption Methods</h4>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="encryptionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Access -->
+        <section id="docs" class="section">
+            <h3>📖 Documentation & Resources</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div style="border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: var(--text-color-primary); margin-bottom: 0.5rem;">
+                        <i class="fas fa-book"></i>
+                        API Documentation
+                    </h4>
+                    <p style="color: var(--muted-text); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Complete API reference and integration guides
+                    </p>
+                    <a href="#api-docs" style="color: var(--primary-blue); text-decoration: none; font-weight: 500;">
+                        View Documentation →
+                    </a>
+                </div>
+                <div style="border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: var(--text-color-primary); margin-bottom: 0.5rem;">
+                        <i class="fas fa-graduation-cap"></i>
+                        Tutorials
+                    </h4>
+                    <p style="color: var(--muted-text); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Step-by-step guides for advanced configurations
+                    </p>
+                    <a href="#tutorials" style="color: var(--primary-blue); text-decoration: none; font-weight: 500;">
+                        Start Learning →
+                    </a>
+                </div>
+                <div style="border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: var(--text-color-primary); margin-bottom: 0.5rem;">
+                        <i class="fas fa-users"></i>
+                        Community
+                    </h4>
+                    <p style="color: var(--muted-text); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Connect with other VaultMesh developers
+                    </p>
+                    <a href="#community" style="color: var(--primary-blue); text-decoration: none; font-weight: 500;">
+                        Join Community →
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Session Indicator -->
+    <div id="sessionIndicator" class="session-indicator" style="display: none;">
+        <i class="fas fa-clock"></i>
+        Session: <span id="sessionTime" data-bind="session.duration">24m 15s</span>
+    </div>
+
+    <script>
+        // Authentication State
+        let isAuthenticated = false;
+        let currentUser = null;
+
+        // Theme Management
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        function toggleHyperMode() {
+            document.body.classList.toggle('hyper-mode');
+            localStorage.setItem('hyperMode', document.body.classList.contains('hyper-mode') ? 'on' : 'off');
+        }
+
+        // Load saved preferences
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const savedHyperMode = localStorage.getItem('hyperMode');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+            if (savedHyperMode === 'on') {
+                document.body.classList.add('hyper-mode');
+            }
+        })();
+
+        // Authentication Functions
+        function showAuthModal() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+
+        function hideAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function authenticateUser() {
+            // TODO: Implement actual authentication with Replit Auth
+            const authButton = document.querySelector('.auth-button');
+            authButton.innerHTML = '<div class="loading"></div> Authenticating...';
+            
+            // Simulate authentication process
+            setTimeout(() => {
+                isAuthenticated = true;
+                currentUser = {
+                    name: 'Alex Chen',
+                    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=100&h=100&fit=crop&crop=face',
+                    email: 'alex.chen@example.com'
+                };
+                
+                updateAuthState();
+                hideAuthModal();
+                showSecurityBadge();
+                startSession();
+            }, 2000);
+        }
+
+        function updateAuthState() {
+            const loginButton = document.getElementById('loginButton');
+            const userProfile = document.getElementById('userProfile');
+            const workstationPanel = document.getElementById('workstationPanel');
+            
+            if (isAuthenticated) {
+                loginButton.style.display = 'none';
+                userProfile.style.display = 'flex';
+                workstationPanel.style.display = 'block';
+                
+                // Update user info
+                userProfile.querySelector('.user-name').textContent = currentUser.name;
+                userProfile.querySelector('.user-avatar').src = currentUser.avatar;
+            } else {
+                loginButton.style.display = 'flex';
+                userProfile.style.display = 'none';
+                workstationPanel.style.display = 'none';
+            }
+        }
+
+        function showSecurityBadge() {
+            const badge = document.getElementById('securityBadge');
+            badge.classList.add('show');
+            
+            setTimeout(() => {
+                badge.classList.remove('show');
+            }, 5000);
+        }
+
+        function startSession() {
+            const sessionIndicator = document.getElementById('sessionIndicator');
+            sessionIndicator.style.display = 'block';
+            
+            let sessionSeconds = 0;
+            setInterval(() => {
+                sessionSeconds++;
+                const minutes = Math.floor(sessionSeconds / 60);
+                const seconds = sessionSeconds % 60;
+                document.getElementById('sessionTime').textContent = 
+                    `${minutes}m ${seconds.toString().padStart(2, '0')}s`;
+            }, 1000);
+        }
+
+        function logout() {
+            // TODO: Implement proper logout with Replit Auth
+            isAuthenticated = false;
+            currentUser = null;
+            updateAuthState();
+            document.getElementById('sessionIndicator').style.display = 'none';
+            hideUserDropdown();
+        }
+
+        // User Dropdown Management
+        document.getElementById('userProfile').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        });
+
+        function hideUserDropdown() {
+            document.getElementById('userDropdown').classList.remove('show');
+        }
+
+        document.addEventListener('click', hideUserDropdown);
+
+        // Workstation Functions
+        function accessWorkstation() {
+            // TODO: Implement workstation access functionality
+            alert('Accessing secure workstation...');
+        }
+
+        function manageSettings() {
+            // TODO: Implement settings management
+            alert('Opening settings panel...');
+        }
+
+        // Language Management
+        function changeLanguage(lang) {
+            // TODO: Implement internationalization
+            console.log('Language changed to:', lang);
+        }
+
+        // Network Canvas Animation
+        function initNetworkCanvas() {
+            const canvas = document.getElementById('networkCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resizeCanvas() {
+                canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+                canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Simple network node animation
+            const nodes = [];
+            for (let i = 0; i < 50; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.offsetWidth,
+                    y: Math.random() * canvas.offsetHeight,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 3 + 1
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+                
+                // Update and draw nodes
+                nodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                    
+                    if (node.x < 0 || node.x > canvas.offsetWidth) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.offsetHeight) node.vy *= -1;
+                    
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+                    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim();
+                    ctx.fill();
+                });
+                
+                // Draw connections
+                nodes.forEach((node, i) => {
+                    nodes.slice(i + 1).forEach(otherNode => {
+                        const dist = Math.sqrt((node.x - otherNode.x) ** 2 + (node.y - otherNode.y) ** 2);
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(node.x, node.y);
+                            ctx.lineTo(otherNode.x, otherNode.y);
+                            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim() + '40';
+                            ctx.stroke();
+                        }
+                    });
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // Initialize Charts
+        function initCharts() {
+            // Network Chart
+            const networkCtx = document.getElementById('networkChart').getContext('2d');
+            new Chart(networkCtx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'Network Activity',
+                        data: [65, 78, 90, 81, 56, 85],
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim(),
+                        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim() + '20',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-primary').trim()
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--muted-text').trim()
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--muted-text').trim()
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Threat Chart
+            const threatCtx = document.getElementById('threatChart').getContext('2d');
+            new Chart(threatCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['DDoS', 'Intrusion', 'Malware', 'Phishing', 'Brute Force'],
+                    datasets: [{
+                        label: 'Threats Blocked',
+                        data: [12, 19, 3, 5, 7],
+                        backgroundColor: [
+                            getComputedStyle(document.documentElement).getPropertyValue('--error-red').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--vault-orange').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--success-green').trim()
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-primary').trim()
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--muted-text').trim()
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--muted-text').trim()
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Encryption Chart
+            const encryptionCtx = document.getElementById('encryptionChart').getContext('2d');
+            new Chart(encryptionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['AES-256', 'RSA-4096', 'ChaCha20', 'Quantum-Safe'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [
+                            getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--vault-orange').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim(),
+                            getComputedStyle(document.documentElement).getPropertyValue('--success-green').trim()
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-primary').trim()
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Google Maps
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 2,
+                center: { lat: 20, lng: 0 },
+                styles: [
+                    {
+                        featureType: 'all',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-primary').trim() }]
+                    }
+                ]
+            });
+
+            // Add markers for network nodes
+            const locations = [
+                { lat: 40.7128, lng: -74.0060, title: 'New York Node' },
+                { lat: 51.5074, lng: -0.1278, title: 'London Node' },
+                { lat: 35.6762, lng: 139.6503, title: 'Tokyo Node' },
+                { lat: -33.8688, lng: 151.2093, title: 'Sydney Node' },
+                { lat: 52.5200, lng: 13.4050, title: 'Berlin Node' }
+            ];
+
+            locations.forEach(location => {
+                new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.title,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 8,
+                        fillColor: getComputedStyle(document.documentElement).getPropertyValue('--vault-cyan').trim(),
+                        fillOpacity: 0.8,
+                        strokeWeight: 2,
+                        strokeColor: '#ffffff'
+                    }
+                });
+            });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initNetworkCanvas();
+            initCharts();
+            updateAuthState();
+            
+            // Show authentication modal on page load
+            setTimeout(() => {
+                if (!isAuthenticated) {
+                    showAuthModal();
+                }
+            }, 1000);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
