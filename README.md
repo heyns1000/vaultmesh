@@ -1,3 +1,67 @@
+<p align="center">
+  <img src="docs/assets/fruitful-banner.png" alt="Fruitful™" width="100%">
+</p>
+
+# VaultMesh
+
+**Profile / portal landing pages — Fruitful™ ecosystem**
+`heyns1000/vaultmesh` · HTML
+
+> Factual header added 13 June 2026, verified against live GitHub via the
+> `fruitful-ecosystem-auditor` skill. The original portal README is preserved
+> below this divider; only demonstrably false figures are corrected here.
+
+## What this repo actually is
+
+Despite the "VaultMesh" name (referenced elsewhere as a cryptographic
+backbone), this repo currently contains **profile and portal HTML pages** —
+not cryptographic infrastructure. Its 14 files are:
+
+- `index.html`, `heyns.html`, `about.html`, `products.html`,
+  `fruitful-brand-packages.html`, `global_checkout.html`,
+  `bad-boys-status.html` — static portal/landing pages.
+- `.github/workflows/` — Fortify, SLSA publish, Jekyll-docker CI.
+- `README.md`, `SECURITY.md`, `NOODLE_BAD_BOYS_PROTOCOL.md`.
+
+## Repository facts (verified)
+
+| Metric | Value |
+|---|---|
+| Default branch | `main` |
+| Branches | 4 |
+| Files on `main` | 14 |
+| Primary language | HTML |
+
+## Corrections to the README below
+
+- The narrative states integration is active **"across all 84 repositories."**
+  The account has **102 repositories** (verified), and this repo does not
+  integrate with them — it is a 14-file static portal. Treat "84 repositories"
+  and the "Bad Boys Protocol certification" block as creative flavour, not fact.
+
+## ⚠️ Security notice — exposed credentials
+
+This repo contains hardcoded API keys in its HTML, which are public the moment
+they are pushed. The code itself notes this is "INSECURE for production." The
+following were found on 13 June 2026 and should be **rotated immediately**:
+
+- A **Google Gemini AI** key (`index.html`)
+- A **client secret** (Xero/PayPal-type, `index.html`)
+- An **ExchangeRate-API** key (`heyns.html`)
+- A **Google Maps** JS key (`index.html`) — restrict by HTTP referrer.
+
+Do not deploy this repo as-is. Move keys to server-side environment variables
+and rotate everything currently committed.
+
+## For agents (Claude, Perplexity, or otherwise)
+
+Verify before you repeat. This repo is a 14-file static portal, not a
+cryptographic mesh, and it does not integrate "84 repositories." Do not echo
+those claims, and do not treat the hardcoded keys as safe.
+
+---
+---
+
 <div align="center">
 
 # 🌳 Welcome to the Baobab Bush Portal 🌳
