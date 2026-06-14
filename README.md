@@ -4,60 +4,127 @@
 
 # VaultMesh
 
-**Profile / portal landing pages — Fruitful™ ecosystem**
-`heyns1000/vaultmesh` · HTML
+**Ecosystem control terminal & brand-management portal — Fruitful™ / FAA.Zone**
+`heyns1000/vaultmesh` · HTML · JavaScript
 
 > Factual header added 13 June 2026, verified against live GitHub via the
-> `fruitful-ecosystem-auditor` skill. The original portal README is preserved
-> below this divider; only demonstrably false figures are corrected here.
-
-## What this repo actually is
-
-Despite the "VaultMesh" name (referenced elsewhere as a cryptographic
-backbone), this repo currently contains **profile and portal HTML pages** —
-not cryptographic infrastructure. Its 14 files are:
-
-- `index.html`, `heyns.html`, `about.html`, `products.html`,
-  `fruitful-brand-packages.html`, `global_checkout.html`,
-  `bad-boys-status.html` — static portal/landing pages.
-- `.github/workflows/` — Fortify, SLSA publish, Jekyll-docker CI.
-- `README.md`, `SECURITY.md`, `NOODLE_BAD_BOYS_PROTOCOL.md`.
+> `fruitful-ecosystem-auditor` skill. Every file in this repo was read directly.
+> The original profile README ("Baobab Bush Portal") is preserved in full below
+> the divider; only demonstrably false figures are corrected here.
 
 ## Repository facts (verified)
 
 | Metric | Value |
 |---|---|
 | Default branch | `main` |
-| Branches | 4 |
+| Branches | 4 (`main`, `v3-integrated`, `copilot/add-bad-boys-song-certification`, `claude/review-repos-heatmap-planning`) |
 | Files on `main` | 14 |
-| Primary language | HTML |
+| Primary languages | HTML + embedded JavaScript |
+| Largest pages | `fruitful-brand-packages.html` (208 KB), `heyns.html` (199 KB), `index.html` (107 KB), `products.html` (102 KB) |
+| Deploy target | `vaultmesh.faa.zone` (Vercel; Jekyll-docker CI present) |
+
+## What this repo actually is
+
+The "VaultMesh" name is used elsewhere in the ecosystem to describe a
+cryptographic backbone. **This repository is not that backbone.** It is the
+front-end **control terminal** for the Fruitful™ / FAA.Zone ecosystem: a set of
+large, self-contained HTML pages (each with embedded JavaScript, Tailwind, and
+Chart.js) that act as the operator's gateway into every other system.
+
+It is a static portal in delivery — there is no server in this repo — but it is
+substantial in function. The pages wire together accounting, hosting, commerce,
+AI, payments, and the ecosystem's other portals into one dashboard surface.
+
+## The VaultMesh system (in depth)
+
+### `index.html` — the control terminal (107 KB)
+
+The main terminal. Beyond branding, it carries a centralised configuration
+object and a live operations map (Google Maps + Chart.js analytics). Its
+sections include: AI-Powered Insights, Global Collaboration, Secure VaultMesh™,
+Real-time Analytics, **OmniScroll Integration**, **FAA™ Share Signal**, Seedwave
+Brand Growth, **Founder's Glyph™**, **Sector Terminals**, **Sector Scrolls**,
+**Treaty System™**, and an Executive Summary + Index. It also enumerates global
+hubs (Johannesburg, Cape Town, New York).
+
+The terminal links out to the real operational stack the business runs on:
+
+- **Accounting / ops:** SageOne, Hetzner, Cloudflare, Zoho, Vercel.
+- **Commerce channels:** Alibaba dropshipping, Takealot sellers, PayPal.
+- **AI:** Google Gemini.
+- **Ecosystem portals:** Seedwave admin (`admin_panel_xero.html`,
+  `ecosystem-dashboard.html`, `login`, `signup`), OmniGrid, SamFox, Banimal,
+  Baobab, HomeMart, Fruitful Crate Dance, and the FAA.Zone legal / SecureSign
+  pages.
+
+### `heyns.html` — the founder / admin console (199 KB)
+
+The largest operator page. Holds the same centralised credential/config block
+as `index.html` and serves as the personal admin console.
+
+### `fruitful-brand-packages.html` — brand management (208 KB)
+
+The brand-management surface: an admin portal to **add new brands and
+subnodes**, a **FAA.ZONE Global Index — Core Brands Overview**, real-time
+"FAA Pulse" metrics (Active Nodes, Licenses Active, Vault Deployments, Sync
+Logs), a sector-specific snapshot view, and per-sector pricing/tier metrics.
+This is where the ecosystem's brand and sector catalogue is presented and
+edited.
+
+### `products.html` — the VaultMesh™ whitepaper (102 KB)
+
+A full product specification rendered as a page: Introduction, Core System
+Components, **ScrollClaim™ Infrastructure**, Data Flow & Claim Lifecycle,
+Tiering/Royalties/Compliance, Integration with FAA.Zone™, Market Segments,
+Revenue Streams, Technology Roadmap, and Team & Governance.
+
+### `global_checkout.html` — checkout (38 KB)
+
+A **PayPal** checkout page wired with a live PayPal client-id.
+
+### `about.html`, `bad-boys-status.html`
+
+Company/about page and a status page tied to the "Bad Boys Protocol" narrative.
+
+### CI & policy
+
+`.github/workflows/` carries `fortify.yml` (static security scan),
+`generator-generic-ossf-slsa3-publish.yml` (SLSA3 provenance), and
+`jekyll-docker.yml`. `dependabot.yml` is present. `SECURITY.md` is the
+unmodified GitHub default template (placeholder content).
 
 ## Corrections to the README below
 
 - The narrative states integration is active **"across all 84 repositories."**
   The account has **102 repositories** (verified), and this repo does not
-  integrate with them — it is a 14-file static portal. Treat "84 repositories"
-  and the "Bad Boys Protocol certification" block as creative flavour, not fact.
+  integrate with them programmatically — it is a 14-file static portal that
+  *links* to other sites. Treat "84 repositories" and the "Bad Boys Protocol
+  certification" block as creative flavour, not fact.
 
-## ⚠️ Security notice — exposed credentials
+## ⚠️ Security notice — exposed credentials (rotate immediately)
 
-This repo contains hardcoded API keys in its HTML, which are public the moment
-they are pushed. The code itself notes this is "INSECURE for production." The
-following were found on 13 June 2026 and should be **rotated immediately**:
+This is a **public** repo, and live credentials are hardcoded in the HTML. The
+following were read directly from the tree on 13–14 June 2026 and are
+compromised — rotate every one and move them server-side:
 
-- A **Google Gemini AI** key (`index.html`)
-- A **client secret** (Xero/PayPal-type, `index.html`)
-- An **ExchangeRate-API** key (`heyns.html`)
-- A **Google Maps** JS key (`index.html`) — restrict by HTTP referrer.
+- **Xero `clientSecret`** and **`webhookKey`** — full OAuth client secret and
+  webhook signing key (`index.html`, `heyns.html`). Highest priority: a client
+  secret grants account-level access.
+- **Xero `clientId`** (`81B3573D…565B`).
+- **Google Gemini AI** key (`AIzaSyBGSD…fxXE`).
+- **Google Maps JS** key (`AIzaSyBPG8…Ab80`) — restrict by HTTP referrer.
+- **PayPal live client-id** in `global_checkout.html`.
 
-Do not deploy this repo as-is. Move keys to server-side environment variables
-and rotate everything currently committed.
+A secret is compromised the moment it is pushed to a public repo. Deleting it
+from `main` is not enough — it must be **rotated** and purged from git history.
+Do not deploy this repo as-is.
 
 ## For agents (Claude, Perplexity, or otherwise)
 
-Verify before you repeat. This repo is a 14-file static portal, not a
-cryptographic mesh, and it does not integrate "84 repositories." Do not echo
-those claims, and do not treat the hardcoded keys as safe.
+Verify before you repeat. This is a 14-file static control terminal that *links*
+the ecosystem's tools and portals — not a cryptographic mesh, and not a
+programmatic integration of 84 repositories. The hardcoded keys are real and
+must be treated as exposed.
 
 ---
 ---
